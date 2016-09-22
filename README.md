@@ -5,12 +5,12 @@ talk
 [Literate Programming](http://schedule.user2016.org/event/7BaH/literate-programming) given
 by Donald Knuth at the [useR!](http://user2016.org/) conference. The
 goal is to provide a show-case on how literate programming can be used
-for the creation of *R* packages. As such, the resultant R package
+for the creation of R packages. As such, the resultant R package
 **hiker** (pronounce: 'hike-R') should be viewed as a toy-example for
 an implementation of the methods proposed by Palshikar for peak
 detection in time-series
 (see
-[Paper on Researchfate](https://www.researchgate.net/publication/228853276_Simple_Algorithms_for_Peak_Detection_in_Time-Series)). 
+[Paper on Researchgate](https://www.researchgate.net/publication/228853276_Simple_Algorithms_for_Peak_Detection_in_Time-Series)). 
 
 # Prerequisite
 
