@@ -71,6 +71,26 @@ scmaxdiff <- function(x, k){
 @ %def scmaxdiff
 
 
+Instead of using the maximum differences of $y_i$ with its $k$ left
+and right neighbours as in~\eqref{S1}, an alternative is to compute
+the mean differences and evaluate the average thereof:
+
+\begin{equation}
+\label{S2}
+S_2 = \frac{\frac{(y_i - y_{i-1}, \ldots, y_i - y_{i-k})}{k} +
+\frac{(y_i - y_{i+1}, \ldots, y_i - y_{i+k})}{k}}{2}
+\end{equation}
+
+This equation can be casted in R as:
+
+<<score-diffmean>>=
+scdiffmean <- function(x, k){
+    cp <- k + 1L
+    ldmean <- x[cp] - mean(head(x, k))
+    rdmean <- x[cp] - mean(tail(x, k))
+    (ldmean + rdmean) / 2.0
+}
+@ %def scdiffmean
 
 \subsection{Combining score methods}
 
@@ -126,6 +146,8 @@ NULL
 <<score-wrapper>>
 #' @rdname score
 <<score-maxdiff>>
+#' @rdname score
+<<score-diffmean>>
 @
 
 \section{Package structure}
