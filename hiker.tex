@@ -9,7 +9,7 @@
 
 \begin{document}
 
-\title{R Package Development by means of \\
+\title{R Package Development by Means of \\
   Literate Programming \texttt{(noweb)}}
 \author{Bernhard Pfaff}
 \date{\today}
@@ -71,7 +71,6 @@ scmaxdiff <- function(x, k)\{
 \nosublabel{RNWhik1-sco1-1-u4}\nwindexdefn{scmaxdiff}{scmaxdiff}{RNWhik1-sco1-1}\eatline
 \nwidentdefs{\\{{scmaxdiff}{scmaxdiff}}}\nwendcode{}\nwbegindocs{2}%def scmaxdiff
 
-
 Instead of using the maximum differences of $y_i$ with its $k$ left
 and right neighbours as in~\eqref{S1}, an alternative is to compute
 the mean differences and evaluate the average thereof:
@@ -94,9 +93,36 @@ scdiffmean <- function(x, k)\{
 \nwindexdefn{scdiffmean}{scdiffmean}{RNWhik1-sco3-1}\eatline
 \nwidentdefs{\\{{scdiffmean}{scdiffmean}}}\nwendcode{}\nwbegindocs{4}%def scdiffmean
 
+Another variation of score computation that has been proposed by
+\citet{PAL2009} is to consider the differences to the mean of the $k$
+left and right neighbours, that is:
+
+\begin{equation}
+\label{S3}
+S_3 = \frac{
+(y_i - \frac{(y_{i-1}, \ldots, y_{i-k})}{k}) +
+(y_i - \frac{(y_{i+1}, \ldots, y_{i+k})}{k})}{2}
+\end{equation}
+
+The equation~\eqref{S3} can be casted as R function \verb?scavgdiff?
+for instance as follows:
+
+\nwenddocs{}\nwbegincode{5}\sublabel{RNWhik1-sco4-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco4-1}}}\moddef{score-avgdiff~{\nwtagstyle{}\subpageref{RNWhik1-sco4-1}}}\endmoddef
+scavgdiff <- function(x, k)\{
+    cp <- k + 1L
+    lmean <- mean(x[cp] - head(x, k))
+    rmean <- mean(x[cp] - tail(x, k))
+    (lmean + rmean) / 2.0
+\}
+\nwindexdefn{scavgdiff}{scavgdiff}{RNWhik1-sco4-1}\eatline
+\nwidentdefs{\\{{scavgdiff}{scavgdiff}}}\nwendcode{}\nwbegindocs{6}%def scavgdiff
+
+
+
+
 \subsection{Combining score methods}
 
-\nwenddocs{}\nwbegincode{5}\sublabel{RNWhik1-sco4-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco4-1}}}\moddef{score-wrapper~{\nwtagstyle{}\subpageref{RNWhik1-sco4-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{7}\sublabel{RNWhik1-sco5-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco5-1}}}\moddef{score-wrapper~{\nwtagstyle{}\subpageref{RNWhik1-sco5-1}}}\endmoddef
 score <- function(x, k,
                   scoreby = c("vote", "avg", "diff", "max", "ent",
                               "ttype", "hybrid"),
@@ -113,10 +139,10 @@ score <- function(x, k,
                   )
     ans
 \}
-\nwindexdefn{score}{score}{RNWhik1-sco4-1}\eatline
-\nwidentdefs{\\{{score}{score}}}\nwidentuses{\\{{scdiffmean}{scdiffmean}}\\{{scmaxdiff}{scmaxdiff}}}\nwindexuse{scdiffmean}{scdiffmean}{RNWhik1-sco4-1}\nwindexuse{scmaxdiff}{scmaxdiff}{RNWhik1-sco4-1}\nwendcode{}\nwbegindocs{6}%def score
+\nwindexdefn{score}{score}{RNWhik1-sco5-1}\eatline
+\nwidentdefs{\\{{score}{score}}}\nwidentuses{\\{{scavgdiff}{scavgdiff}}\\{{scdiffmean}{scdiffmean}}\\{{scmaxdiff}{scmaxdiff}}}\nwindexuse{scavgdiff}{scavgdiff}{RNWhik1-sco5-1}\nwindexuse{scdiffmean}{scdiffmean}{RNWhik1-sco5-1}\nwindexuse{scmaxdiff}{scmaxdiff}{RNWhik1-sco5-1}\nwendcode{}\nwbegindocs{8}%def score
 
-\nwenddocs{}\nwbegincode{7}\sublabel{RNWhik1-sco5-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco5-1}}}\moddef{score-roxygen~{\nwtagstyle{}\subpageref{RNWhik1-sco5-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{9}\sublabel{RNWhik1-sco6-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco6-1}}}\moddef{score-roxygen~{\nwtagstyle{}\subpageref{RNWhik1-sco6-1}}}\endmoddef
 #' Basic scoring methods for local minima and maxima
 #'
 #' These are basic functions for evaluating the centre
@@ -142,16 +168,26 @@ NULL
 
 #' @rdname score
 #' @export
-\nwendcode{}\nwbegindocs{8}@
+\nwendcode{}\nwbegindocs{10}@
 
-\nwenddocs{}\nwbegincode{9}\sublabel{RNWhik1-sco6-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco6-1}}}\moddef{score.R~{\nwtagstyle{}\subpageref{RNWhik1-sco6-1}}}\endmoddef\let\nwnotused=\nwoutput{}
-\LA{}score-roxygen~{\nwtagstyle{}\subpageref{RNWhik1-sco5-1}}\RA{}
-\LA{}score-wrapper~{\nwtagstyle{}\subpageref{RNWhik1-sco4-1}}\RA{}
+The content/structure of the file \texttt{score.R} is given as:
+
+\nwenddocs{}\nwbegincode{11}\sublabel{RNWhik1-sco7-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco7-1}}}\moddef{score.R~{\nwtagstyle{}\subpageref{RNWhik1-sco7-1}}}\endmoddef\let\nwnotused=\nwoutput{}
+\LA{}score-roxygen~{\nwtagstyle{}\subpageref{RNWhik1-sco6-1}}\RA{}
+\LA{}score-wrapper~{\nwtagstyle{}\subpageref{RNWhik1-sco5-1}}\RA{}
 #' @rdname score
 \LA{}score-maxdiff~{\nwtagstyle{}\subpageref{RNWhik1-sco1-1}}\RA{}
 #' @rdname score
 \LA{}score-diffmean~{\nwtagstyle{}\subpageref{RNWhik1-sco3-1}}\RA{}
-\nwnotused{score.R}\nwendcode{}\nwbegindocs{10}@
+#' @rdname score
+\LA{}score-avgdiff~{\nwtagstyle{}\subpageref{RNWhik1-sco4-1}}\RA{}
+\nwnotused{score.R}\nwendcode{}\nwbegindocs{12}@
+
+Within this file, all score-related methods and the wrapper-function
+\texttt{score()} is included. The function definitions are
+interspersed with the roxygen tags, which will be parsed to the
+\texttt{Rd}-file \texttt{score.Rd}.
+
 
 \section{Package structure}
 
@@ -160,7 +196,7 @@ NULL
 
 First, a skeleton of the package
 
-\nwenddocs{}\nwbegincode{11}\sublabel{RNWhik1-DES7-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-DES7-1}}}\moddef{DESCRIPTION.R~{\nwtagstyle{}\subpageref{RNWhik1-DES7-1}}}\endmoddef\let\nwnotused=\nwoutput{}
+\nwenddocs{}\nwbegincode{13}\sublabel{RNWhik1-DES8-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-DES8-1}}}\moddef{DESCRIPTION.R~{\nwtagstyle{}\subpageref{RNWhik1-DES8-1}}}\endmoddef\let\nwnotused=\nwoutput{}
 Package: hiker
 Title: Local Peak and Trough of a Time Series
 Version: 0.0.0.9000
@@ -171,13 +207,13 @@ Depends: R (>= 3.3.1), zoo, methods
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-\nwnotused{DESCRIPTION.R}\nwendcode{}\nwbegindocs{12}@
+\nwnotused{DESCRIPTION.R}\nwendcode{}\nwbegindocs{14}@
 
 
 
 \subsection{Import directives and S4-classes}
 
-\nwenddocs{}\nwbegincode{13}\sublabel{RNWhik1-All8-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-All8-1}}}\moddef{Allclasses.R~{\nwtagstyle{}\subpageref{RNWhik1-All8-1}}}\endmoddef\let\nwnotused=\nwoutput{}
+\nwenddocs{}\nwbegincode{15}\sublabel{RNWhik1-All9-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-All9-1}}}\moddef{Allclasses.R~{\nwtagstyle{}\subpageref{RNWhik1-All9-1}}}\endmoddef\let\nwnotused=\nwoutput{}
 #' @import methods
 NULL
 #' @import zoo
@@ -219,17 +255,19 @@ setClass("PTBB", slots = list(pt = "zoo",
                               type = "character",
                               h = "numeric"))
 \nwnotused{Allclasses.R}\nwendcode{}
-\nwixlogsorted{c}{{Allclasses.R}{RNWhik1-All8-1}{\nwixd{RNWhik1-All8-1}}}%
-\nwixlogsorted{c}{{DESCRIPTION.R}{RNWhik1-DES7-1}{\nwixd{RNWhik1-DES7-1}}}%
-\nwixlogsorted{c}{{score-diffmean}{RNWhik1-sco3-1}{\nwixd{RNWhik1-sco3-1}\nwixu{RNWhik1-sco6-1}}}%
-\nwixlogsorted{c}{{score-maxdiff}{RNWhik1-sco1-1}{\nwixd{RNWhik1-sco1-1}\nwixu{RNWhik1-sco6-1}}}%
-\nwixlogsorted{c}{{score-roxygen}{RNWhik1-sco5-1}{\nwixd{RNWhik1-sco5-1}\nwixu{RNWhik1-sco6-1}}}%
-\nwixlogsorted{c}{{score-wrapper}{RNWhik1-sco4-1}{\nwixd{RNWhik1-sco4-1}\nwixu{RNWhik1-sco6-1}}}%
-\nwixlogsorted{c}{{score.R}{RNWhik1-sco6-1}{\nwixd{RNWhik1-sco6-1}}}%
+\nwixlogsorted{c}{{Allclasses.R}{RNWhik1-All9-1}{\nwixd{RNWhik1-All9-1}}}%
+\nwixlogsorted{c}{{DESCRIPTION.R}{RNWhik1-DES8-1}{\nwixd{RNWhik1-DES8-1}}}%
+\nwixlogsorted{c}{{score-avgdiff}{RNWhik1-sco4-1}{\nwixd{RNWhik1-sco4-1}\nwixu{RNWhik1-sco7-1}}}%
+\nwixlogsorted{c}{{score-diffmean}{RNWhik1-sco3-1}{\nwixd{RNWhik1-sco3-1}\nwixu{RNWhik1-sco7-1}}}%
+\nwixlogsorted{c}{{score-maxdiff}{RNWhik1-sco1-1}{\nwixd{RNWhik1-sco1-1}\nwixu{RNWhik1-sco7-1}}}%
+\nwixlogsorted{c}{{score-roxygen}{RNWhik1-sco6-1}{\nwixd{RNWhik1-sco6-1}\nwixu{RNWhik1-sco7-1}}}%
+\nwixlogsorted{c}{{score-wrapper}{RNWhik1-sco5-1}{\nwixd{RNWhik1-sco5-1}\nwixu{RNWhik1-sco7-1}}}%
+\nwixlogsorted{c}{{score.R}{RNWhik1-sco7-1}{\nwixd{RNWhik1-sco7-1}}}%
+\nwixlogsorted{i}{{scavgdiff}{scavgdiff}}%
 \nwixlogsorted{i}{{scdiffmean}{scdiffmean}}%
 \nwixlogsorted{i}{{scmaxdiff}{scmaxdiff}}%
 \nwixlogsorted{i}{{score}{score}}%
-\nwbegindocs{14}@
+\nwbegindocs{16}@
 
 \newpage
 \section{Chunk Index}

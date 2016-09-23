@@ -9,7 +9,7 @@
 
 \begin{document}
 
-\title{R Package Development by means of \\
+\title{R Package Development by Means of \\
   Literate Programming \texttt{(noweb)}}
 \author{Bernhard Pfaff}
 \date{\today}
@@ -70,7 +70,6 @@ scmaxdiff <- function(x, k){
 }
 @ %def scmaxdiff
 
-
 Instead of using the maximum differences of $y_i$ with its $k$ left
 and right neighbours as in~\eqref{S1}, an alternative is to compute
 the mean differences and evaluate the average thereof:
@@ -91,6 +90,32 @@ scdiffmean <- function(x, k){
     (ldmean + rdmean) / 2.0
 }
 @ %def scdiffmean
+
+Another variation of score computation that has been proposed by
+\citet{PAL2009} is to consider the differences to the mean of the $k$
+left and right neighbours, that is:
+
+\begin{equation}
+\label{S3}
+S_3 = \frac{
+(y_i - \frac{(y_{i-1}, \ldots, y_{i-k})}{k}) +
+(y_i - \frac{(y_{i+1}, \ldots, y_{i+k})}{k})}{2}
+\end{equation}
+
+The equation~\eqref{S3} can be casted as R function [[scavgdiff]]
+for instance as follows:
+
+<<score-avgdiff>>=
+scavgdiff <- function(x, k){
+    cp <- k + 1L
+    lmean <- mean(x[cp] - head(x, k))
+    rmean <- mean(x[cp] - tail(x, k))
+    (lmean + rmean) / 2.0
+}
+@ %def scavgdiff
+
+
+
 
 \subsection{Combining score methods}
 
@@ -141,6 +166,8 @@ NULL
 #' @export
 @
 
+The content/structure of the file \texttt{score.R} is given as:
+
 <<score.R>>=
 <<score-roxygen>>
 <<score-wrapper>>
@@ -148,7 +175,15 @@ NULL
 <<score-maxdiff>>
 #' @rdname score
 <<score-diffmean>>
+#' @rdname score
+<<score-avgdiff>>
 @
+
+Within this file, all score-related methods and the wrapper-function
+\texttt{score()} is included. The function definitions are
+interspersed with the roxygen tags, which will be parsed to the
+\texttt{Rd}-file \texttt{score.Rd}.
+
 
 \section{Package structure}
 

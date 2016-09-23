@@ -53,3 +53,10 @@ scdiffmean <- function(x, k){
     rdmean <- x[cp] - mean(tail(x, k))
     (ldmean + rdmean) / 2.0
 }
+#' @rdname score
+scavgdiff <- function(x, k){
+    cp <- k + 1L
+    lmean <- mean(x[cp] - head(x, k))
+    rmean <- mean(x[cp] - tail(x, k))
+    (lmean + rmean) / 2.0
+}
