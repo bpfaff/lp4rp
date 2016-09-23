@@ -1,0 +1,7 @@
+*.aux
+*.Rcheck
+*.bbl
+*.blg
+*.log
+*.out
+*.tar.gz

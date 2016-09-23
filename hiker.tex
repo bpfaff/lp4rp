@@ -1,0 +1,247 @@
+\documentclass[a4paper]{article}
+\usepackage[hyperref]{xcolor}
+\definecolor{darkblue}{rgb}{0, 0, .4}
+\usepackage[colorlinks=true,linkcolor=darkblue]{hyperref}
+\usepackage{amsmath}
+\usepackage[round]{natbib}
+\usepackage{noweb}
+\noweboptions{english,longxref}
+
+\begin{document}
+
+\title{R Package Development by means of \\
+  Literate Programming \texttt{(noweb)}}
+\author{Bernhard Pfaff}
+\date{\today}
+
+\maketitle
+
+\section{Introduction}
+
+
+\section{Detecting Peaks/Troughs}
+
+\subsection{Notation}
+A uniformly sampled time series $\mathbf{y} = \{y_1, \ldots, y_i,
+\ldots, y_T\}$ with $T$ data points is considered. The detection of
+peak/trough points is achieved by a function $S(i, y_i, T)$ that
+returns for data point $y_i$ a score value.\footnote{It suffices to
+  provide a score function for peaks only. Trough points can be
+  detected by using the negative values of the series $\mathbf{y}$.}.
+If this score value surpasses a user-provided threshhold value
+$\theta$, /i.e/, $S(i, y_i, T) \ge \theta$ then the point is
+considered as a local peak/trough.\par
+
+Furthermore, in case local peak/trough points appear closely together
+with respect to time (clustered), then these points can be classified
+as a burst or bust, respectively.
+
+\subsection{Algorithms}
+In \citet{PAL2009} five different score functions $S$ have been
+suggested. All have in commom, that a centred window of size $2*k +
+1 $ around $y_i$ is considered. That is, for a positive integer $k$
+the $k$ right neigbours $N^+(i,k, T) = \{y_{i+1}, \ldots, y_{i + k}\}$
+and the $k$ left neighbours $N^-(i, k, T) = \{\{y_{i-k}, \ldots,
+y_{i-1}\}$ are employed for assessing $y\_i$ as a local
+peak/trough. The union of $N^-(i, k, T)$ and $N^+(i, k, T)$ is defined
+as $N(i, k, T) = N^-(i, k, T) \mathord{\cdot} N^+(i, k, T)$ and if the
+centre point is included as $N'(i, k, T) = N^-(i, k, T) \mathord{\cdot}
+y_i \mathord{\cdot} N^+(i, k, T)$.\par
+
+The first function, $S_1$, computes the score value as the average of
+the maximum differences between $y_i$ with its left and right
+neighbours. The function is defined as:
+
+\begin{equation}
+\label{S1}
+S_1 =
+  \frac{\max{(y_i - y_{i-1}, \ldots, y_i - y_{i-k})} + \max{(y_i -
+  y_{i+1}, \ldots, y_i - y_{i+k})}}{2}
+\end{equation}
+
+The equation~\eqref{S1} can be casted in R as:
+
+\nwfilename{hiker.Rnw}\nwbegincode{1}\sublabel{RNWhik1-sco1-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco1-1}}}\moddef{score-maxdiff~{\nwtagstyle{}\subpageref{RNWhik1-sco1-1}}}\endmoddef
+scmaxdiff <- function(x, k)\{
+    cp <- k + 1L
+    lmax <- max(x[cp] - head(x, k))
+    rmax <- max(x[cp] - tail(x, k))
+    (lmax + rmax) / 2.0
+\}
+\nosublabel{RNWhik1-sco1-1-u4}\nwindexdefn{scmaxdiff}{scmaxdiff}{RNWhik1-sco1-1}\eatline
+\nwidentdefs{\\{{scmaxdiff}{scmaxdiff}}}\nwendcode{}\nwbegindocs{2}%def scmaxdiff
+
+
+Instead of using the maximum differences of $y_i$ with its $k$ left
+and right neighbours as in~\eqref{S1}, an alternative is to compute
+the mean differences and evaluate the average thereof:
+
+\begin{equation}
+\label{S2}
+S_2 = \frac{\frac{(y_i - y_{i-1}, \ldots, y_i - y_{i-k})}{k} +
+\frac{(y_i - y_{i+1}, \ldots, y_i - y_{i+k})}{k}}{2}
+\end{equation}
+
+This equation can be casted in R as:
+
+\nwenddocs{}\nwbegincode{3}\sublabel{RNWhik1-sco3-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco3-1}}}\moddef{score-diffmean~{\nwtagstyle{}\subpageref{RNWhik1-sco3-1}}}\endmoddef
+scdiffmean <- function(x, k)\{
+    cp <- k + 1L
+    ldmean <- x[cp] - mean(head(x, k))
+    rdmean <- x[cp] - mean(tail(x, k))
+    (ldmean + rdmean) / 2.0
+\}
+\nwindexdefn{scdiffmean}{scdiffmean}{RNWhik1-sco3-1}\eatline
+\nwidentdefs{\\{{scdiffmean}{scdiffmean}}}\nwendcode{}\nwbegindocs{4}%def scdiffmean
+
+\subsection{Combining score methods}
+
+\nwenddocs{}\nwbegincode{5}\sublabel{RNWhik1-sco4-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco4-1}}}\moddef{score-wrapper~{\nwtagstyle{}\subpageref{RNWhik1-sco4-1}}}\endmoddef
+score <- function(x, k,
+                  scoreby = c("vote", "avg", "diff", "max", "ent",
+                              "ttype", "hybrid"),
+                  tval = 1.0, confby = 3, ...)\{
+    scoreby <- match.arg(scoreby)
+    ans <- switch(scoreby,
+                  vote = scvote(x, k, tval, confby, ...),
+                  avg = scavgdiff(x, k),
+                  diff = scdiffmean(x, k),
+                  max = scmaxdiff(x, k),
+                  ent = scentropy(x, k, ...),
+                  ttype = scttype(x, k, tval),
+                  hybrid = schybrid(x, k, tval, ...)
+                  )
+    ans
+\}
+\nwindexdefn{score}{score}{RNWhik1-sco4-1}\eatline
+\nwidentdefs{\\{{score}{score}}}\nwidentuses{\\{{scdiffmean}{scdiffmean}}\\{{scmaxdiff}{scmaxdiff}}}\nwindexuse{scdiffmean}{scdiffmean}{RNWhik1-sco4-1}\nwindexuse{scmaxdiff}{scmaxdiff}{RNWhik1-sco4-1}\nwendcode{}\nwbegindocs{6}%def score
+
+\nwenddocs{}\nwbegincode{7}\sublabel{RNWhik1-sco5-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco5-1}}}\moddef{score-roxygen~{\nwtagstyle{}\subpageref{RNWhik1-sco5-1}}}\endmoddef
+#' Basic scoring methods for local minima and maxima
+#'
+#' These are basic functions for evaluating the centre
+#' point of a time series as local minimum or maximum.
+#' Hereby, a score value is computed according to various methods.
+#' If the score is positive, the centre point is tentatively
+#' classified as a local peak.
+#' Incidentally, negative scores indicate a local minima.
+#'
+#' @param x \\code\{numeric\}, vector of length \\code\{2 * k + 1\}.
+#' @param k \\code\{integer\}, the count of left/right neighbours.
+#' @param scoreby \\code\{character\}, the scoring method to be used.
+#' @param tval \\code\{numeric\}, factor for standard deviation band
+#' if \\code\{scoreby = 'ttype'\}.
+#' @param confby \\code\{integer\}, count of minimum vote,
+#' values in the set \\code\{3:5\}.
+#' @param ... ellipsis argument.
+#'
+#' @name score
+#' @family scores
+#' @return \\code\{numeric\}, the score value.
+NULL
+
+#' @rdname score
+#' @export
+\nwendcode{}\nwbegindocs{8}@
+
+\nwenddocs{}\nwbegincode{9}\sublabel{RNWhik1-sco6-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco6-1}}}\moddef{score.R~{\nwtagstyle{}\subpageref{RNWhik1-sco6-1}}}\endmoddef\let\nwnotused=\nwoutput{}
+\LA{}score-roxygen~{\nwtagstyle{}\subpageref{RNWhik1-sco5-1}}\RA{}
+\LA{}score-wrapper~{\nwtagstyle{}\subpageref{RNWhik1-sco4-1}}\RA{}
+#' @rdname score
+\LA{}score-maxdiff~{\nwtagstyle{}\subpageref{RNWhik1-sco1-1}}\RA{}
+#' @rdname score
+\LA{}score-diffmean~{\nwtagstyle{}\subpageref{RNWhik1-sco3-1}}\RA{}
+\nwnotused{score.R}\nwendcode{}\nwbegindocs{10}@
+
+\section{Package structure}
+
+
+\subsection{Preliminaries}
+
+First, a skeleton of the package
+
+\nwenddocs{}\nwbegincode{11}\sublabel{RNWhik1-DES7-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-DES7-1}}}\moddef{DESCRIPTION.R~{\nwtagstyle{}\subpageref{RNWhik1-DES7-1}}}\endmoddef\let\nwnotused=\nwoutput{}
+Package: hiker
+Title: Local Peak and Trough of a Time Series
+Version: 0.0.0.9000
+Authors@R: person("Bernhard", "Pfaff", email = "bernhard@pfaffikus.de",
+                  role = c("aut", "cre"))
+Description: Methods for detecting local peaks and troughs of a time series.
+Depends: R (>= 3.3.1), zoo, methods
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+\nwnotused{DESCRIPTION.R}\nwendcode{}\nwbegindocs{12}@
+
+
+
+\subsection{Import directives and S4-classes}
+
+\nwenddocs{}\nwbegincode{13}\sublabel{RNWhik1-All8-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-All8-1}}}\moddef{Allclasses.R~{\nwtagstyle{}\subpageref{RNWhik1-All8-1}}}\endmoddef\let\nwnotused=\nwoutput{}
+#' @import methods
+NULL
+#' @import zoo
+NULL
+#' @importFrom stats density sd na.omit start end smooth
+NULL
+#' @importFrom utils head tail
+NULL
+
+# Setting old (aka S3) classes
+setOldClass("zoo")
+
+#' S4 class \\code\{HikeR\}
+#'
+#' Formal class for classifying local minima and maxima
+#' of a time series.
+#'
+#' @slot ys \\code\{zoo\}, time series with associated scores.
+#' @slot k \\code\{integer\}, count of left/right neigbours around centre point.
+#' @slot scoreby \\code\{character\}, scoring method.
+#' @slot yname \\code\{character\}, name of the series.
+#' @exportClass HikeR
+setClass("HikeR", slots = list(ys = "zoo",
+                               k = "integer",
+                               scoreby = "character",
+                               yname = "character"))
+
+
+#' S4 class \\code\{PTBB\}
+#'
+#' Formal class for peaks, troughs, burst, busts and
+#' intermittent phase of a time series.
+#'
+#' @slot pt \\code\{zoo\}, logical: indicating peak/trough points.
+#' @slot type \\code\{character\}, type of point/phase.
+#' @slot h \\code\{numeric\}, the threshhold for score evaluation.
+#' @exportClass PTBB
+setClass("PTBB", slots = list(pt = "zoo",
+                              type = "character",
+                              h = "numeric"))
+\nwnotused{Allclasses.R}\nwendcode{}
+\nwixlogsorted{c}{{Allclasses.R}{RNWhik1-All8-1}{\nwixd{RNWhik1-All8-1}}}%
+\nwixlogsorted{c}{{DESCRIPTION.R}{RNWhik1-DES7-1}{\nwixd{RNWhik1-DES7-1}}}%
+\nwixlogsorted{c}{{score-diffmean}{RNWhik1-sco3-1}{\nwixd{RNWhik1-sco3-1}\nwixu{RNWhik1-sco6-1}}}%
+\nwixlogsorted{c}{{score-maxdiff}{RNWhik1-sco1-1}{\nwixd{RNWhik1-sco1-1}\nwixu{RNWhik1-sco6-1}}}%
+\nwixlogsorted{c}{{score-roxygen}{RNWhik1-sco5-1}{\nwixd{RNWhik1-sco5-1}\nwixu{RNWhik1-sco6-1}}}%
+\nwixlogsorted{c}{{score-wrapper}{RNWhik1-sco4-1}{\nwixd{RNWhik1-sco4-1}\nwixu{RNWhik1-sco6-1}}}%
+\nwixlogsorted{c}{{score.R}{RNWhik1-sco6-1}{\nwixd{RNWhik1-sco6-1}}}%
+\nwixlogsorted{i}{{scdiffmean}{scdiffmean}}%
+\nwixlogsorted{i}{{scmaxdiff}{scmaxdiff}}%
+\nwixlogsorted{i}{{score}{score}}%
+\nwbegindocs{14}@
+
+\newpage
+\section{Chunk Index}
+\nowebchunks
+
+\newpage
+\section{Identifier Index}
+\nowebindex
+
+\newpage
+\bibliographystyle{chicago}
+\bibliography{hiker}
+
+\end{document}
+\nwenddocs{}
