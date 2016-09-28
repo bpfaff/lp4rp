@@ -183,6 +183,63 @@ scttype <- function(x, k, tval){
 }
 @ %def scttype
 
+Incidentally, an ensemble forecast of these five algorithms can be
+utilized for local peak/trough classification can be employed. Hereby,
+one could either use a hybrid approach, whereby only those
+data points are considered as peak/trough points, if all five methods
+coincide. This concept is casted in the function
+[[schybrid()]]. Hereby, the signs of all five scoring algorithm are
+tested for equality.
+
+<<score-hybrid>>=
+schybrid <- function(x, k, tval, ...){
+    s <- c(sign(scmaxdiff(x, k)),
+           sign(scavgdiff(x, k)),
+           sign(scdiffmean(x, k)),
+           sign(scentropy(x, k, ...)),
+           sign(scttype(x, k, tval)))
+    val <- unique(s)
+    if ( length(val) < 2 ){
+        return(s[1])
+    } else {
+        return(0)
+    }
+}
+@ %def schybrid
+
+It is also conceivable to base the classification on a majority
+vote. For instance, if three out of the five algorithm classify a data
+point as a local peak/trough, then this is taken as sufficient
+evidence. This approach is defined in the function [[scvote()]] below.
+The count of same 'votes' is set by the argument \texttt{confby}. Its
+default value is $3$, \emph{i.e.} a simple majority. For
+\texttt{confby = 5} the function would return the same classification
+as [[schybrid()]] does.
+
+<<score-vote>>=
+scvote <- function(x, k, tval, confby = 3, ...){
+    s <- c(sign(scmaxdiff(x, k)),
+           sign(scavgdiff(x, k)),
+           sign(scdiffmean(x, k)),
+           sign(scentropy(x, k, ...)),
+           sign(scttype(x, k, tval)))
+    pos <- rep(1, 5)
+    zer <- rep(0, 5)
+    neg <- rep(-1, 5)
+    spos <- sum(s == pos)
+    szer <- sum(s == zer)
+    sneg <- sum(s == neg)
+    v <- c(spos, szer, sneg)
+    idx <- which(v >= confby)
+    vals <- c(1, 0, -1)
+    if ( length(idx) > 0 ){
+        return(vals[idx])
+    } else {
+        return(0)
+    }
+}
+@ %def scvote
+
 \subsection{Combining score methods}
 
 <<score-wrapper>>=
@@ -247,6 +304,10 @@ The content/structure of the file \texttt{score.R} is given as:
 <<score-entropy>>
 #' @rdname score
 <<score-ttype>>
+#' @rdname score
+<<score-hybrid>>
+#' @rdname score
+<<score-vote>>
 @
 
 Within this file, all score-related methods and the wrapper-function

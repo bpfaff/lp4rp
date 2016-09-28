@@ -80,3 +80,39 @@ scttype <- function(x, k, tval){
     }
     tstat
 }
+#' @rdname score
+schybrid <- function(x, k, tval, ...){
+    s <- c(sign(scmaxdiff(x, k)),
+           sign(scavgdiff(x, k)),
+           sign(scdiffmean(x, k)),
+           sign(scentropy(x, k, ...)),
+           sign(scttype(x, k, tval)))
+    val <- unique(s)
+    if ( length(val) < 2 ){
+        return(s[1])
+    } else {
+        return(0)
+    }
+}
+#' @rdname score
+scvote <- function(x, k, tval, confby = 3, ...){
+    s <- c(sign(scmaxdiff(x, k)),
+           sign(scavgdiff(x, k)),
+           sign(scdiffmean(x, k)),
+           sign(scentropy(x, k, ...)),
+           sign(scttype(x, k, tval)))
+    pos <- rep(1, 5)
+    zer <- rep(0, 5)
+    neg <- rep(-1, 5)
+    spos <- sum(s == pos)
+    szer <- sum(s == zer)
+    sneg <- sum(s == neg)
+    v <- c(spos, szer, sneg)
+    idx <- which(v >= confby)
+    vals <- c(1, 0, -1)
+    if ( length(idx) > 0 ){
+        return(vals[idx])
+    } else {
+        return(0)
+    }
+}

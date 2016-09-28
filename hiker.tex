@@ -188,9 +188,68 @@ scttype <- function(x, k, tval)\{
 \nwindexdefn{scttype}{scttype}{RNWhik1-sco6-1}\eatline
 \nwidentdefs{\\{{scttype}{scttype}}}\nwendcode{}\nwbegindocs{10}%def scttype
 
+Incidentally, an ensemble forecast of these five algorithms can be
+utilized for local peak/trough classification can be employed. Hereby,
+one could either use a hybrid approach, whereby only those
+data points are considered as peak/trough points, if all five methods
+coincide. This concept is casted in the function
+\verb?schybrid()?. Hereby, the signs of all five scoring algorithm are
+tested for equality.
+
+\nwenddocs{}\nwbegincode{11}\sublabel{RNWhik1-sco7-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco7-1}}}\moddef{score-hybrid~{\nwtagstyle{}\subpageref{RNWhik1-sco7-1}}}\endmoddef
+schybrid <- function(x, k, tval, ...)\{
+    s <- c(sign(scmaxdiff(x, k)),
+           sign(scavgdiff(x, k)),
+           sign(scdiffmean(x, k)),
+           sign(scentropy(x, k, ...)),
+           sign(scttype(x, k, tval)))
+    val <- unique(s)
+    if ( length(val) < 2 )\{
+        return(s[1])
+    \} else \{
+        return(0)
+    \}
+\}
+\nwindexdefn{schybrid}{schybrid}{RNWhik1-sco7-1}\eatline
+\nwidentdefs{\\{{schybrid}{schybrid}}}\nwidentuses{\\{{scavgdiff}{scavgdiff}}\\{{scdiffmean}{scdiffmean}}\\{{scentropy}{scentropy}}\\{{scmaxdiff}{scmaxdiff}}\\{{scttype}{scttype}}}\nwindexuse{scavgdiff}{scavgdiff}{RNWhik1-sco7-1}\nwindexuse{scdiffmean}{scdiffmean}{RNWhik1-sco7-1}\nwindexuse{scentropy}{scentropy}{RNWhik1-sco7-1}\nwindexuse{scmaxdiff}{scmaxdiff}{RNWhik1-sco7-1}\nwindexuse{scttype}{scttype}{RNWhik1-sco7-1}\nwendcode{}\nwbegindocs{12}%def schybrid
+
+It is also conceivable to base the classification on a majority
+vote. For instance, if three out of the five algorithm classify a data
+point as a local peak/trough, then this is taken as sufficient
+evidence. This approach is defined in the function \verb?scvote()? below.
+The count of same 'votes' is set by the argument \texttt{confby}. Its
+default value is $3$, \emph{i.e.} a simple majority. For
+\texttt{confby = 5} the function would return the same classification
+as \verb?schybrid()? does.
+
+\nwenddocs{}\nwbegincode{13}\sublabel{RNWhik1-sco8-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco8-1}}}\moddef{score-vote~{\nwtagstyle{}\subpageref{RNWhik1-sco8-1}}}\endmoddef
+scvote <- function(x, k, tval, confby = 3, ...)\{
+    s <- c(sign(scmaxdiff(x, k)),
+           sign(scavgdiff(x, k)),
+           sign(scdiffmean(x, k)),
+           sign(scentropy(x, k, ...)),
+           sign(scttype(x, k, tval)))
+    pos <- rep(1, 5)
+    zer <- rep(0, 5)
+    neg <- rep(-1, 5)
+    spos <- sum(s == pos)
+    szer <- sum(s == zer)
+    sneg <- sum(s == neg)
+    v <- c(spos, szer, sneg)
+    idx <- which(v >= confby)
+    vals <- c(1, 0, -1)
+    if ( length(idx) > 0 )\{
+        return(vals[idx])
+    \} else \{
+        return(0)
+    \}
+\}
+\nwindexdefn{scvote}{scvote}{RNWhik1-sco8-1}\eatline
+\nwidentdefs{\\{{scvote}{scvote}}}\nwidentuses{\\{{scavgdiff}{scavgdiff}}\\{{scdiffmean}{scdiffmean}}\\{{scentropy}{scentropy}}\\{{scmaxdiff}{scmaxdiff}}\\{{scttype}{scttype}}}\nwindexuse{scavgdiff}{scavgdiff}{RNWhik1-sco8-1}\nwindexuse{scdiffmean}{scdiffmean}{RNWhik1-sco8-1}\nwindexuse{scentropy}{scentropy}{RNWhik1-sco8-1}\nwindexuse{scmaxdiff}{scmaxdiff}{RNWhik1-sco8-1}\nwindexuse{scttype}{scttype}{RNWhik1-sco8-1}\nwendcode{}\nwbegindocs{14}%def scvote
+
 \subsection{Combining score methods}
 
-\nwenddocs{}\nwbegincode{11}\sublabel{RNWhik1-sco7-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco7-1}}}\moddef{score-wrapper~{\nwtagstyle{}\subpageref{RNWhik1-sco7-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{15}\sublabel{RNWhik1-sco9-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco9-1}}}\moddef{score-wrapper~{\nwtagstyle{}\subpageref{RNWhik1-sco9-1}}}\endmoddef
 score <- function(x, k,
                   scoreby = c("vote", "avg", "diff", "max", "ent",
                               "ttype", "hybrid"),
@@ -207,10 +266,10 @@ score <- function(x, k,
                   )
     ans
 \}
-\nwindexdefn{score}{score}{RNWhik1-sco7-1}\eatline
-\nwidentdefs{\\{{score}{score}}}\nwidentuses{\\{{scavgdiff}{scavgdiff}}\\{{scdiffmean}{scdiffmean}}\\{{scentropy}{scentropy}}\\{{scmaxdiff}{scmaxdiff}}\\{{scttype}{scttype}}}\nwindexuse{scavgdiff}{scavgdiff}{RNWhik1-sco7-1}\nwindexuse{scdiffmean}{scdiffmean}{RNWhik1-sco7-1}\nwindexuse{scentropy}{scentropy}{RNWhik1-sco7-1}\nwindexuse{scmaxdiff}{scmaxdiff}{RNWhik1-sco7-1}\nwindexuse{scttype}{scttype}{RNWhik1-sco7-1}\nwendcode{}\nwbegindocs{12}%def score
+\nwindexdefn{score}{score}{RNWhik1-sco9-1}\eatline
+\nwidentdefs{\\{{score}{score}}}\nwidentuses{\\{{scavgdiff}{scavgdiff}}\\{{scdiffmean}{scdiffmean}}\\{{scentropy}{scentropy}}\\{{schybrid}{schybrid}}\\{{scmaxdiff}{scmaxdiff}}\\{{scttype}{scttype}}\\{{scvote}{scvote}}}\nwindexuse{scavgdiff}{scavgdiff}{RNWhik1-sco9-1}\nwindexuse{scdiffmean}{scdiffmean}{RNWhik1-sco9-1}\nwindexuse{scentropy}{scentropy}{RNWhik1-sco9-1}\nwindexuse{schybrid}{schybrid}{RNWhik1-sco9-1}\nwindexuse{scmaxdiff}{scmaxdiff}{RNWhik1-sco9-1}\nwindexuse{scttype}{scttype}{RNWhik1-sco9-1}\nwindexuse{scvote}{scvote}{RNWhik1-sco9-1}\nwendcode{}\nwbegindocs{16}%def score
 
-\nwenddocs{}\nwbegincode{13}\sublabel{RNWhik1-sco8-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco8-1}}}\moddef{score-roxygen~{\nwtagstyle{}\subpageref{RNWhik1-sco8-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{17}\sublabel{RNWhik1-sco10-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco10-1}}}\moddef{score-roxygen~{\nwtagstyle{}\subpageref{RNWhik1-sco10-1}}}\endmoddef
 #' Basic scoring methods for local minima and maxima
 #'
 #' These are basic functions for evaluating the centre
@@ -236,13 +295,13 @@ NULL
 
 #' @rdname score
 #' @export
-\nwendcode{}\nwbegindocs{14}@
+\nwendcode{}\nwbegindocs{18}@
 
 The content/structure of the file \texttt{score.R} is given as:
 
-\nwenddocs{}\nwbegincode{15}\sublabel{RNWhik1-sco9-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco9-1}}}\moddef{score.R~{\nwtagstyle{}\subpageref{RNWhik1-sco9-1}}}\endmoddef\let\nwnotused=\nwoutput{}
-\LA{}score-roxygen~{\nwtagstyle{}\subpageref{RNWhik1-sco8-1}}\RA{}
-\LA{}score-wrapper~{\nwtagstyle{}\subpageref{RNWhik1-sco7-1}}\RA{}
+\nwenddocs{}\nwbegincode{19}\sublabel{RNWhik1-sco11-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco11-1}}}\moddef{score.R~{\nwtagstyle{}\subpageref{RNWhik1-sco11-1}}}\endmoddef\let\nwnotused=\nwoutput{}
+\LA{}score-roxygen~{\nwtagstyle{}\subpageref{RNWhik1-sco10-1}}\RA{}
+\LA{}score-wrapper~{\nwtagstyle{}\subpageref{RNWhik1-sco9-1}}\RA{}
 #' @rdname score
 \LA{}score-maxdiff~{\nwtagstyle{}\subpageref{RNWhik1-sco1-1}}\RA{}
 #' @rdname score
@@ -253,7 +312,11 @@ The content/structure of the file \texttt{score.R} is given as:
 \LA{}score-entropy~{\nwtagstyle{}\subpageref{RNWhik1-sco5-1}}\RA{}
 #' @rdname score
 \LA{}score-ttype~{\nwtagstyle{}\subpageref{RNWhik1-sco6-1}}\RA{}
-\nwnotused{score.R}\nwendcode{}\nwbegindocs{16}@
+#' @rdname score
+\LA{}score-hybrid~{\nwtagstyle{}\subpageref{RNWhik1-sco7-1}}\RA{}
+#' @rdname score
+\LA{}score-vote~{\nwtagstyle{}\subpageref{RNWhik1-sco8-1}}\RA{}
+\nwnotused{score.R}\nwendcode{}\nwbegindocs{20}@
 
 Within this file, all score-related methods and the wrapper-function
 \texttt{score()} is included. The function definitions are
@@ -268,7 +331,7 @@ interspersed with the roxygen tags, which will be parsed to the
 
 First, a skeleton of the package
 
-\nwenddocs{}\nwbegincode{17}\sublabel{RNWhik1-DES10-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-DES10-1}}}\moddef{DESCRIPTION.R~{\nwtagstyle{}\subpageref{RNWhik1-DES10-1}}}\endmoddef\let\nwnotused=\nwoutput{}
+\nwenddocs{}\nwbegincode{21}\sublabel{RNWhik1-DES12-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-DES12-1}}}\moddef{DESCRIPTION.R~{\nwtagstyle{}\subpageref{RNWhik1-DES12-1}}}\endmoddef\let\nwnotused=\nwoutput{}
 Package: hiker
 Title: Local Peak and Trough of a Time Series
 Version: 0.0.0.9000
@@ -279,13 +342,13 @@ Depends: R (>= 3.3.1), zoo, methods
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-\nwnotused{DESCRIPTION.R}\nwendcode{}\nwbegindocs{18}@
+\nwnotused{DESCRIPTION.R}\nwendcode{}\nwbegindocs{22}@
 
 
 
 \subsection{Import directives and S4-classes}
 
-\nwenddocs{}\nwbegincode{19}\sublabel{RNWhik1-All11-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-All11-1}}}\moddef{Allclasses.R~{\nwtagstyle{}\subpageref{RNWhik1-All11-1}}}\endmoddef\let\nwnotused=\nwoutput{}
+\nwenddocs{}\nwbegincode{23}\sublabel{RNWhik1-All13-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-All13-1}}}\moddef{Allclasses.R~{\nwtagstyle{}\subpageref{RNWhik1-All13-1}}}\endmoddef\let\nwnotused=\nwoutput{}
 #' @import methods
 NULL
 #' @import zoo
@@ -327,23 +390,27 @@ setClass("PTBB", slots = list(pt = "zoo",
                               type = "character",
                               h = "numeric"))
 \nwnotused{Allclasses.R}\nwendcode{}
-\nwixlogsorted{c}{{Allclasses.R}{RNWhik1-All11-1}{\nwixd{RNWhik1-All11-1}}}%
-\nwixlogsorted{c}{{DESCRIPTION.R}{RNWhik1-DES10-1}{\nwixd{RNWhik1-DES10-1}}}%
-\nwixlogsorted{c}{{score-avgdiff}{RNWhik1-sco4-1}{\nwixd{RNWhik1-sco4-1}\nwixu{RNWhik1-sco9-1}}}%
-\nwixlogsorted{c}{{score-diffmean}{RNWhik1-sco3-1}{\nwixd{RNWhik1-sco3-1}\nwixu{RNWhik1-sco9-1}}}%
-\nwixlogsorted{c}{{score-entropy}{RNWhik1-sco5-1}{\nwixd{RNWhik1-sco5-1}\nwixu{RNWhik1-sco9-1}}}%
-\nwixlogsorted{c}{{score-maxdiff}{RNWhik1-sco1-1}{\nwixd{RNWhik1-sco1-1}\nwixu{RNWhik1-sco9-1}}}%
-\nwixlogsorted{c}{{score-roxygen}{RNWhik1-sco8-1}{\nwixd{RNWhik1-sco8-1}\nwixu{RNWhik1-sco9-1}}}%
-\nwixlogsorted{c}{{score-ttype}{RNWhik1-sco6-1}{\nwixd{RNWhik1-sco6-1}\nwixu{RNWhik1-sco9-1}}}%
-\nwixlogsorted{c}{{score-wrapper}{RNWhik1-sco7-1}{\nwixd{RNWhik1-sco7-1}\nwixu{RNWhik1-sco9-1}}}%
-\nwixlogsorted{c}{{score.R}{RNWhik1-sco9-1}{\nwixd{RNWhik1-sco9-1}}}%
+\nwixlogsorted{c}{{Allclasses.R}{RNWhik1-All13-1}{\nwixd{RNWhik1-All13-1}}}%
+\nwixlogsorted{c}{{DESCRIPTION.R}{RNWhik1-DES12-1}{\nwixd{RNWhik1-DES12-1}}}%
+\nwixlogsorted{c}{{score-avgdiff}{RNWhik1-sco4-1}{\nwixd{RNWhik1-sco4-1}\nwixu{RNWhik1-sco11-1}}}%
+\nwixlogsorted{c}{{score-diffmean}{RNWhik1-sco3-1}{\nwixd{RNWhik1-sco3-1}\nwixu{RNWhik1-sco11-1}}}%
+\nwixlogsorted{c}{{score-entropy}{RNWhik1-sco5-1}{\nwixd{RNWhik1-sco5-1}\nwixu{RNWhik1-sco11-1}}}%
+\nwixlogsorted{c}{{score-hybrid}{RNWhik1-sco7-1}{\nwixd{RNWhik1-sco7-1}\nwixu{RNWhik1-sco11-1}}}%
+\nwixlogsorted{c}{{score-maxdiff}{RNWhik1-sco1-1}{\nwixd{RNWhik1-sco1-1}\nwixu{RNWhik1-sco11-1}}}%
+\nwixlogsorted{c}{{score-roxygen}{RNWhik1-sco10-1}{\nwixd{RNWhik1-sco10-1}\nwixu{RNWhik1-sco11-1}}}%
+\nwixlogsorted{c}{{score-ttype}{RNWhik1-sco6-1}{\nwixd{RNWhik1-sco6-1}\nwixu{RNWhik1-sco11-1}}}%
+\nwixlogsorted{c}{{score-vote}{RNWhik1-sco8-1}{\nwixd{RNWhik1-sco8-1}\nwixu{RNWhik1-sco11-1}}}%
+\nwixlogsorted{c}{{score-wrapper}{RNWhik1-sco9-1}{\nwixd{RNWhik1-sco9-1}\nwixu{RNWhik1-sco11-1}}}%
+\nwixlogsorted{c}{{score.R}{RNWhik1-sco11-1}{\nwixd{RNWhik1-sco11-1}}}%
 \nwixlogsorted{i}{{scavgdiff}{scavgdiff}}%
 \nwixlogsorted{i}{{scdiffmean}{scdiffmean}}%
 \nwixlogsorted{i}{{scentropy}{scentropy}}%
+\nwixlogsorted{i}{{schybrid}{schybrid}}%
 \nwixlogsorted{i}{{scmaxdiff}{scmaxdiff}}%
 \nwixlogsorted{i}{{score}{score}}%
 \nwixlogsorted{i}{{scttype}{scttype}}%
-\nwbegindocs{20}@
+\nwixlogsorted{i}{{scvote}{scvote}}%
+\nwbegindocs{24}@
 
 \newpage
 \section{Chunk Index}
