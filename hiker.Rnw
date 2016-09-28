@@ -152,6 +152,37 @@ scentropy <- function(x, k, ...){
 }
 @ %def scentropy
 
+Finally, a moment-based score function has been put forward in the
+article by Palshikar. Hereby, the first and second moment of $N((k, i,
+T))$ are computed and a t-type statistic can be computed as $(y_i - m)
+/ s$. If this statistic surpasses a provided threshhold $h$, then the
+data point is considered as a local peak/trough.
+
+\begin{equation}
+\label{S5}
+S_5 =
+\begin{cases}
+1 & (y_i - m) / s \ge h \\
+0 & \text{else}
+\end{cases}
+\end{equation}
+
+This type of scoring algorithm is implemented as function
+[[scttype()]] below:
+
+<<score-ttype>>=
+scttype <- function(x, k, tval){
+    cp <- k + 1L
+    m <- mean(x[-cp])
+    s <- sd(x[-cp])
+    tstat <- (x[cp] - m) / s
+    if ( abs(tstat) < tval ){
+        tstat <- 0
+    }
+    tstat
+}
+@ %def scttype
+
 \subsection{Combining score methods}
 
 <<score-wrapper>>=
@@ -214,6 +245,8 @@ The content/structure of the file \texttt{score.R} is given as:
 <<score-avgdiff>>
 #' @rdname score
 <<score-entropy>>
+#' @rdname score
+<<score-ttype>>
 @
 
 Within this file, all score-related methods and the wrapper-function

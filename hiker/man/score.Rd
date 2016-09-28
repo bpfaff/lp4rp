@@ -6,6 +6,7 @@
 \alias{scentropy}
 \alias{scmaxdiff}
 \alias{score}
+\alias{scttype}
 \title{Basic scoring methods for local minima and maxima}
 \usage{
 score(x, k, scoreby = c("vote", "avg", "diff", "max", "ent", "ttype",
@@ -18,6 +19,8 @@ scdiffmean(x, k)
 scavgdiff(x, k)
 
 scentropy(x, k, ...)
+
+scttype(x, k, tval)
 }
 \arguments{
 \item{x}{\code{numeric}, vector of length \code{2 * k + 1}.}

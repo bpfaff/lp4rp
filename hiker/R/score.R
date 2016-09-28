@@ -69,3 +69,14 @@ scentropy <- function(x, k, ...){
     hexct <- sum(-dexct * log(dexct))
     hfull - hexct
 }
+#' @rdname score
+scttype <- function(x, k, tval){
+    cp <- k + 1L
+    m <- mean(x[-cp])
+    s <- sd(x[-cp])
+    tstat <- (x[cp] - m) / s
+    if ( abs(tstat) < tval ){
+        tstat <- 0
+    }
+    tstat
+}
