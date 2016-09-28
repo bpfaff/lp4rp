@@ -114,8 +114,43 @@ scavgdiff <- function(x, k){
 }
 @ %def scavgdiff
 
+The fourth proposed score function differs from the previous three in
+the sense that it does take explicitly the differences between $y_i$
+and its neighbours explicitly into account, but tries to capture its
+information content by means of relative entropy. The entropy of a
+vector $A$ with elements $A = \{a_1, \ldots, a_m\}$ is given as:
 
+\begin{equation}
+H_w(A) = \sum_{i=1}^M \left(-p_w(a_i)\log(p_w(a_i))\right)
+\end{equation}
 
+where $p_w(a_i)$ is an estimate of the density value at $a_i$. The
+score function is now based on computing the entropies of $H(N((k, i,
+T))$ and $H(N'(k, i, T))$. Hereby, the densities can be determined by
+means of a kernel density estimator. The score function is then
+defined as the difference of the entropies:
+
+\begin{equation}
+\label{S4}
+S_4 = H(N((k, i, T)) - H(N'((k, i, T))
+\end{equation}
+
+This concept is implemented in the function [[scentropy()]]. The
+empirical density is computed by calling [[density()]]. The ellipsis
+argument of [[scentropy()]] is passed down to this function and hereby
+allowing the user to employ other than the default arguments of
+[[density()]].
+
+<<score-entropy>>=
+scentropy <- function(x, k, ...){
+    cp <- k + 1L
+    dfull <- density(x, ...)$y
+    hfull <- sum(-dfull * log(dfull))
+    dexct <- density(x[-cp], ...)$y
+    hexct <- sum(-dexct * log(dexct))
+    hfull - hexct
+}
+@ %def scentropy
 
 \subsection{Combining score methods}
 
@@ -177,6 +212,8 @@ The content/structure of the file \texttt{score.R} is given as:
 <<score-diffmean>>
 #' @rdname score
 <<score-avgdiff>>
+#' @rdname score
+<<score-entropy>>
 @
 
 Within this file, all score-related methods and the wrapper-function

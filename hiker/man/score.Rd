@@ -3,6 +3,7 @@
 \name{score}
 \alias{scavgdiff}
 \alias{scdiffmean}
+\alias{scentropy}
 \alias{scmaxdiff}
 \alias{score}
 \title{Basic scoring methods for local minima and maxima}
@@ -15,6 +16,8 @@ scmaxdiff(x, k)
 scdiffmean(x, k)
 
 scavgdiff(x, k)
+
+scentropy(x, k, ...)
 }
 \arguments{
 \item{x}{\code{numeric}, vector of length \code{2 * k + 1}.}

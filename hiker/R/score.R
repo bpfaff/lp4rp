@@ -60,3 +60,12 @@ scavgdiff <- function(x, k){
     rmean <- mean(x[cp] - tail(x, k))
     (lmean + rmean) / 2.0
 }
+#' @rdname score
+scentropy <- function(x, k, ...){
+    cp <- k + 1L
+    dfull <- density(x, ...)$y
+    hfull <- sum(-dfull * log(dfull))
+    dexct <- density(x[-cp], ...)$y
+    hexct <- sum(-dexct * log(dexct))
+    hfull - hexct
+}
