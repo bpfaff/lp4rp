@@ -261,38 +261,10 @@ score <- function(x, k,
 }
 @ %def score
 
-<<score-roxygen>>=
-#' Basic scoring methods for local minima and maxima
-#'
-#' These are basic functions for evaluating the centre
-#' point of a time series as local minimum or maximum.
-#' Hereby, a score value is computed according to various methods.
-#' If the score is positive, the centre point is tentatively
-#' classified as a local peak.
-#' Incidentally, negative scores indicate a local minima.
-#'
-#' @param x \code{numeric}, vector of length \code{2 * k + 1}.
-#' @param k \code{integer}, the count of left/right neighbours.
-#' @param scoreby \code{character}, the scoring method to be used.
-#' @param tval \code{numeric}, factor for standard deviation band
-#' if \code{scoreby = 'ttype'}.
-#' @param confby \code{integer}, count of minimum vote,
-#' values in the set \code{3:5}.
-#' @param ... ellipsis argument.
-#'
-#' @name score
-#' @family scores
-#' @return \code{numeric}, the score value.
-NULL
-
-#' @rdname score
-#' @export
-@
-
 The content/structure of the file \texttt{score.R} is given as:
 
 <<score.R>>=
-<<score-roxygen>>
+<<man-func-score>>
 <<score-wrapper>>
 #' @rdname score
 <<score-maxdiff>>
@@ -313,8 +285,79 @@ The content/structure of the file \texttt{score.R} is given as:
 Within this file, all score-related methods and the wrapper-function
 \texttt{score()} is included. The function definitions are
 interspersed with the roxygen tags, which will be parsed to the
-\texttt{Rd}-file \texttt{score.Rd}.
+\texttt{Rd}-file \texttt{score.Rd}.\par
 
+So far the function [[score()]] has been created, by which a single
+point is assessed for being a local maximum or minimum. For analyzing
+a whole time series for its local extrema, this routine can be applied
+to each data point and its left/right neighbours. This task is
+accomplished with the function [[hiker()]] as defined next.
+
+<<hiker-func>>=
+hiker <- function(y, k,
+                  scoreby = c("vote", "avg", "diff", "max", "ent",
+                              "ttype", "hybrid"),
+                  tval = 1.0, confby = 3, ...){
+<<hiker-check>>
+    ## rolling centered window for peak scores
+    s <- rollapply(y, width = ms, FUN = score,
+                   k = k, scoreby = scoreby, tval = tval, ...)
+<<hiker-output>>
+}
+@ %def hiker
+
+
+
+
+
+<<hiker-check>>=
+    y <- as.zoo(y)
+    ## checking arguments
+    k <- as.integer(abs(k))
+    ms <- 2 * k + 1L
+    if ( is.null(dim(y)) ){
+        yname <- "series"
+        n <- length(y)
+        if ( n < ms ) {
+            stop(paste("Sample size of 'y' is ", n,
+                       " and k = ", k, ".\n", sep = ""))
+            }
+    } else {
+        n <- nrow(y)
+        yname <- colnames(y)[1]
+        if ( n < ms ) {
+            stop(paste("Sample size of 'y' is ", n,
+                       " and k = ", k, ".\n", sep = ""))
+        }
+        if ( ncol(y) > 1 ) {
+            stop("Provide univariate time series of S3-class 'zoo'.\n")
+        }
+    }
+    if ( (confby < 3) || (confby > 5) ){
+        stop("\nArgument 'confby' must be integer and in set {3, 4, 5}.\n")
+    }
+    scoreby <- match.arg(scoreby)
+@
+
+<<hiker-output>>=
+    ## merging time series and scores
+    ans <- merge(y, s)
+    colnames(ans) <- c("Series", "Scores")
+    des <- switch(scoreby,
+                  vote = "majority vote",
+                  avg = "average of averaged differences",
+                  diff = "average of mean differences",
+                  max = "average of maximum differences",
+                  ent = "difference of entropies",
+                  ttype = "t-type statistic",
+                  hybrid = "hybrid")
+    new("HikeR", ys = ans, k = k, scoreby = des, yname = yname)
+@
+
+<<hiker.R>>=
+<<man-func-hiker>>
+<<hiker-func>>
+@
 
 \section{Package structure}
 
@@ -353,6 +396,82 @@ NULL
 # Setting old (aka S3) classes
 setOldClass("zoo")
 
+
+<<man-class-HikeR>>
+setClass("HikeR", slots = list(ys = "zoo",
+                               k = "integer",
+                               scoreby = "character",
+                               yname = "character"))
+
+<<man-class-PTBB>>
+setClass("PTBB", slots = list(pt = "zoo",
+                              type = "character",
+                              h = "numeric"))
+@
+
+\section{Appendix}
+
+\subsection{Roxygen Documentation}
+
+\subsection{Documentation of functions}
+
+<<man-func-score>>=
+#' Basic scoring methods for local minima and maxima
+#'
+#' These are basic functions for evaluating the centre
+#' point of a time series as local minimum or maximum.
+#' Hereby, a score value is computed according to various methods.
+#' If the score is positive, the centre point is tentatively
+#' classified as a local peak.
+#' Incidentally, negative scores indicate a local minima.
+#'
+#' @param x \code{numeric}, vector of length \code{2 * k + 1}.
+#' @param k \code{integer}, the count of left/right neighbours.
+#' @param scoreby \code{character}, the scoring method to be used.
+#' @param tval \code{numeric}, factor for standard deviation band
+#' if \code{scoreby = 'ttype'}.
+#' @param confby \code{integer}, count of minimum vote,
+#' values in the set \code{3:5}.
+#' @param ... ellipsis argument.
+#'
+#' @name score
+#' @family scores
+#' @return \code{numeric}, the score value.
+NULL
+
+#' @rdname score
+#' @export
+@
+
+<<man-func-hiker>>=
+#' Peak/trough scores of time series points
+#'
+#' This function computes the score value for each
+#' data point of a time series. The first and last
+#' \code{k} observations are set to \code{NA}.
+#'
+#' @inheritParams score
+#' @param y \code{zoo}, univariate time series.
+#' @return An object of S4-class \code{HikeR}.
+#' @family scores
+#'
+#' @references Girish K. Palshikar. Simple Algorithms for
+#' Peak Detection in Time-Series. In \emph{Proc. 1st Int. Conf. Advanced Data Analysis,
+#' Business Analytics and Intelligence}, 2009.
+#'
+#' @examples
+#' TEX <- SP500[, "TEX"]
+#' ans <- hiker(TEX, k = 8, scoreby = "hybrid", tval = 0.1)
+#' ans
+#' plot(ans)
+#'
+#' @export
+@
+
+
+\subsection{Documentation of S4-classes}
+
+<<man-class-HikeR>>=
 #' S4 class \code{HikeR}
 #'
 #' Formal class for classifying local minima and maxima
@@ -363,12 +482,9 @@ setOldClass("zoo")
 #' @slot scoreby \code{character}, scoring method.
 #' @slot yname \code{character}, name of the series.
 #' @exportClass HikeR
-setClass("HikeR", slots = list(ys = "zoo",
-                               k = "integer",
-                               scoreby = "character",
-                               yname = "character"))
+@
 
-
+<<man-class-PTBB>>=
 #' S4 class \code{PTBB}
 #'
 #' Formal class for peaks, troughs, burst, busts and
@@ -378,10 +494,10 @@ setClass("HikeR", slots = list(ys = "zoo",
 #' @slot type \code{character}, type of point/phase.
 #' @slot h \code{numeric}, the threshhold for score evaluation.
 #' @exportClass PTBB
-setClass("PTBB", slots = list(pt = "zoo",
-                              type = "character",
-                              h = "numeric"))
 @
+
+\subsection{Makefile}
+
 
 \newpage
 \section{Chunk Index}
