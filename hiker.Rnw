@@ -261,38 +261,10 @@ score <- function(x, k,
 }
 @ %def score
 
-<<score-roxygen>>=
-#' Basic scoring methods for local minima and maxima
-#'
-#' These are basic functions for evaluating the centre
-#' point of a time series as local minimum or maximum.
-#' Hereby, a score value is computed according to various methods.
-#' If the score is positive, the centre point is tentatively
-#' classified as a local peak.
-#' Incidentally, negative scores indicate a local minima.
-#'
-#' @param x \code{numeric}, vector of length \code{2 * k + 1}.
-#' @param k \code{integer}, the count of left/right neighbours.
-#' @param scoreby \code{character}, the scoring method to be used.
-#' @param tval \code{numeric}, factor for standard deviation band
-#' if \code{scoreby = 'ttype'}.
-#' @param confby \code{integer}, count of minimum vote,
-#' values in the set \code{3:5}.
-#' @param ... ellipsis argument.
-#'
-#' @name score
-#' @family scores
-#' @return \code{numeric}, the score value.
-NULL
-
-#' @rdname score
-#' @export
-@
-
 The content/structure of the file \texttt{score.R} is given as:
 
 <<score.R>>=
-<<score-roxygen>>
+<<man-func-score>>
 <<score-wrapper>>
 #' @rdname score
 <<score-maxdiff>>
@@ -353,6 +325,56 @@ NULL
 # Setting old (aka S3) classes
 setOldClass("zoo")
 
+
+<<man-class-HikeR>>
+setClass("HikeR", slots = list(ys = "zoo",
+                               k = "integer",
+                               scoreby = "character",
+                               yname = "character"))
+
+<<man-class-PTBB>>
+setClass("PTBB", slots = list(pt = "zoo",
+                              type = "character",
+                              h = "numeric"))
+@
+
+\section{Appendix}
+
+\subsection{Roxygen Documentation}
+
+\subsection{Documentation of functions}
+
+<<man-func-score>>=
+#' Basic scoring methods for local minima and maxima
+#'
+#' These are basic functions for evaluating the centre
+#' point of a time series as local minimum or maximum.
+#' Hereby, a score value is computed according to various methods.
+#' If the score is positive, the centre point is tentatively
+#' classified as a local peak.
+#' Incidentally, negative scores indicate a local minima.
+#'
+#' @param x \code{numeric}, vector of length \code{2 * k + 1}.
+#' @param k \code{integer}, the count of left/right neighbours.
+#' @param scoreby \code{character}, the scoring method to be used.
+#' @param tval \code{numeric}, factor for standard deviation band
+#' if \code{scoreby = 'ttype'}.
+#' @param confby \code{integer}, count of minimum vote,
+#' values in the set \code{3:5}.
+#' @param ... ellipsis argument.
+#'
+#' @name score
+#' @family scores
+#' @return \code{numeric}, the score value.
+NULL
+
+#' @rdname score
+#' @export
+@
+
+\subsection{Documentation of S4-classes}
+
+<<man-class-HikeR>>=
 #' S4 class \code{HikeR}
 #'
 #' Formal class for classifying local minima and maxima
@@ -363,12 +385,9 @@ setOldClass("zoo")
 #' @slot scoreby \code{character}, scoring method.
 #' @slot yname \code{character}, name of the series.
 #' @exportClass HikeR
-setClass("HikeR", slots = list(ys = "zoo",
-                               k = "integer",
-                               scoreby = "character",
-                               yname = "character"))
+@
 
-
+<<man-class-PTBB>>=
 #' S4 class \code{PTBB}
 #'
 #' Formal class for peaks, troughs, burst, busts and
@@ -378,10 +397,10 @@ setClass("HikeR", slots = list(ys = "zoo",
 #' @slot type \code{character}, type of point/phase.
 #' @slot h \code{numeric}, the threshhold for score evaluation.
 #' @exportClass PTBB
-setClass("PTBB", slots = list(pt = "zoo",
-                              type = "character",
-                              h = "numeric"))
 @
+
+\subsection{Makefile}
+
 
 \newpage
 \section{Chunk Index}

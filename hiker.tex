@@ -269,7 +269,90 @@ score <- function(x, k,
 \nwindexdefn{score}{score}{RNWhik1-sco9-1}\eatline
 \nwidentdefs{\\{{score}{score}}}\nwidentuses{\\{{scavgdiff}{scavgdiff}}\\{{scdiffmean}{scdiffmean}}\\{{scentropy}{scentropy}}\\{{schybrid}{schybrid}}\\{{scmaxdiff}{scmaxdiff}}\\{{scttype}{scttype}}\\{{scvote}{scvote}}}\nwindexuse{scavgdiff}{scavgdiff}{RNWhik1-sco9-1}\nwindexuse{scdiffmean}{scdiffmean}{RNWhik1-sco9-1}\nwindexuse{scentropy}{scentropy}{RNWhik1-sco9-1}\nwindexuse{schybrid}{schybrid}{RNWhik1-sco9-1}\nwindexuse{scmaxdiff}{scmaxdiff}{RNWhik1-sco9-1}\nwindexuse{scttype}{scttype}{RNWhik1-sco9-1}\nwindexuse{scvote}{scvote}{RNWhik1-sco9-1}\nwendcode{}\nwbegindocs{16}%def score
 
-\nwenddocs{}\nwbegincode{17}\sublabel{RNWhik1-sco10-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco10-1}}}\moddef{score-roxygen~{\nwtagstyle{}\subpageref{RNWhik1-sco10-1}}}\endmoddef
+The content/structure of the file \texttt{score.R} is given as:
+
+\nwenddocs{}\nwbegincode{17}\sublabel{RNWhik1-sco10-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco10-1}}}\moddef{score.R~{\nwtagstyle{}\subpageref{RNWhik1-sco10-1}}}\endmoddef\let\nwnotused=\nwoutput{}
+\LA{}man-func-score~{\nwtagstyle{}\subpageref{RNWhik1-man13-1}}\RA{}
+\LA{}score-wrapper~{\nwtagstyle{}\subpageref{RNWhik1-sco9-1}}\RA{}
+#' @rdname score
+\LA{}score-maxdiff~{\nwtagstyle{}\subpageref{RNWhik1-sco1-1}}\RA{}
+#' @rdname score
+\LA{}score-diffmean~{\nwtagstyle{}\subpageref{RNWhik1-sco3-1}}\RA{}
+#' @rdname score
+\LA{}score-avgdiff~{\nwtagstyle{}\subpageref{RNWhik1-sco4-1}}\RA{}
+#' @rdname score
+\LA{}score-entropy~{\nwtagstyle{}\subpageref{RNWhik1-sco5-1}}\RA{}
+#' @rdname score
+\LA{}score-ttype~{\nwtagstyle{}\subpageref{RNWhik1-sco6-1}}\RA{}
+#' @rdname score
+\LA{}score-hybrid~{\nwtagstyle{}\subpageref{RNWhik1-sco7-1}}\RA{}
+#' @rdname score
+\LA{}score-vote~{\nwtagstyle{}\subpageref{RNWhik1-sco8-1}}\RA{}
+\nwnotused{score.R}\nwendcode{}\nwbegindocs{18}@
+
+Within this file, all score-related methods and the wrapper-function
+\texttt{score()} is included. The function definitions are
+interspersed with the roxygen tags, which will be parsed to the
+\texttt{Rd}-file \texttt{score.Rd}.
+
+
+\section{Package structure}
+
+
+\subsection{Preliminaries}
+
+First, a skeleton of the package
+
+\nwenddocs{}\nwbegincode{19}\sublabel{RNWhik1-DES11-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-DES11-1}}}\moddef{DESCRIPTION.R~{\nwtagstyle{}\subpageref{RNWhik1-DES11-1}}}\endmoddef\let\nwnotused=\nwoutput{}
+Package: hiker
+Title: Local Peak and Trough of a Time Series
+Version: 0.0.0.9000
+Authors@R: person("Bernhard", "Pfaff", email = "bernhard@pfaffikus.de",
+                  role = c("aut", "cre"))
+Description: Methods for detecting local peaks and troughs of a time series.
+Depends: R (>= 3.3.1), zoo, methods
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+\nwnotused{DESCRIPTION.R}\nwendcode{}\nwbegindocs{20}@
+
+
+
+\subsection{Import directives and S4-classes}
+
+\nwenddocs{}\nwbegincode{21}\sublabel{RNWhik1-All12-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-All12-1}}}\moddef{Allclasses.R~{\nwtagstyle{}\subpageref{RNWhik1-All12-1}}}\endmoddef\let\nwnotused=\nwoutput{}
+#' @import methods
+NULL
+#' @import zoo
+NULL
+#' @importFrom stats density sd na.omit start end smooth
+NULL
+#' @importFrom utils head tail
+NULL
+
+# Setting old (aka S3) classes
+setOldClass("zoo")
+
+
+\LA{}man-class-HikeR~{\nwtagstyle{}\subpageref{RNWhik1-man14-1}}\RA{}
+setClass("HikeR", slots = list(ys = "zoo",
+                               k = "integer",
+                               scoreby = "character",
+                               yname = "character"))
+
+\LA{}man-class-PTBB~{\nwtagstyle{}\subpageref{RNWhik1-man15-1}}\RA{}
+setClass("PTBB", slots = list(pt = "zoo",
+                              type = "character",
+                              h = "numeric"))
+\nwnotused{Allclasses.R}\nwendcode{}\nwbegindocs{22}@
+
+\section{Appendix}
+
+\subsection{Roxygen Documentation}
+
+\subsection{Documentation of functions}
+
+\nwenddocs{}\nwbegincode{23}\sublabel{RNWhik1-man13-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man13-1}}}\moddef{man-func-score~{\nwtagstyle{}\subpageref{RNWhik1-man13-1}}}\endmoddef
 #' Basic scoring methods for local minima and maxima
 #'
 #' These are basic functions for evaluating the centre
@@ -295,72 +378,11 @@ NULL
 
 #' @rdname score
 #' @export
-\nwendcode{}\nwbegindocs{18}@
+\nwendcode{}\nwbegindocs{24}@
 
-The content/structure of the file \texttt{score.R} is given as:
+\subsection{Documentation of S4-classes}
 
-\nwenddocs{}\nwbegincode{19}\sublabel{RNWhik1-sco11-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco11-1}}}\moddef{score.R~{\nwtagstyle{}\subpageref{RNWhik1-sco11-1}}}\endmoddef\let\nwnotused=\nwoutput{}
-\LA{}score-roxygen~{\nwtagstyle{}\subpageref{RNWhik1-sco10-1}}\RA{}
-\LA{}score-wrapper~{\nwtagstyle{}\subpageref{RNWhik1-sco9-1}}\RA{}
-#' @rdname score
-\LA{}score-maxdiff~{\nwtagstyle{}\subpageref{RNWhik1-sco1-1}}\RA{}
-#' @rdname score
-\LA{}score-diffmean~{\nwtagstyle{}\subpageref{RNWhik1-sco3-1}}\RA{}
-#' @rdname score
-\LA{}score-avgdiff~{\nwtagstyle{}\subpageref{RNWhik1-sco4-1}}\RA{}
-#' @rdname score
-\LA{}score-entropy~{\nwtagstyle{}\subpageref{RNWhik1-sco5-1}}\RA{}
-#' @rdname score
-\LA{}score-ttype~{\nwtagstyle{}\subpageref{RNWhik1-sco6-1}}\RA{}
-#' @rdname score
-\LA{}score-hybrid~{\nwtagstyle{}\subpageref{RNWhik1-sco7-1}}\RA{}
-#' @rdname score
-\LA{}score-vote~{\nwtagstyle{}\subpageref{RNWhik1-sco8-1}}\RA{}
-\nwnotused{score.R}\nwendcode{}\nwbegindocs{20}@
-
-Within this file, all score-related methods and the wrapper-function
-\texttt{score()} is included. The function definitions are
-interspersed with the roxygen tags, which will be parsed to the
-\texttt{Rd}-file \texttt{score.Rd}.
-
-
-\section{Package structure}
-
-
-\subsection{Preliminaries}
-
-First, a skeleton of the package
-
-\nwenddocs{}\nwbegincode{21}\sublabel{RNWhik1-DES12-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-DES12-1}}}\moddef{DESCRIPTION.R~{\nwtagstyle{}\subpageref{RNWhik1-DES12-1}}}\endmoddef\let\nwnotused=\nwoutput{}
-Package: hiker
-Title: Local Peak and Trough of a Time Series
-Version: 0.0.0.9000
-Authors@R: person("Bernhard", "Pfaff", email = "bernhard@pfaffikus.de",
-                  role = c("aut", "cre"))
-Description: Methods for detecting local peaks and troughs of a time series.
-Depends: R (>= 3.3.1), zoo, methods
-License: GPL-3
-Encoding: UTF-8
-LazyData: true
-\nwnotused{DESCRIPTION.R}\nwendcode{}\nwbegindocs{22}@
-
-
-
-\subsection{Import directives and S4-classes}
-
-\nwenddocs{}\nwbegincode{23}\sublabel{RNWhik1-All13-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-All13-1}}}\moddef{Allclasses.R~{\nwtagstyle{}\subpageref{RNWhik1-All13-1}}}\endmoddef\let\nwnotused=\nwoutput{}
-#' @import methods
-NULL
-#' @import zoo
-NULL
-#' @importFrom stats density sd na.omit start end smooth
-NULL
-#' @importFrom utils head tail
-NULL
-
-# Setting old (aka S3) classes
-setOldClass("zoo")
-
+\nwenddocs{}\nwbegincode{25}\sublabel{RNWhik1-man14-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man14-1}}}\moddef{man-class-HikeR~{\nwtagstyle{}\subpageref{RNWhik1-man14-1}}}\endmoddef
 #' S4 class \\code\{HikeR\}
 #'
 #' Formal class for classifying local minima and maxima
@@ -371,12 +393,9 @@ setOldClass("zoo")
 #' @slot scoreby \\code\{character\}, scoring method.
 #' @slot yname \\code\{character\}, name of the series.
 #' @exportClass HikeR
-setClass("HikeR", slots = list(ys = "zoo",
-                               k = "integer",
-                               scoreby = "character",
-                               yname = "character"))
+\nwendcode{}\nwbegindocs{26}@
 
-
+\nwenddocs{}\nwbegincode{27}\sublabel{RNWhik1-man15-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man15-1}}}\moddef{man-class-PTBB~{\nwtagstyle{}\subpageref{RNWhik1-man15-1}}}\endmoddef
 #' S4 class \\code\{PTBB\}
 #'
 #' Formal class for peaks, troughs, burst, busts and
@@ -386,22 +405,21 @@ setClass("HikeR", slots = list(ys = "zoo",
 #' @slot type \\code\{character\}, type of point/phase.
 #' @slot h \\code\{numeric\}, the threshhold for score evaluation.
 #' @exportClass PTBB
-setClass("PTBB", slots = list(pt = "zoo",
-                              type = "character",
-                              h = "numeric"))
-\nwnotused{Allclasses.R}\nwendcode{}
-\nwixlogsorted{c}{{Allclasses.R}{RNWhik1-All13-1}{\nwixd{RNWhik1-All13-1}}}%
-\nwixlogsorted{c}{{DESCRIPTION.R}{RNWhik1-DES12-1}{\nwixd{RNWhik1-DES12-1}}}%
-\nwixlogsorted{c}{{score-avgdiff}{RNWhik1-sco4-1}{\nwixd{RNWhik1-sco4-1}\nwixu{RNWhik1-sco11-1}}}%
-\nwixlogsorted{c}{{score-diffmean}{RNWhik1-sco3-1}{\nwixd{RNWhik1-sco3-1}\nwixu{RNWhik1-sco11-1}}}%
-\nwixlogsorted{c}{{score-entropy}{RNWhik1-sco5-1}{\nwixd{RNWhik1-sco5-1}\nwixu{RNWhik1-sco11-1}}}%
-\nwixlogsorted{c}{{score-hybrid}{RNWhik1-sco7-1}{\nwixd{RNWhik1-sco7-1}\nwixu{RNWhik1-sco11-1}}}%
-\nwixlogsorted{c}{{score-maxdiff}{RNWhik1-sco1-1}{\nwixd{RNWhik1-sco1-1}\nwixu{RNWhik1-sco11-1}}}%
-\nwixlogsorted{c}{{score-roxygen}{RNWhik1-sco10-1}{\nwixd{RNWhik1-sco10-1}\nwixu{RNWhik1-sco11-1}}}%
-\nwixlogsorted{c}{{score-ttype}{RNWhik1-sco6-1}{\nwixd{RNWhik1-sco6-1}\nwixu{RNWhik1-sco11-1}}}%
-\nwixlogsorted{c}{{score-vote}{RNWhik1-sco8-1}{\nwixd{RNWhik1-sco8-1}\nwixu{RNWhik1-sco11-1}}}%
-\nwixlogsorted{c}{{score-wrapper}{RNWhik1-sco9-1}{\nwixd{RNWhik1-sco9-1}\nwixu{RNWhik1-sco11-1}}}%
-\nwixlogsorted{c}{{score.R}{RNWhik1-sco11-1}{\nwixd{RNWhik1-sco11-1}}}%
+\nwendcode{}
+\nwixlogsorted{c}{{Allclasses.R}{RNWhik1-All12-1}{\nwixd{RNWhik1-All12-1}}}%
+\nwixlogsorted{c}{{DESCRIPTION.R}{RNWhik1-DES11-1}{\nwixd{RNWhik1-DES11-1}}}%
+\nwixlogsorted{c}{{man-class-HikeR}{RNWhik1-man14-1}{\nwixd{RNWhik1-man14-1}\nwixu{RNWhik1-All12-1}}}%
+\nwixlogsorted{c}{{man-class-PTBB}{RNWhik1-man15-1}{\nwixd{RNWhik1-man15-1}\nwixu{RNWhik1-All12-1}}}%
+\nwixlogsorted{c}{{man-func-score}{RNWhik1-man13-1}{\nwixd{RNWhik1-man13-1}\nwixu{RNWhik1-sco10-1}}}%
+\nwixlogsorted{c}{{score-avgdiff}{RNWhik1-sco4-1}{\nwixd{RNWhik1-sco4-1}\nwixu{RNWhik1-sco10-1}}}%
+\nwixlogsorted{c}{{score-diffmean}{RNWhik1-sco3-1}{\nwixd{RNWhik1-sco3-1}\nwixu{RNWhik1-sco10-1}}}%
+\nwixlogsorted{c}{{score-entropy}{RNWhik1-sco5-1}{\nwixd{RNWhik1-sco5-1}\nwixu{RNWhik1-sco10-1}}}%
+\nwixlogsorted{c}{{score-hybrid}{RNWhik1-sco7-1}{\nwixd{RNWhik1-sco7-1}\nwixu{RNWhik1-sco10-1}}}%
+\nwixlogsorted{c}{{score-maxdiff}{RNWhik1-sco1-1}{\nwixd{RNWhik1-sco1-1}\nwixu{RNWhik1-sco10-1}}}%
+\nwixlogsorted{c}{{score-ttype}{RNWhik1-sco6-1}{\nwixd{RNWhik1-sco6-1}\nwixu{RNWhik1-sco10-1}}}%
+\nwixlogsorted{c}{{score-vote}{RNWhik1-sco8-1}{\nwixd{RNWhik1-sco8-1}\nwixu{RNWhik1-sco10-1}}}%
+\nwixlogsorted{c}{{score-wrapper}{RNWhik1-sco9-1}{\nwixd{RNWhik1-sco9-1}\nwixu{RNWhik1-sco10-1}}}%
+\nwixlogsorted{c}{{score.R}{RNWhik1-sco10-1}{\nwixd{RNWhik1-sco10-1}}}%
 \nwixlogsorted{i}{{scavgdiff}{scavgdiff}}%
 \nwixlogsorted{i}{{scdiffmean}{scdiffmean}}%
 \nwixlogsorted{i}{{scentropy}{scentropy}}%
@@ -410,7 +428,10 @@ setClass("PTBB", slots = list(pt = "zoo",
 \nwixlogsorted{i}{{score}{score}}%
 \nwixlogsorted{i}{{scttype}{scttype}}%
 \nwixlogsorted{i}{{scvote}{scvote}}%
-\nwbegindocs{24}@
+\nwbegindocs{28}@
+
+\subsection{Makefile}
+
 
 \newpage
 \section{Chunk Index}
