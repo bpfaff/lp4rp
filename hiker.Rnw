@@ -456,7 +456,8 @@ NULL
 #' @family scores
 #'
 #' @references Girish K. Palshikar. Simple Algorithms for
-#' Peak Detection in Time-Series. In \emph{Proc. 1st Int. Conf. Advanced Data Analysis,
+#' Peak Detection in Time-Series. In \emph{Proc. 1st Int. Conf.
+#' Advanced Data Analysis,
 #' Business Analytics and Intelligence}, 2009.
 #'
 #' @examples
