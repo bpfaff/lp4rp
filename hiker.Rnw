@@ -306,9 +306,18 @@ hiker <- function(y, k,
 }
 @ %def hiker
 
+The arguments of the function are [[y]] for the time series object,
+[[k]] for the count of left/right neighbours, and [[scoreby]] for the
+selection of the scoring method. The arguments [[tval]] and [[confby]]
+belong the scoring concepts '' and '', respectively, and the ellipsis
+argument is passed down to the call of [[scentropy()]] for [[scoreby =
+'ent']].\par
 
-
-
+The function body consists of three parts. First, the provided
+arguments are checked for their validity (as shown in the following
+code chunk). The computation of the scores is accomplished with the
+[[rollapply()]] function of the package \pkg{zoo}. Finally, the
+returned object is created.\par
 
 <<hiker-check>>=
     y <- as.zoo(y)
@@ -339,6 +348,15 @@ hiker <- function(y, k,
     scoreby <- match.arg(scoreby)
 @
 
+Within the check section of the function body, the object [[y]] is
+first coerced to a [[zoo]] object and the count of neighbours is
+coerced to a positive integer. Next, the size of the sub-sample for
+computing the scores is assigned to the object [[ms]]. The remaining
+part consists of ckecks whether the series is univariate and its
+length is at least $2 \times k + 1$. Finally, the scoring method is
+determined from the argument [[scoreby]] by means of the [[match.arg]]
+function.\par
+
 <<hiker-output>>=
     ## merging time series and scores
     ans <- merge(y, s)
@@ -353,6 +371,7 @@ hiker <- function(y, k,
                   hybrid = "hybrid")
     new("HikeR", ys = ans, k = k, scoreby = des, yname = yname)
 @
+
 
 <<hiker.R>>=
 <<man-func-hiker>>
