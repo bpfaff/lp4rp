@@ -273,7 +273,7 @@ score <- function(x, k,
 The content/structure of the file \texttt{score.R} is given as:
 
 \nwenddocs{}\nwbegincode{17}\sublabel{RNWhik1-sco10-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco10-1}}}\moddef{score.R~{\nwtagstyle{}\subpageref{RNWhik1-sco10-1}}}\endmoddef\let\nwnotused=\nwoutput{}
-\LA{}man-func-score~{\nwtagstyle{}\subpageref{RNWhik1-man17-1}}\RA{}
+\LA{}man-func-score~{\nwtagstyle{}\subpageref{RNWhik1-man19-1}}\RA{}
 \LA{}score-wrapper~{\nwtagstyle{}\subpageref{RNWhik1-sco9-1}}\RA{}
 #' @rdname score
 \LA{}score-maxdiff~{\nwtagstyle{}\subpageref{RNWhik1-sco1-1}}\RA{}
@@ -384,7 +384,7 @@ function.\par
 
 
 \nwenddocs{}\nwbegincode{25}\sublabel{RNWhik1-hik14-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-hik14-1}}}\moddef{hiker.R~{\nwtagstyle{}\subpageref{RNWhik1-hik14-1}}}\endmoddef\let\nwnotused=\nwoutput{}
-\LA{}man-func-hiker~{\nwtagstyle{}\subpageref{RNWhik1-man18-1}}\RA{}
+\LA{}man-func-hiker~{\nwtagstyle{}\subpageref{RNWhik1-man20-1}}\RA{}
 \LA{}hiker-func~{\nwtagstyle{}\subpageref{RNWhik1-hik11-1}}\RA{}
 \nwnotused{hiker.R}\nwendcode{}\nwbegindocs{26}@
 
@@ -426,25 +426,63 @@ NULL
 setOldClass("zoo")
 
 
-\LA{}man-class-HikeR~{\nwtagstyle{}\subpageref{RNWhik1-man19-1}}\RA{}
+\LA{}man-class-HikeR~{\nwtagstyle{}\subpageref{RNWhik1-man21-1}}\RA{}
 setClass("HikeR", slots = list(ys = "zoo",
                                k = "integer",
                                scoreby = "character",
                                yname = "character"))
 
-\LA{}man-class-PTBB~{\nwtagstyle{}\subpageref{RNWhik1-man20-1}}\RA{}
+\LA{}man-class-PTBB~{\nwtagstyle{}\subpageref{RNWhik1-man22-1}}\RA{}
 setClass("PTBB", slots = list(pt = "zoo",
                               type = "character",
                               h = "numeric"))
 \nwnotused{Allclasses.R}\nwendcode{}\nwbegindocs{30}@
 
-\section{Appendix}
+<<<<<<< HEAD
 
-\subsection{Roxygen Documentation}
+\subsection{Methods for S4-class 'HikeR'}
+
+In this section the S4-methods for objects of class \verb?HikeR? are
+discussed. The provided methods are for showing \verb?show()?,
+summarizing \verb?summary()?, retrieval of peaks \verb?peaks()? and troughs
+\verb?troughs()? for this type of objects. Furthermore, the concept of
+bursts phases (close occurrence of peaks with respect to time) and
+busts (close occurrence of troughs with respect to time) are defined
+as methods \verb?bursts()? and \verb?busts()?, respectively. Additional
+methods for characterising the progression of a time series, such as
+`ridges', `phases', `to-peaks' and `to-troughs' are provided,
+too. Finally, a \verb?plot()?-method is available whereby the user can
+hightlight/shade the local optima and the phases in between them. All
+of these methods are contained in the file \verb?hiker-methods.R?. The
+skeleton of this file is provided next.
+
+\nwenddocs{}\nwbegincode{31}\sublabel{RNWhik1-Hik17-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik17-1}}}\moddef{HikerMethods.R~{\nwtagstyle{}\subpageref{RNWhik1-Hik17-1}}}\endmoddef\let\nwnotused=\nwoutput{}
+\LA{}HikeR-show~{\nwtagstyle{}\subpageref{RNWhik1-Hik18-1}}\RA{}
+\nwnotused{HikerMethods.R}\nwendcode{}\nwbegindocs{32}@
+
+
+\subsubsection{\texttt{show}-method}
+
+\nwenddocs{}\nwbegincode{33}\sublabel{RNWhik1-Hik18-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik18-1}}}\moddef{HikeR-show~{\nwtagstyle{}\subpageref{RNWhik1-Hik18-1}}}\endmoddef
+\LA{}man-HikeR-show~{\nwtagstyle{}\subpageref{RNWhik1-man23-1}}\RA{}
+setMethod("show",
+          signature(object = "HikeR"), function(object)\{
+              cat(paste("Peak/trough score computed as: ",
+                        object@scoreby, ".\\n", sep = ""))
+              cat(paste("Count of left/right neighbours: ", object@k,
+                        ".\\n", sep = ""))
+              cat("\\nSummary statistics of scores:\\n")
+              print(summary(object))
+          \}
+)
+\nwindexdefn{hiker-methods}{hiker-methods}{RNWhik1-Hik18-1}\eatline
+\nwidentdefs{\\{{hiker-methods}{hiker-methods}}}\nwendcode{}\nwbegindocs{34}%def hiker-methods
+
+\section{Appendix}
 
 \subsection{Documentation of functions}
 
-\nwenddocs{}\nwbegincode{31}\sublabel{RNWhik1-man17-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man17-1}}}\moddef{man-func-score~{\nwtagstyle{}\subpageref{RNWhik1-man17-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{35}\sublabel{RNWhik1-man19-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man19-1}}}\moddef{man-func-score~{\nwtagstyle{}\subpageref{RNWhik1-man19-1}}}\endmoddef
 #' Basic scoring methods for local minima and maxima
 #'
 #' These are basic functions for evaluating the centre
@@ -470,9 +508,9 @@ NULL
 
 #' @rdname score
 #' @export
-\nwendcode{}\nwbegindocs{32}@
+\nwendcode{}\nwbegindocs{36}@
 
-\nwenddocs{}\nwbegincode{33}\sublabel{RNWhik1-man18-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man18-1}}}\moddef{man-func-hiker~{\nwtagstyle{}\subpageref{RNWhik1-man18-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{37}\sublabel{RNWhik1-man20-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man20-1}}}\moddef{man-func-hiker~{\nwtagstyle{}\subpageref{RNWhik1-man20-1}}}\endmoddef
 #' Peak/trough scores of time series points
 #'
 #' This function computes the score value for each
@@ -496,12 +534,12 @@ NULL
 #' #plot(ans)
 #'
 #' @export
-\nwendcode{}\nwbegindocs{34}@
+\nwendcode{}\nwbegindocs{38}@
 
 
 \subsection{Documentation of S4-classes}
 
-\nwenddocs{}\nwbegincode{35}\sublabel{RNWhik1-man19-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man19-1}}}\moddef{man-class-HikeR~{\nwtagstyle{}\subpageref{RNWhik1-man19-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{39}\sublabel{RNWhik1-man21-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man21-1}}}\moddef{man-class-HikeR~{\nwtagstyle{}\subpageref{RNWhik1-man21-1}}}\endmoddef
 #' S4 class \\code\{HikeR\}
 #'
 #' Formal class for classifying local minima and maxima
@@ -512,9 +550,9 @@ NULL
 #' @slot scoreby \\code\{character\}, scoring method.
 #' @slot yname \\code\{character\}, name of the series.
 #' @exportClass HikeR
-\nwendcode{}\nwbegindocs{36}@
+\nwendcode{}\nwbegindocs{40}@
 
-\nwenddocs{}\nwbegincode{37}\sublabel{RNWhik1-man20-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man20-1}}}\moddef{man-class-PTBB~{\nwtagstyle{}\subpageref{RNWhik1-man20-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{41}\sublabel{RNWhik1-man22-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man22-1}}}\moddef{man-class-PTBB~{\nwtagstyle{}\subpageref{RNWhik1-man22-1}}}\endmoddef
 #' S4 class \\code\{PTBB\}
 #'
 #' Formal class for peaks, troughs, burst, busts and
@@ -524,11 +562,20 @@ NULL
 #' @slot type \\code\{character\}, type of point/phase.
 #' @slot h \\code\{numeric\}, the threshhold for score evaluation.
 #' @exportClass PTBB
-\nwendcode{}\nwbegindocs{38}@
+\nwendcode{}\nwbegindocs{42}@
+
+\subsection{Documentation of S4-methods}
+
+\nwenddocs{}\nwbegincode{43}\sublabel{RNWhik1-man23-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man23-1}}}\moddef{man-HikeR-show~{\nwtagstyle{}\subpageref{RNWhik1-man23-1}}}\endmoddef
+#' @rdname HikeR-class
+#' @param object An object of S4 class \\code\{HikeR\}.
+#' @export
+\nwendcode{}\nwbegindocs{44}@
+
 
 \subsection{Documentation of data set}
 
-\nwenddocs{}\nwbegincode{39}\sublabel{RNWhik1-dat21-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-dat21-1}}}\moddef{data.R~{\nwtagstyle{}\subpageref{RNWhik1-dat21-1}}}\endmoddef\let\nwnotused=\nwoutput{}
+\nwenddocs{}\nwbegincode{45}\sublabel{RNWhik1-dat24-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-dat24-1}}}\moddef{data.R~{\nwtagstyle{}\subpageref{RNWhik1-dat24-1}}}\endmoddef\let\nwnotused=\nwoutput{}
 #' Weekly price data of 476 S&P 500 constituents.
 #'
 #' The data set was used in the reference below. The authors adjusted
@@ -553,16 +600,19 @@ NULL
 "SP500"
 \nwnotused{data.R}\nwendcode{}
 \nwixlogsorted{c}{{Allclasses.R}{RNWhik1-All16-1}{\nwixd{RNWhik1-All16-1}}}%
-\nwixlogsorted{c}{{data.R}{RNWhik1-dat21-1}{\nwixd{RNWhik1-dat21-1}}}%
+\nwixlogsorted{c}{{data.R}{RNWhik1-dat24-1}{\nwixd{RNWhik1-dat24-1}}}%
 \nwixlogsorted{c}{{DESCRIPTION.R}{RNWhik1-DES15-1}{\nwixd{RNWhik1-DES15-1}}}%
 \nwixlogsorted{c}{{hiker-check}{RNWhik1-hik12-1}{\nwixd{RNWhik1-hik12-1}\nwixu{RNWhik1-hik11-1}}}%
 \nwixlogsorted{c}{{hiker-func}{RNWhik1-hik11-1}{\nwixd{RNWhik1-hik11-1}\nwixu{RNWhik1-hik14-1}}}%
 \nwixlogsorted{c}{{hiker-output}{RNWhik1-hik13-1}{\nwixd{RNWhik1-hik13-1}\nwixu{RNWhik1-hik11-1}}}%
+\nwixlogsorted{c}{{HikeR-show}{RNWhik1-Hik18-1}{\nwixd{RNWhik1-Hik18-1}\nwixu{RNWhik1-Hik17-1}}}%
 \nwixlogsorted{c}{{hiker.R}{RNWhik1-hik14-1}{\nwixd{RNWhik1-hik14-1}}}%
-\nwixlogsorted{c}{{man-class-HikeR}{RNWhik1-man19-1}{\nwixd{RNWhik1-man19-1}\nwixu{RNWhik1-All16-1}}}%
-\nwixlogsorted{c}{{man-class-PTBB}{RNWhik1-man20-1}{\nwixd{RNWhik1-man20-1}\nwixu{RNWhik1-All16-1}}}%
-\nwixlogsorted{c}{{man-func-hiker}{RNWhik1-man18-1}{\nwixd{RNWhik1-man18-1}\nwixu{RNWhik1-hik14-1}}}%
-\nwixlogsorted{c}{{man-func-score}{RNWhik1-man17-1}{\nwixd{RNWhik1-man17-1}\nwixu{RNWhik1-sco10-1}}}%
+\nwixlogsorted{c}{{HikerMethods.R}{RNWhik1-Hik17-1}{\nwixd{RNWhik1-Hik17-1}}}%
+\nwixlogsorted{c}{{man-class-HikeR}{RNWhik1-man21-1}{\nwixd{RNWhik1-man21-1}\nwixu{RNWhik1-All16-1}}}%
+\nwixlogsorted{c}{{man-class-PTBB}{RNWhik1-man22-1}{\nwixd{RNWhik1-man22-1}\nwixu{RNWhik1-All16-1}}}%
+\nwixlogsorted{c}{{man-func-hiker}{RNWhik1-man20-1}{\nwixd{RNWhik1-man20-1}\nwixu{RNWhik1-hik14-1}}}%
+\nwixlogsorted{c}{{man-func-score}{RNWhik1-man19-1}{\nwixd{RNWhik1-man19-1}\nwixu{RNWhik1-sco10-1}}}%
+\nwixlogsorted{c}{{man-HikeR-show}{RNWhik1-man23-1}{\nwixd{RNWhik1-man23-1}\nwixu{RNWhik1-Hik18-1}}}%
 \nwixlogsorted{c}{{score-avgdiff}{RNWhik1-sco4-1}{\nwixd{RNWhik1-sco4-1}\nwixu{RNWhik1-sco10-1}}}%
 \nwixlogsorted{c}{{score-diffmean}{RNWhik1-sco3-1}{\nwixd{RNWhik1-sco3-1}\nwixu{RNWhik1-sco10-1}}}%
 \nwixlogsorted{c}{{score-entropy}{RNWhik1-sco5-1}{\nwixd{RNWhik1-sco5-1}\nwixu{RNWhik1-sco10-1}}}%
@@ -573,6 +623,7 @@ NULL
 \nwixlogsorted{c}{{score-wrapper}{RNWhik1-sco9-1}{\nwixd{RNWhik1-sco9-1}\nwixu{RNWhik1-sco10-1}}}%
 \nwixlogsorted{c}{{score.R}{RNWhik1-sco10-1}{\nwixd{RNWhik1-sco10-1}}}%
 \nwixlogsorted{i}{{hiker}{hiker}}%
+\nwixlogsorted{i}{{hiker-methods}{hiker-methods}}%
 \nwixlogsorted{i}{{scavgdiff}{scavgdiff}}%
 \nwixlogsorted{i}{{scdiffmean}{scdiffmean}}%
 \nwixlogsorted{i}{{scentropy}{scentropy}}%
@@ -581,8 +632,10 @@ NULL
 \nwixlogsorted{i}{{score}{score}}%
 \nwixlogsorted{i}{{scttype}{scttype}}%
 \nwixlogsorted{i}{{scvote}{scvote}}%
-\nwbegindocs{40}@
+\nwbegindocs{46}@
 
+=======
+>>>>>>> fc5500942d08e7e3b9c052a5993f211793d170e5
 \subsection{Makefile}
 
 
