@@ -469,8 +469,6 @@ setMethod("show",
 
 \section{Appendix}
 
-\subsection{Roxygen Documentation}
-
 \subsection{Documentation of functions}
 
 <<man-func-score>>=
