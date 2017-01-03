@@ -3,6 +3,8 @@
 \docType{class}
 \name{HikeR-class}
 \alias{HikeR-class}
+\alias{bursts}
+\alias{bursts,HikeR-method}
 \alias{peaks}
 \alias{peaks,HikeR-method}
 \alias{show,HikeR-method}
@@ -19,6 +21,8 @@
 \S4method{peaks}{HikeR}(object, h = 0)
 
 \S4method{troughs}{HikeR}(object, h = 0)
+
+\S4method{bursts}{HikeR}(object, h = 0, b = object@k)
 }
 \arguments{
 \item{object}{An object of S4 class \code{HikeR}.}
@@ -27,6 +31,8 @@
 
 \item{h}{\code{numeric}, the threshold value for scores
 to be considered as peaks/troughs.}
+
+\item{b}{\code{integer}, intermittent count of points between peaks.}
 }
 \value{
 Object of S4-class \code{PTBB}.
