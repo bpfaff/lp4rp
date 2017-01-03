@@ -429,6 +429,7 @@ setClass("PTBB", slots = list(pt = "zoo",
                               h = "numeric"))
 @
 
+<<<<<<< HEAD
 
 \subsection{Methods for S4-class 'HikeR'}
 
@@ -589,6 +590,8 @@ NULL
 "SP500"
 @
 
+=======
+>>>>>>> fc5500942d08e7e3b9c052a5993f211793d170e5
 \subsection{Makefile}
 
 
