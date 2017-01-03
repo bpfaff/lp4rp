@@ -305,7 +305,7 @@ hiker <- function(y, k,
                    k = k, scoreby = scoreby, tval = tval, ...)
 <<hiker-output>>
 }
-@ %def hiker
+@
 
 The arguments of the function are [[y]] for the time series object,
 [[k]] for the count of left/right neighbours, and [[scoreby]] for the
