@@ -558,7 +558,7 @@ NULL
 
 <<man-HikeR-show>>=
 #' @rdname HikeR-class
-#' @param object,x An object of S4 class \code{HikeR}.
+#' @param object An object of S4 class \code{HikeR}.
 #' @export
 @
 
