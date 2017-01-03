@@ -449,6 +449,7 @@ skeleton of this file is provided next.
 <<HikeR-show>>
 <<HikeR-summary>>
 <<HikeR-peaks>>
+<<HikeR-troughs>>
 @
 
 

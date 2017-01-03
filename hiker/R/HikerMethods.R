@@ -36,3 +36,15 @@ setMethod("peaks",
         new("PTBB", pt = ans, type = "peak", h = h)
     }
 )
+# generic for extracting troughs
+setGeneric("troughs", function(object, ...) standardGeneric("troughs"))
+#' @rdname HikeR-class
+#' @aliases troughs
+#' @export
+setMethod("troughs",
+    signature(object = "HikeR"),
+    function (object, h = 0) {
+        ans <- object@ys[, 2] < -h
+        new("PTBB", pt = ans, type = "trough", h = h)
+    }
+)

@@ -8,6 +8,8 @@
 \alias{show,HikeR-method}
 \alias{summary}
 \alias{summary,HikeR-method}
+\alias{troughs}
+\alias{troughs,HikeR-method}
 \title{S4 class \code{HikeR}}
 \usage{
 \S4method{show}{HikeR}(object)
@@ -15,6 +17,8 @@
 \S4method{summary}{HikeR}(object, ...)
 
 \S4method{peaks}{HikeR}(object, h = 0)
+
+\S4method{troughs}{HikeR}(object, h = 0)
 }
 \arguments{
 \item{object}{An object of S4 class \code{HikeR}.}
