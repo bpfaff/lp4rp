@@ -467,7 +467,7 @@ setMethod("show",
               print(summary(object))
           }
 )
-@ %def hiker-methods
+@ %def HikerMethods
 
 \subsubsection{\texttt{summary}-method}
 
@@ -479,7 +479,7 @@ setMethod("summary",
               summary(na.omit(coredata(object@ys[, 2])))
           }
 )
-@
+@ %def HikerMethods
 
 
 \section{Appendix}
