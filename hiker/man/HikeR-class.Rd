@@ -3,6 +3,8 @@
 \docType{class}
 \name{HikeR-class}
 \alias{HikeR-class}
+\alias{peaks}
+\alias{peaks,HikeR-method}
 \alias{show,HikeR-method}
 \alias{summary}
 \alias{summary,HikeR-method}
@@ -11,11 +13,19 @@
 \S4method{show}{HikeR}(object)
 
 \S4method{summary}{HikeR}(object, ...)
+
+\S4method{peaks}{HikeR}(object, h = 0)
 }
 \arguments{
 \item{object}{An object of S4 class \code{HikeR}.}
 
 \item{...}{Ellipsis argument.}
+
+\item{h}{\code{numeric}, the threshold value for scores
+to be considered as peaks/troughs.}
+}
+\value{
+Object of S4-class \code{PTBB}.
 }
 \description{
 Formal class for classifying local minima and maxima

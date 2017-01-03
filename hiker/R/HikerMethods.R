@@ -21,3 +21,18 @@ setMethod("summary",
               summary(na.omit(coredata(object@ys[, 2])))
           }
 )
+# generic for extracting peaks
+setGeneric("peaks", function(object, ...) standardGeneric("peaks"))
+#' @rdname HikeR-class
+#' @aliases peaks
+#' @param h \code{numeric}, the threshold value for scores
+#' to be considered as peaks/troughs.
+#' @return Object of S4-class \code{PTBB}.
+#' @export
+setMethod("peaks",
+    signature(object = "HikeR"),
+    function (object, h = 0) {
+        ans <- object@ys[, 2] > h
+        new("PTBB", pt = ans, type = "peak", h = h)
+    }
+)

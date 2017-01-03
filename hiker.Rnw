@@ -448,6 +448,7 @@ skeleton of this file is provided next.
 <<HikerMethods.R>>=
 <<HikeR-show>>
 <<HikeR-summary>>
+<<HikeR-peaks>>
 @
 
 
@@ -479,6 +480,19 @@ setMethod("summary",
 )
 @
 
+\subsubsection{\texttt{peaks}-method}
+<<HikeR-peaks>>=
+# generic for extracting peaks
+setGeneric("peaks", function(object, ...) standardGeneric("peaks"))
+<<man-HikeR-peaks>>
+setMethod("peaks",
+    signature(object = "HikeR"),
+    function (object, h = 0) {
+        ans <- object@ys[, 2] > h
+        new("PTBB", pt = ans, type = "peak", h = h)
+    }
+)
+@
 
 \section{Appendix}
 
@@ -580,6 +594,16 @@ NULL
 #' @param ... Ellipsis argument.
 #' @export
 @
+
+<<man-HikeR-peaks>>=
+#' @rdname HikeR-class
+#' @aliases peaks
+#' @param h \code{numeric}, the threshold value for scores
+#' to be considered as peaks/troughs.
+#' @return Object of S4-class \code{PTBB}.
+#' @export
+@
+
 
 \subsection{Documentation of data set}
 
