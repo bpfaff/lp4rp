@@ -449,6 +449,7 @@ skeleton of this file is provided next.
 
 <<HikerMethods.R>>=
 <<HikeR-show>>
+<<HikeR-summary>>
 @
 
 
@@ -467,6 +468,19 @@ setMethod("show",
           }
 )
 @ %def hiker-methods
+
+\subsubsection{\texttt{summary}-method}
+
+<<HikeR-summary>>=
+<<man-HikeR-summary>>
+setMethod("summary",
+          signature(object = "HikeR"),
+          function (object, ...){
+              summary(na.omit(coredata(object@ys[, 2])))
+          }
+)
+@
+
 
 \section{Appendix}
 
@@ -562,6 +576,12 @@ NULL
 #' @export
 @
 
+<<man-HikeR-summary>>=
+#' @rdname HikeR-class
+#' @aliases summary
+#' @param ... Ellipsis argument.
+#' @export
+@
 
 \subsection{Documentation of data set}
 
@@ -590,8 +610,6 @@ NULL
 "SP500"
 @
 
-=======
->>>>>>> fc5500942d08e7e3b9c052a5993f211793d170e5
 \subsection{Makefile}
 
 
