@@ -450,6 +450,7 @@ skeleton of this file is provided next.
 <<HikeR-summary>>
 <<HikeR-peaks>>
 <<HikeR-troughs>>
+<<HikeR-bursts>>
 @
 
 
@@ -511,6 +512,30 @@ setMethod("troughs",
 )
 @
 
+\subsubsection{\texttt{bursts}-method}
+
+<<HikeR-bursts>>=
+# generic for extracting bursts
+setGeneric("bursts", function(object, ...) standardGeneric("bursts"))
+<<man-HikeR-bursts>>
+setMethod("bursts",
+    signature(object = "HikeR"),
+    function (object, h = 0, b = object@k) {
+        lpts <- object@ys[, 2] > h
+        lidx <- which(lpts == TRUE)
+        nidx <- length(lidx)
+        if ( nidx > 1 ){
+            for ( i in 2:nidx ){
+                didx <- lidx[i] - lidx[i - 1]
+                if ( didx <= b ){
+                    lpts[(lidx[i]):(lidx[i - 1])] <- TRUE
+                }
+            }
+        }
+        ans <- zoo(lpts, order.by = index(object@ys))
+        new("PTBB", pt = ans, type = "burst", h = h)
+})
+@
 
 \section{Appendix}
 
@@ -627,6 +652,17 @@ NULL
 #' @aliases troughs
 #' @export
 @
+
+<<man-HikeR-bursts>>=
+#' @rdname HikeR-class
+#' @aliases bursts
+#' @param b \code{integer}, intermittent count of points between peaks.
+#' @export
+#' @rdname HikeR-class
+#' @aliases busts
+#' @export
+@
+
 
 \subsection{Documentation of data set}
 
