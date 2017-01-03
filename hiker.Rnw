@@ -447,7 +447,7 @@ hightlight/shade the local optima and the phases in between them. All
 of these methods are contained in the file [[hiker-methods.R]]. The
 skeleton of this file is provided next.
 
-<<hiker-methods.R>>=
+<<HikerMethods.R>>=
 <<HikeR-show>>
 @
 
