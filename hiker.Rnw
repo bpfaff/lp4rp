@@ -555,7 +555,7 @@ NULL
 
 \subsection{Documentation of S4-methods}
 
-<<man-HikeR-show>>
+<<man-HikeR-show>>=
 #' @rdname HikeR-class
 #' @param object,x An object of S4 class \code{HikeR}.
 #' @export
