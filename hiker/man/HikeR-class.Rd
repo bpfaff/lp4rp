@@ -4,12 +4,18 @@
 \name{HikeR-class}
 \alias{HikeR-class}
 \alias{show,HikeR-method}
+\alias{summary}
+\alias{summary,HikeR-method}
 \title{S4 class \code{HikeR}}
 \usage{
 \S4method{show}{HikeR}(object)
+
+\S4method{summary}{HikeR}(object, ...)
 }
 \arguments{
 \item{object}{An object of S4 class \code{HikeR}.}
+
+\item{...}{Ellipsis argument.}
 }
 \description{
 Formal class for classifying local minima and maxima
