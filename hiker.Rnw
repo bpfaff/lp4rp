@@ -429,8 +429,6 @@ setClass("PTBB", slots = list(pt = "zoo",
                               h = "numeric"))
 @
 
-<<<<<<< HEAD
-
 \subsection{Methods for S4-class 'HikeR'}
 
 In this section the S4-methods for objects of class [[HikeR]] are
@@ -467,7 +465,7 @@ setMethod("show",
               print(summary(object))
           }
 )
-@ %def HikerMethods
+@
 
 \subsubsection{\texttt{summary}-method}
 
@@ -479,7 +477,7 @@ setMethod("summary",
               summary(na.omit(coredata(object@ys[, 2])))
           }
 )
-@ %def HikerMethods
+@
 
 
 \section{Appendix}
