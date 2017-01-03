@@ -429,6 +429,44 @@ setClass("PTBB", slots = list(pt = "zoo",
                               h = "numeric"))
 @
 
+
+\subsection{Methods for S4-class 'HikeR'}
+
+In this section the S4-methods for objects of class [[HikeR]] are
+discussed. The provided methods are for showing [[show()]],
+summarizing [[summary()]], retrieval of peaks [[peaks()]] and troughs
+[[troughs()]] for this type of objects. Furthermore, the concept of
+bursts phases (close occurrence of peaks with respect to time) and
+busts (close occurrence of troughs with respect to time) are defined
+as methods [[bursts()]] and [[busts()]], respectively. Additional
+methods for characterising the progression of a time series, such as
+`ridges', `phases', `to-peaks' and `to-troughs' are provided,
+too. Finally, a [[plot()]]-method is available whereby the user can
+hightlight/shade the local optima and the phases in between them. All
+of these methods are contained in the file [[hiker-methods.R]]. The
+skeleton of this file is provided next.
+
+<<hiker-methods.R>>=
+<<HikeR-show>>
+@
+
+
+\subsubsection{\texttt{show}-method}
+
+<<HikeR-show>>=
+<<man-HikeR-show>>
+setMethod("show",
+          signature(object = "HikeR"), function(object){
+              cat(paste("Peak/trough score computed as: ",
+                        object@scoreby, ".\n", sep = ""))
+              cat(paste("Count of left/right neighbours: ", object@k,
+                        ".\n", sep = ""))
+              cat("\nSummary statistics of scores:\n")
+              print(summary(object))
+          }
+)
+@ %def hiker-methods
+
 \section{Appendix}
 
 \subsection{Roxygen Documentation}
@@ -483,8 +521,8 @@ NULL
 #' @examples
 #' TEX <- SP500[, "TEX"]
 #' ans <- hiker(TEX, k = 8, scoreby = "hybrid", tval = 0.1)
-#' ans
-#' plot(ans)
+#' #ans
+#' #plot(ans)
 #'
 #' @export
 @
@@ -516,6 +554,15 @@ NULL
 #' @slot h \code{numeric}, the threshhold for score evaluation.
 #' @exportClass PTBB
 @
+
+\subsection{Documentation of S4-methods}
+
+<<man-HikeR-show>>
+#' @rdname HikeR-class
+#' @param object,x An object of S4 class \code{HikeR}.
+#' @export
+@
+
 
 \subsection{Documentation of data set}
 
