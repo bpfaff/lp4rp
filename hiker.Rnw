@@ -481,6 +481,7 @@ setMethod("summary",
 @
 
 \subsubsection{\texttt{peaks}-method}
+
 <<HikeR-peaks>>=
 # generic for extracting peaks
 setGeneric("peaks", function(object, ...) standardGeneric("peaks"))
@@ -493,6 +494,22 @@ setMethod("peaks",
     }
 )
 @
+
+\subsubsection{\texttt{troughs}-method}
+
+<<HikeR-troughs>>=
+# generic for extracting troughs
+setGeneric("troughs", function(object, ...) standardGeneric("troughs"))
+<<man-HikeR-troughs>>
+setMethod("troughs",
+    signature(object = "HikeR"),
+    function (object, h = 0) {
+        ans <- object@ys[, 2] < -h
+        new("PTBB", pt = ans, type = "trough", h = h)
+    }
+)
+@
+
 
 \section{Appendix}
 
@@ -604,6 +621,11 @@ NULL
 #' @export
 @
 
+<<man-HikeR-troughs>>=
+#' @rdname HikeR-class
+#' @aliases troughs
+#' @export
+@
 
 \subsection{Documentation of data set}
 
