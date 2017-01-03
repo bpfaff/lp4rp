@@ -309,9 +309,9 @@ hiker <- function(y, k,
 The arguments of the function are [[y]] for the time series object,
 [[k]] for the count of left/right neighbours, and [[scoreby]] for the
 selection of the scoring method. The arguments [[tval]] and [[confby]]
-belong the scoring concepts '' and '', respectively, and the ellipsis
-argument is passed down to the call of [[scentropy()]] for [[scoreby =
-'ent']].\par
+belong the scoring concepts 'ttype' and 'hybrid', respectively, and
+the ellipsis argument is passed down to the call of [[scentropy()]]
+for [[scoreby = 'ent']].\par
 
 The function body consists of three parts. First, the provided
 arguments are checked for their validity (as shown in the following
