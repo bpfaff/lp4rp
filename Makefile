@@ -5,6 +5,7 @@ PKGVERS = $(shell sed -n "s/Version: *\([^ ]*\)/\1/p" ./$(PKGNAME)/DESCRIPTION)
 PKGTAR = $(PKGNAME)_$(PKGVERS).tar.gz
 TEXCMD := pdflatex
 RFILES := Allclasses.R score.R hiker.R
+DFILES := SP500.rda
 
 all: deps tex pdf pkg check
 tex: $(PKGNAME).tex
@@ -28,10 +29,12 @@ pkg: $(PKGNAME).Rnw
 # creating package skeleton
 	if [ ! -d "$(PKGNAME)" ]; then mkdir $(PKGNAME);  fi
 	if [ ! -d "$(PKGNAME)/R" ]; then mkdir $(PKGNAME)/R;  fi
+	if [ ! -d "$(PKGNAME)/data" ]; then mkdir $(PKGNAME)/data;  fi
 # handling R files
 	find ./$(PKGNAME)/R/ -type f -delete
 	mv DESCRIPTION.R $(PKGNAME)/DESCRIPTION
 	mv $(RFILES) $(PKGNAME)/R/
+	mv $(DFILES) $(PKGNAME)/data/
 # handling man files
 	if [ ! -d "$(PKGNAME)/man" ]; then mkdir $(PKGNAME)/man;  fi
 	find ./$(PKGNAME)/man/ -type f -delete

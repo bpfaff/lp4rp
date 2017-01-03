@@ -6,6 +6,7 @@
 \usepackage[round]{natbib}
 \usepackage{noweb}
 \noweboptions{english,longxref}
+\newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
 
 \begin{document}
 
@@ -315,9 +316,18 @@ hiker <- function(y, k,
 \nwindexdefn{hiker}{hiker}{RNWhik1-hik11-1}\eatline
 \nwidentdefs{\\{{hiker}{hiker}}}\nwidentuses{\\{{score}{score}}}\nwindexuse{score}{score}{RNWhik1-hik11-1}\nwendcode{}\nwbegindocs{20}%def hiker
 
+The arguments of the function are \verb?y? for the time series object,
+\verb?k? for the count of left/right neighbours, and \verb?scoreby? for the
+selection of the scoring method. The arguments \verb?tval? and \verb?confby?
+belong the scoring concepts 'ttype' and 'hybrid', respectively, and
+the ellipsis argument is passed down to the call of \verb?scentropy()?
+for \verb?scoreby = 'ent'?.\par
 
-
-
+The function body consists of three parts. First, the provided
+arguments are checked for their validity (as shown in the following
+code chunk). The computation of the scores is accomplished with the
+\verb?rollapply()? function of the package \pkg{zoo}. Finally, the
+returned object is created.\par
 
 \nwenddocs{}\nwbegincode{21}\sublabel{RNWhik1-hik12-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-hik12-1}}}\moddef{hiker-check~{\nwtagstyle{}\subpageref{RNWhik1-hik12-1}}}\endmoddef
     y <- as.zoo(y)
@@ -348,6 +358,15 @@ hiker <- function(y, k,
     scoreby <- match.arg(scoreby)
 \nwendcode{}\nwbegindocs{22}@
 
+Within the check section of the function body, the object \verb?y? is
+first coerced to a \verb?zoo? object and the count of neighbours is
+coerced to a positive integer. Next, the size of the sub-sample for
+computing the scores is assigned to the object \verb?ms?. The remaining
+part consists of ckecks whether the series is univariate and its
+length is at least $2 \times k + 1$. Finally, the scoring method is
+determined from the argument \verb?scoreby? by means of the \verb?match.arg?
+function.\par
+
 \nwenddocs{}\nwbegincode{23}\sublabel{RNWhik1-hik13-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-hik13-1}}}\moddef{hiker-output~{\nwtagstyle{}\subpageref{RNWhik1-hik13-1}}}\endmoddef
     ## merging time series and scores
     ans <- merge(y, s)
@@ -362,6 +381,7 @@ hiker <- function(y, k,
                   hybrid = "hybrid")
     new("HikeR", ys = ans, k = k, scoreby = des, yname = yname)
 \nwendcode{}\nwbegindocs{24}@
+
 
 \nwenddocs{}\nwbegincode{25}\sublabel{RNWhik1-hik14-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-hik14-1}}}\moddef{hiker.R~{\nwtagstyle{}\subpageref{RNWhik1-hik14-1}}}\endmoddef\let\nwnotused=\nwoutput{}
 \LA{}man-func-hiker~{\nwtagstyle{}\subpageref{RNWhik1-man18-1}}\RA{}
@@ -465,7 +485,8 @@ NULL
 #' @family scores
 #'
 #' @references Girish K. Palshikar. Simple Algorithms for
-#' Peak Detection in Time-Series. In \\emph\{Proc. 1st Int. Conf. Advanced Data Analysis,
+#' Peak Detection in Time-Series. In \\emph\{Proc. 1st Int. Conf.
+#' Advanced Data Analysis,
 #' Business Analytics and Intelligence\}, 2009.
 #'
 #' @examples

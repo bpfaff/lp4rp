@@ -54,4 +54,7 @@ If the score is positive, the centre point is tentatively
 classified as a local peak.
 Incidentally, negative scores indicate a local minima.
 }
+\seealso{
+Other scores: \code{\link{hiker}}
+}
 
