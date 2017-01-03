@@ -6,6 +6,7 @@
 \usepackage[round]{natbib}
 \usepackage{noweb}
 \noweboptions{english,longxref}
+\newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
 
 \begin{document}
 
