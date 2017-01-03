@@ -34,7 +34,7 @@ pkg: $(PKGNAME).Rnw
 	find ./$(PKGNAME)/R/ -type f -delete
 	mv DESCRIPTION.R $(PKGNAME)/DESCRIPTION
 	mv $(RFILES) $(PKGNAME)/R/
-	mv $(DFILES) $(PKGNAME)/data/
+	cp $(DFILES) $(PKGNAME)/data/
 # handling man files
 	if [ ! -d "$(PKGNAME)/man" ]; then mkdir $(PKGNAME)/man;  fi
 	find ./$(PKGNAME)/man/ -type f -delete
