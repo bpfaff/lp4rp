@@ -22,6 +22,32 @@
 
 \section{Introduction}
 
+The topic of this article is to elucidate the creation of the R
+package \pkg{hiker} by means of literate programming (henceforth:
+LP). LP has been introduced by \citet{KNU1984}. Its constituent
+characteristic is that the source code of a program as well as the
+documentation thereof resides in the same file. To stay in the example
+of the \pkg{hiker} package: within the file you are currently reading,
+\emph{i.e.}, \texttt{hiker.Rnw}, the whole R source code of the
+package as well as an explanation of it, is provided.\footnote{This
+  file and the requirements for generating the R package \pkg{hiker}
+  are made available on GitHub as
+  project \href{https://github.com/bpfaff/lp4rp}{lp4rp}.}
+This file can then be processed by the facilities offered in the R package
+\pkg{Rnoweb} \citep[see][]{IHA2013}. \pkg{Rnoweb} is a
+reimplementation of the \texttt{noweb} software \citep[see][]{RAM1994}
+written entirely in R. Creating the whole R package \pkg{hiker} by
+mere processing (tangling of the R code) of this file, is however not
+entirely true. Given that R packages must meet certain requirements
+with respect to the directory structure and the documentation of the
+provided functions, methods and classes, some additional tools become
+neccessary. With respect to setting up the package structure and
+saving the produced R source files into the package's sub-directory
+\texttt{/R}, a \texttt{Makefile} is employed (the content of this file
+is provided in the appendix of this article, see section
+\ref{smake}). The generation of the \texttt{man}-pages is accomplished
+by utilizing the facilities provided in the \pkg{roxygen2} and
+\pkg{devtools} packages \citep[see][respectively]{WIC2015,WIC2016}.
 
 \section{Detecting Peaks/Troughs}
 
@@ -1112,7 +1138,7 @@ NULL
 @
 
 \subsection{Makefile}
-
+\label{smake}
 \VerbatimInput{Makefile}
 
 \newpage
