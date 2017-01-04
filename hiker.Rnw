@@ -408,6 +408,8 @@ LazyData: true
 NULL
 #' @import zoo
 NULL
+#' @importFrom graphics plot
+NULL
 #' @importFrom stats density sd na.omit start end smooth
 NULL
 #' @importFrom utils head tail
@@ -456,6 +458,7 @@ skeleton of this file is provided next.
 <<HikeR-phases>>
 <<HikeR-topeaks>>
 <<HikeR-totroughs>>
+<<HikeR-plot>>
 @
 
 
@@ -675,6 +678,183 @@ setMethod("totroughs",
 })
 @
 
+\subsubsection{\texttt{plot}-method}
+
+<<HikeR-plot>>=
+<<man-HikeR-plot>>
+setMethod("plot",
+    signature(x = "HikeR", y = "missing"),
+    function (x, type = c("series", "score", "both", "zoo"),
+              h = 0, b = x@k, phase = c("none", "pt", "bb"),
+              main = NULL, sub = NULL,
+              pt.peak = list(col = "darkgreen", pch = 19, cex = 0.8),
+              pt.trough = list(col = "darkred", pch = 19, cex = 0.8),
+              area.se = list(col = "lightgray"),
+              area.pb = list(col = "seagreen", density = 20),
+              area.tb = list(col = "red2", density = 20),
+              ...){
+        type <- match.arg(type)
+        phase <- match.arg(phase)
+        N <- nrow(x@ys)
+        xidx <- 1:N
+        if ( is.null(sub) ){
+            sub <- paste("Score method: ", x@scoreby,
+                         ", k = ", x@k, sep = "")
+        }
+        if ( type == "score" ){
+            srange <- range(na.omit(x@ys[, 2]))
+            if ( is.null(main) ){
+                main <- paste("Scores of time series:", x@yname)
+            }
+            plot(c(1, N), srange, axes = FALSE,
+                 main = main,
+                 sub = sub,
+                 xlab = "Time", ylab = "Score", type = "n")
+            do.call(graphics::rect, c(list(xleft = 1,
+                                           ybottom = srange[1],
+                                           xright = x@k,
+                                           ytop = srange[2]),
+                                      area.se))
+            do.call(graphics::rect, c(list(xleft = N - x@k + 1,
+                                           ybottom = srange[1],
+                                           xright = N,
+                                           ytop = srange[2]),
+                                      area.se))
+            graphics::lines(coredata(x@ys[, 2]), type = "h", ...)
+            graphics::abline(h = 0)
+            graphics::abline(h = c(h, -h), col = "red")
+            graphics::box()
+            graphics::axis(1, at = xidx, labels = index(x@ys), tick = FALSE)
+            idx <- pretty(srange)
+            graphics::axis(2, at = idx, labels = idx)
+        }
+        if ( type == "series" ){
+            yrange <- range(na.omit(x@ys[, 1]))
+            if ( is.null(main) ){
+                if ( phase == "none" ){
+                    main <- paste("Peaks and Troughs of:", x@yname)
+                } else if ( phase == "pt" ){
+                    main <- paste("To-Peak and To-Trough Phases of:", x@yname)
+                }
+                else if ( phase == "bb") {
+                    main <- paste("Burst and Bust Phases of:", x@yname)
+                }
+            }
+            plot(c(1, N), yrange, axes = FALSE,
+                 main = main, sub = sub,
+                 xlab = "Time", ylab = "", type = "n")
+            do.call(graphics::rect, c(list(xleft = 1,
+                                           ybottom = yrange[1],
+                                           xright = x@k,
+                                           ytop = yrange[2]),
+                                      area.se))
+            do.call(graphics::rect, c(list(xleft = N - x@k + 1,
+                                           ybottom = yrange[1],
+                                           xright = N,
+                                           ytop = yrange[2]),
+                                      area.se))
+            graphics::lines(coredata(x@ys[, 1]), ...)
+            peakidx <- which(peaks(x, h = h)@pt == TRUE)
+            ynum <- coredata(x@ys[index(x@ys)[peakidx], 1])
+            do.call(graphics::points, c(list(y = ynum, x = peakidx),
+                                        pt.peak))
+            troughidx <- which(troughs(x, h = h)@pt == TRUE)
+            ynum <- coredata(x@ys[index(x@ys)[troughidx], 1])
+            do.call(graphics::points, c(list(y = ynum, x = troughidx),
+                                        pt.trough))
+            if ( phase  == "bb" ){
+                p <- phases(x, h = h, b = b)
+                pchar <- as.character(coredata(p@pt))
+                burstz <- new("PTBB",
+                              pt = zoo(pchar == "burst",
+                                       order.by = index(p@pt)),
+                              type = "burst",
+                              h = p@h)
+                burstr <- runs(burstz)
+                if ( !is.null(burstr) ) {
+                    xleft <- which(as.character(index(burstz@pt)) %in%
+                                   as.character(burstr[, "From"]))
+                    xright <- which(as.character(index(burstz@pt)) %in%
+                                    as.character(burstr[, "To"]))
+                    for (i in 1:length(xleft)) {
+                        do.call(graphics::rect, c(list(xleft = xleft[i],
+                                                       ybottom = yrange[1],
+                                                       xright = xright[i],
+                                                       ytop = yrange[2]),
+                                                  area.pb))
+                    }
+                }
+                bustz <- new("PTBB",
+                             pt = zoo(pchar == "bust",
+                                      order.by = index(p@pt)),
+                              type = "bust",
+                             h = p@h)
+                bustr <- runs(bustz)
+                if ( !is.null(bustr) ) {
+                    xleft <- which(as.character(index(bustz@pt)) %in%
+                                   as.character(bustr[, "From"]))
+                    xright <- which(as.character(index(bustz@pt)) %in%
+                                    as.character(bustr[, "To"]))
+                    for (i in 1:length(xleft)) {
+                        do.call(graphics::rect, c(list(xleft = xleft[i],
+                                                       ybottom = yrange[1],
+                                                       xright = xright[i],
+                                                       ytop = yrange[2]),
+                                                  area.tb))
+                    }
+                }
+            }
+            if ( phase == "pt" ){
+                top <- topeaks(x, h)
+                topr <- runs(top)
+                tot <- totroughs(x, h)
+                totr <- runs(tot)
+                if ( !is.null(topr) ) {
+                    xleft <- which(as.character(index(top@pt)) %in%
+                                   as.character(topr[, "From"]))
+                    xright <- which(as.character(index(top@pt)) %in%
+                                    as.character(topr[, "To"]))
+                    for (i in 1:length(xleft)) {
+                        do.call(graphics::rect, c(list(xleft = xleft[i],
+                                                       ybottom = yrange[1],
+                                                       xright = xright[i],
+                                                       ytop = yrange[2]),
+                                                  area.pb))
+                    }
+                }
+                if ( !is.null(totr) ) {
+                    xleft <- which(as.character(index(tot@pt)) %in%
+                                   as.character(totr[, "From"]))
+                    xright <- which(as.character(index(tot@pt)) %in%
+                                    as.character(totr[, "To"]))
+                    for (i in 1:length(xleft)) {
+                        do.call(graphics::rect, c(list(xleft = xleft[i],
+                                                       ybottom = yrange[1],
+                                                       xright = xright[i],
+                                                       ytop = yrange[2]),
+                                                  area.tb))
+                    }
+                }
+            }
+            graphics::box()
+            graphics::axis(1, at = xidx, labels = index(x@ys),
+                           tick = FALSE)
+            idx <- pretty(yrange)
+            graphics::axis(2, at = idx, labels = idx)
+        }
+        if ( type == "both" ){
+            op <- graphics::par(no.readonly = TRUE)
+            graphics::par(mfrow = c(2, 1))
+            plot(x, type = "series", h = h, ...)
+            plot(x, type = "score", h = h, ...)
+            graphics::par(op)
+        }
+        if ( type == "zoo" ){
+            plot(x@ys, ...)
+        }
+    }
+)
+@
 
 \section{Appendix}
 
@@ -828,6 +1008,26 @@ NULL
 #' @aliases totroughs
 #' @export
 @
+
+<<man-HikeR-plot>>=
+#' @rdname HikeR-class
+#' @aliases plot
+#' @param type \code{character}, whether series, scores or both should be plotted.
+#' @param phase \code{character}, whether burst/bust or topeak/totrough phases
+#' should be drawn in series plot.
+#' @param pt.peak \code{list}, named elements are passed to \code{graphics::points()}.
+#' @param main \code{character}, main title of plot.
+#' @param sub \code{character}, sub title of plot
+#' @param pt.trough \code{list}, named elements are passed to \code{graphics::points()}.
+#' @param area.se \code{list}, named elements are passed to \code{graphics::rect()}
+#' for areas of pre- and post sample points.
+#' @param area.pb \code{list}, named elements are passed to \code{graphics::rect()}
+#' for 'to-peak' or 'burst' phases.
+#' @param area.tb \code{list}, named elements are passed to \code{graphics::rect()}
+#' for 'to-trough' or 'bust' phases.
+#' @export
+@
+
 
 \subsection{Documentation of data set}
 

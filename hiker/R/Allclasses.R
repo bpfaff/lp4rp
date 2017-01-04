@@ -2,6 +2,8 @@
 NULL
 #' @import zoo
 NULL
+#' @importFrom graphics plot
+NULL
 #' @importFrom stats density sd na.omit start end smooth
 NULL
 #' @importFrom utils head tail

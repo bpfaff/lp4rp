@@ -11,6 +11,8 @@
 \alias{peaks,HikeR-method}
 \alias{phases}
 \alias{phases,HikeR-method}
+\alias{plot}
+\alias{plot,HikeR,missing-method}
 \alias{ridges}
 \alias{ridges,HikeR-method}
 \alias{show,HikeR-method}
@@ -43,6 +45,13 @@
 \S4method{topeaks}{HikeR}(object, h = 0)
 
 \S4method{totroughs}{HikeR}(object, h = 0)
+
+\S4method{plot}{HikeR,missing}(x, type = c("series", "score", "both", "zoo"),
+  h = 0, b = x@k, phase = c("none", "pt", "bb"), main = NULL,
+  sub = NULL, pt.peak = list(col = "darkgreen", pch = 19, cex = 0.8),
+  pt.trough = list(col = "darkred", pch = 19, cex = 0.8), area.se = list(col
+  = "lightgray"), area.pb = list(col = "seagreen", density = 20),
+  area.tb = list(col = "red2", density = 20), ...)
 }
 \arguments{
 \item{object}{An object of S4 class \code{HikeR}.}
@@ -53,6 +62,28 @@
 to be considered as peaks/troughs.}
 
 \item{b}{\code{integer}, intermittent count of points between peaks.}
+
+\item{type}{\code{character}, whether series, scores or both should be plotted.}
+
+\item{phase}{\code{character}, whether burst/bust or topeak/totrough phases
+should be drawn in series plot.}
+
+\item{main}{\code{character}, main title of plot.}
+
+\item{sub}{\code{character}, sub title of plot}
+
+\item{pt.peak}{\code{list}, named elements are passed to \code{graphics::points()}.}
+
+\item{pt.trough}{\code{list}, named elements are passed to \code{graphics::points()}.}
+
+\item{area.se}{\code{list}, named elements are passed to \code{graphics::rect()}
+for areas of pre- and post sample points.}
+
+\item{area.pb}{\code{list}, named elements are passed to \code{graphics::rect()}
+for 'to-peak' or 'burst' phases.}
+
+\item{area.tb}{\code{list}, named elements are passed to \code{graphics::rect()}
+for 'to-trough' or 'bust' phases.}
 }
 \value{
 Object of S4-class \code{PTBB}.
