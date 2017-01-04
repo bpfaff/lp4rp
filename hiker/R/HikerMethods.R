@@ -134,3 +134,45 @@ setMethod("phases",
         ans <- zoo(ans, order.by = index(object@ys))
         new("PTBB", pt = ans, type = "phase", h = h)
 })
+# generic for extracting topeaks
+setGeneric("topeaks", function(object, ...) standardGeneric("topeaks"))
+#' @rdname HikeR-class
+#' @aliases topeaks
+#' @export
+setMethod("topeaks",
+    signature(object = "HikeR"),
+    function (object, h = 0) {
+        N <- nrow(object@ys)
+        k <- object@k
+        ans <- zoo(rep(TRUE, N), order.by = index(object@ys))
+        ans[1:k] <- NA
+        ans[(N - k + 1):N] <- NA
+        peakp <- peaks(object, h)@pt
+        pidx <- which(peakp == TRUE)
+        npidx <- length(pidx)
+        troup <- troughs(object, h)@pt
+        tidx <- which(troup == TRUE)
+        ntidx <- length(tidx)
+        if ( npidx == 0 ){
+            warning("\nNo local peak points.\n")
+            return(NULL)
+        }
+        if ( ntidx == 0 ){
+            warning("\nNo local trough points.\n")
+            return(NULL)
+        }
+        ## if trough comes first, set prior points to FALSE
+        if ( tidx[1] < pidx[1] ){
+            ans[(k + 1):tidx[1]] <- FALSE
+        }
+        for ( i in 1:ntidx ) {
+            previouspeaks <- which(pidx < tidx[i])
+            countpreviouspeaks <- length(previouspeaks)
+            if ( countpreviouspeaks > 0 ){
+                maxpos <- which.max(object@ys[pidx[previouspeaks], 1])
+                ans[(pidx[maxpos] + 1):tidx[i]] <- FALSE
+                pidx <- pidx[-c(1:countpreviouspeaks)]
+            }
+        }
+        new("PTBB", pt = ans, type = "topeak", h = h)
+})
