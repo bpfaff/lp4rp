@@ -9,6 +9,8 @@
 \alias{busts,HikeR-method}
 \alias{peaks}
 \alias{peaks,HikeR-method}
+\alias{phases}
+\alias{phases,HikeR-method}
 \alias{ridges}
 \alias{ridges,HikeR-method}
 \alias{show,HikeR-method}
@@ -31,6 +33,8 @@
 \S4method{busts}{HikeR}(object, h = 0, b = object@k)
 
 \S4method{ridges}{HikeR}(object, h = 0, b = object@k)
+
+\S4method{phases}{HikeR}(object, h = 0, b = object@k)
 }
 \arguments{
 \item{object}{An object of S4 class \code{HikeR}.}

@@ -113,3 +113,24 @@ setMethod("ridges",
         ans[(N - k + 1):N] <- NA
         new("PTBB", pt = ans, type = "ridge", h = h)
 })
+# generic for computing phases
+setGeneric("phases", function(object, ...) standardGeneric("phases"))
+#' @rdname HikeR-class
+#' @aliases phases
+#' @export
+setMethod("phases",
+    signature(object = "HikeR"),
+    function (object, h = 0, b = object@k) {
+        N <- nrow(object@ys)
+        ans <- rep(NA, N)
+        bustp <- busts(object, h = h, b = b)@pt
+        ans[which(bustp == TRUE)] <- "bust"
+        burstp <- bursts(object, h = h, b = b)@pt
+        burstp
+        ans[which(burstp == TRUE)] <- "burst"
+        ridgep <- ridges(object, h = h, b = b)@pt
+        ans[which(ridgep == TRUE)] <- "ridge"
+        ans <- factor(ans)
+        ans <- zoo(ans, order.by = index(object@ys))
+        new("PTBB", pt = ans, type = "phase", h = h)
+})
