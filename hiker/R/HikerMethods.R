@@ -54,9 +54,6 @@ setGeneric("bursts", function(object, ...) standardGeneric("bursts"))
 #' @aliases bursts
 #' @param b \code{integer}, intermittent count of points between peaks.
 #' @export
-#' @rdname HikeR-class
-#' @aliases busts
-#' @export
 setMethod("bursts",
     signature(object = "HikeR"),
     function (object, h = 0, b = object@k) {
@@ -73,4 +70,26 @@ setMethod("bursts",
         }
         ans <- zoo(lpts, order.by = index(object@ys))
         new("PTBB", pt = ans, type = "burst", h = h)
+})
+# generic for extracting busts
+setGeneric("busts", function(object, ...) standardGeneric("busts"))
+#' @rdname HikeR-class
+#' @aliases busts
+#' @export
+setMethod("busts",
+    signature(object = "HikeR"),
+    function (object, h = 0, b = object@k) {
+        lpts <- object@ys[, 2] < h
+        lidx <- which(lpts == TRUE)
+        nidx <- length(lidx)
+        if ( nidx > 1 ){
+            for ( i in 2:nidx ){
+                didx <- lidx[i] - lidx[i - 1]
+                if ( didx <= b ){
+                    lpts[(lidx[i]):(lidx[i - 1])] <- TRUE
+                }
+            }
+        }
+        ans <- zoo(lpts, order.by = index(object@ys))
+        new("PTBB", pt = ans, type = "bust", h = h)
 })

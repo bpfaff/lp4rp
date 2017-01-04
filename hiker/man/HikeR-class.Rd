@@ -5,6 +5,8 @@
 \alias{HikeR-class}
 \alias{bursts}
 \alias{bursts,HikeR-method}
+\alias{busts}
+\alias{busts,HikeR-method}
 \alias{peaks}
 \alias{peaks,HikeR-method}
 \alias{show,HikeR-method}
@@ -23,6 +25,8 @@
 \S4method{troughs}{HikeR}(object, h = 0)
 
 \S4method{bursts}{HikeR}(object, h = 0, b = object@k)
+
+\S4method{busts}{HikeR}(object, h = 0, b = object@k)
 }
 \arguments{
 \item{object}{An object of S4 class \code{HikeR}.}
