@@ -33,7 +33,7 @@ data point of a time series. The first and last
 \examples{
 TEX <- SP500[, "TEX"]
 ans <- hiker(TEX, k = 8, scoreby = "hybrid", tval = 0.1)
-#ans
+ans
 #plot(ans)
 
 }

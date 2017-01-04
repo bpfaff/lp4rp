@@ -455,6 +455,7 @@ skeleton of this file is provided next.
 <<HikeR-ridges>>
 <<HikeR-phases>>
 <<HikeR-topeaks>>
+<<HikeR-totroughs>>
 @
 
 
@@ -658,6 +659,23 @@ setMethod("topeaks",
 })
 @
 
+\subsubsection{\texttt{totroughs}-method}
+
+<<HikeR-totroughs>>=
+# generic for extracting totroughs
+setGeneric("totroughs", function(object, ...) standardGeneric("totroughs"))
+<<man-HikeR-totroughs>>
+setMethod("totroughs",
+    signature(object = "HikeR"),
+    function (object, h = 0) {
+        ans <- topeaks(object, h)
+        ans@pt <- !ans@pt
+        ans@type <- "tottrough"
+        ans
+})
+@
+
+
 \section{Appendix}
 
 \subsection{Documentation of functions}
@@ -710,7 +728,7 @@ NULL
 #' @examples
 #' TEX <- SP500[, "TEX"]
 #' ans <- hiker(TEX, k = 8, scoreby = "hybrid", tval = 0.1)
-#' #ans
+#' ans
 #' #plot(ans)
 #'
 #' @export
@@ -802,6 +820,12 @@ NULL
 <<man-HikeR-topeaks>>=
 #' @rdname HikeR-class
 #' @aliases topeaks
+#' @export
+@
+
+<<man-HikeR-totroughs>>=
+#' @rdname HikeR-class
+#' @aliases totroughs
 #' @export
 @
 

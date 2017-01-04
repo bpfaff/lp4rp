@@ -18,6 +18,8 @@
 \alias{summary,HikeR-method}
 \alias{topeaks}
 \alias{topeaks,HikeR-method}
+\alias{totroughs}
+\alias{totroughs,HikeR-method}
 \alias{troughs}
 \alias{troughs,HikeR-method}
 \title{S4 class \code{HikeR}}
@@ -39,6 +41,8 @@
 \S4method{phases}{HikeR}(object, h = 0, b = object@k)
 
 \S4method{topeaks}{HikeR}(object, h = 0)
+
+\S4method{totroughs}{HikeR}(object, h = 0)
 }
 \arguments{
 \item{object}{An object of S4 class \code{HikeR}.}

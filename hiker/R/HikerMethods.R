@@ -176,3 +176,16 @@ setMethod("topeaks",
         }
         new("PTBB", pt = ans, type = "topeak", h = h)
 })
+# generic for extracting totroughs
+setGeneric("totroughs", function(object, ...) standardGeneric("totroughs"))
+#' @rdname HikeR-class
+#' @aliases totroughs
+#' @export
+setMethod("totroughs",
+    signature(object = "HikeR"),
+    function (object, h = 0) {
+        ans <- topeaks(object, h)
+        ans@pt <- !ans@pt
+        ans@type <- "tottrough"
+        ans
+})
