@@ -401,7 +401,7 @@ LazyData: true
 
 
 
-\subsection{Import directives and S4-classes}
+\subsection{Import directives, S4-classes and generics}
 
 <<Allclasses.R>>=
 #' @import methods
@@ -430,6 +430,29 @@ setClass("PTBB", slots = list(pt = "zoo",
                               type = "character",
                               h = "numeric"))
 @
+
+<<Allgenerics.R>>=
+# generic for extracting peaks
+setGeneric("peaks", function(object, ...) standardGeneric("peaks"))
+# generic for extracting troughs
+setGeneric("troughs", function(object, ...) standardGeneric("troughs"))
+# generic for extracting bursts
+setGeneric("bursts", function(object, ...) standardGeneric("bursts"))
+# generic for extracting busts
+setGeneric("busts", function(object, ...) standardGeneric("busts"))
+# generic for computing ridges
+setGeneric("ridges", function(object, ...) standardGeneric("ridges"))
+# generic for computing phases
+setGeneric("phases", function(object, ...) standardGeneric("phases"))
+# generic for extracting topeaks
+setGeneric("topeaks", function(object, ...) standardGeneric("topeaks"))
+# generic for extracting totroughs
+setGeneric("totroughs", function(object, ...) standardGeneric("totroughs"))
+# generic for computing runs
+setGeneric("runs", function(x) standardGeneric("runs"))
+@
+
+
 
 \subsection{Methods for S4-class 'HikeR'}
 
@@ -493,8 +516,6 @@ setMethod("summary",
 \subsubsection{\texttt{peaks}-method}
 
 <<HikeR-peaks>>=
-# generic for extracting peaks
-setGeneric("peaks", function(object, ...) standardGeneric("peaks"))
 <<man-HikeR-peaks>>
 setMethod("peaks",
     signature(object = "HikeR"),
@@ -508,8 +529,6 @@ setMethod("peaks",
 \subsubsection{\texttt{troughs}-method}
 
 <<HikeR-troughs>>=
-# generic for extracting troughs
-setGeneric("troughs", function(object, ...) standardGeneric("troughs"))
 <<man-HikeR-troughs>>
 setMethod("troughs",
     signature(object = "HikeR"),
@@ -523,8 +542,6 @@ setMethod("troughs",
 \subsubsection{\texttt{bursts}-method}
 
 <<HikeR-bursts>>=
-# generic for extracting bursts
-setGeneric("bursts", function(object, ...) standardGeneric("bursts"))
 <<man-HikeR-bursts>>
 setMethod("bursts",
     signature(object = "HikeR"),
@@ -548,8 +565,6 @@ setMethod("bursts",
 \subsubsection{\texttt{busts}-method}
 
 <<HikeR-busts>>=
-# generic for extracting busts
-setGeneric("busts", function(object, ...) standardGeneric("busts"))
 <<man-HikeR-busts>>
 setMethod("busts",
     signature(object = "HikeR"),
@@ -573,8 +588,6 @@ setMethod("busts",
 \subsubsection{\texttt{ridges}-method}
 
 <<HikeR-ridges>>=
-# generic for computing ridges
-setGeneric("ridges", function(object, ...) standardGeneric("ridges"))
 <<man-HikeR-ridges>>
 setMethod("ridges",
     signature(object = "HikeR"),
@@ -596,8 +609,6 @@ setMethod("ridges",
 \subsubsection{\texttt{phases}-method}
 
 <<HikeR-phases>>=
-# generic for computing phases
-setGeneric("phases", function(object, ...) standardGeneric("phases"))
 <<man-HikeR-phases>>
 setMethod("phases",
     signature(object = "HikeR"),
@@ -620,8 +631,6 @@ setMethod("phases",
 \subsubsection{\texttt{topeaks}-method}
 
 <<HikeR-topeaks>>=
-# generic for extracting topeaks
-setGeneric("topeaks", function(object, ...) standardGeneric("topeaks"))
 <<man-HikeR-topeaks>>
 setMethod("topeaks",
     signature(object = "HikeR"),
@@ -665,8 +674,6 @@ setMethod("topeaks",
 \subsubsection{\texttt{totroughs}-method}
 
 <<HikeR-totroughs>>=
-# generic for extracting totroughs
-setGeneric("totroughs", function(object, ...) standardGeneric("totroughs"))
 <<man-HikeR-totroughs>>
 setMethod("totroughs",
     signature(object = "HikeR"),
@@ -856,6 +863,43 @@ setMethod("plot",
 )
 @
 
+\subsection{\texttt{runs}-method for S4-class 'PTBB'}
+
+<<PtbbMethods.R>>=
+<<man-PTBB-runs>>
+setMethod("runs",
+          signature(x = "PTBB"), function(x){
+              if ( any(na.omit(x@pt)) ){
+                  p <- as.numeric(coredata(x@pt))
+                  run <- rle(p)
+                  peakruns <- which(run$values == 1)
+                  cumidx <- cumsum(run$lengths)
+                  n <- length(cumidx)
+                  xidxright <- cumidx
+                  xidxleft <- c(1, cumidx + 1)[-c(n + 1)]
+                  xidx <- cbind(xidxleft, xidxright)
+                  peakidx <- xidx[peakruns, ]
+                  runscount <- nrow(xidx)
+                  runsidx <- 1:runscount
+                  ans <- sapply(runsidx, function(i)
+                      x@pt[xidx[i, 1]:xidx[i, 2]])
+                  pidx <- which(unlist(lapply(ans, function(r)
+                      is.element(TRUE, r[1]))))
+                  anstrue <- ans[pidx]
+                  per <- lapply(anstrue, function(i)
+                      data.frame(start(i), end(i)))
+                  ans <- data.frame(do.call("rbind", per))
+                  ans[, "Type"] <- x@type
+                  colnames(ans) <- c("From", "To", "Type")
+                  return(ans)
+              } else {
+                  return(NULL)
+              }
+          }
+)
+@
+
+
 \section{Appendix}
 
 \subsection{Documentation of functions}
@@ -909,7 +953,7 @@ NULL
 #' TEX <- SP500[, "TEX"]
 #' ans <- hiker(TEX, k = 8, scoreby = "hybrid", tval = 0.1)
 #' ans
-#' #plot(ans)
+#' plot(ans)
 #'
 #' @export
 @
@@ -1012,6 +1056,7 @@ NULL
 <<man-HikeR-plot>>=
 #' @rdname HikeR-class
 #' @aliases plot
+#' @param x An object of S4 class \code{HikeR}.
 #' @param type \code{character}, whether series, scores or both should be plotted.
 #' @param phase \code{character}, whether burst/bust or topeak/totrough phases
 #' should be drawn in series plot.
@@ -1025,6 +1070,13 @@ NULL
 #' for 'to-peak' or 'burst' phases.
 #' @param area.tb \code{list}, named elements are passed to \code{graphics::rect()}
 #' for 'to-trough' or 'bust' phases.
+#' @export
+@
+
+<<man-PTBB-runs>>=
+#' @rdname PTBB-class
+#' @aliases runs
+#' @param x An object of S4 class \code{PTBB}.
 #' @export
 @
 

@@ -63,6 +63,8 @@ to be considered as peaks/troughs.}
 
 \item{b}{\code{integer}, intermittent count of points between peaks.}
 
+\item{x}{An object of S4 class \code{HikeR}.}
+
 \item{type}{\code{character}, whether series, scores or both should be plotted.}
 
 \item{phase}{\code{character}, whether burst/bust or topeak/totrough phases

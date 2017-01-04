@@ -21,8 +21,6 @@ setMethod("summary",
               summary(na.omit(coredata(object@ys[, 2])))
           }
 )
-# generic for extracting peaks
-setGeneric("peaks", function(object, ...) standardGeneric("peaks"))
 #' @rdname HikeR-class
 #' @aliases peaks
 #' @param h \code{numeric}, the threshold value for scores
@@ -36,8 +34,6 @@ setMethod("peaks",
         new("PTBB", pt = ans, type = "peak", h = h)
     }
 )
-# generic for extracting troughs
-setGeneric("troughs", function(object, ...) standardGeneric("troughs"))
 #' @rdname HikeR-class
 #' @aliases troughs
 #' @export
@@ -48,8 +44,6 @@ setMethod("troughs",
         new("PTBB", pt = ans, type = "trough", h = h)
     }
 )
-# generic for extracting bursts
-setGeneric("bursts", function(object, ...) standardGeneric("bursts"))
 #' @rdname HikeR-class
 #' @aliases bursts
 #' @param b \code{integer}, intermittent count of points between peaks.
@@ -71,8 +65,6 @@ setMethod("bursts",
         ans <- zoo(lpts, order.by = index(object@ys))
         new("PTBB", pt = ans, type = "burst", h = h)
 })
-# generic for extracting busts
-setGeneric("busts", function(object, ...) standardGeneric("busts"))
 #' @rdname HikeR-class
 #' @aliases busts
 #' @export
@@ -93,8 +85,6 @@ setMethod("busts",
         ans <- zoo(lpts, order.by = index(object@ys))
         new("PTBB", pt = ans, type = "bust", h = h)
 })
-# generic for computing ridges
-setGeneric("ridges", function(object, ...) standardGeneric("ridges"))
 #' @rdname HikeR-class
 #' @aliases ridges
 #' @export
@@ -113,8 +103,6 @@ setMethod("ridges",
         ans[(N - k + 1):N] <- NA
         new("PTBB", pt = ans, type = "ridge", h = h)
 })
-# generic for computing phases
-setGeneric("phases", function(object, ...) standardGeneric("phases"))
 #' @rdname HikeR-class
 #' @aliases phases
 #' @export
@@ -134,8 +122,6 @@ setMethod("phases",
         ans <- zoo(ans, order.by = index(object@ys))
         new("PTBB", pt = ans, type = "phase", h = h)
 })
-# generic for extracting topeaks
-setGeneric("topeaks", function(object, ...) standardGeneric("topeaks"))
 #' @rdname HikeR-class
 #' @aliases topeaks
 #' @export
@@ -176,8 +162,6 @@ setMethod("topeaks",
         }
         new("PTBB", pt = ans, type = "topeak", h = h)
 })
-# generic for extracting totroughs
-setGeneric("totroughs", function(object, ...) standardGeneric("totroughs"))
 #' @rdname HikeR-class
 #' @aliases totroughs
 #' @export
@@ -191,6 +175,7 @@ setMethod("totroughs",
 })
 #' @rdname HikeR-class
 #' @aliases plot
+#' @param x An object of S4 class \code{HikeR}.
 #' @param type \code{character}, whether series, scores or both should be plotted.
 #' @param phase \code{character}, whether burst/bust or topeak/totrough phases
 #' should be drawn in series plot.
