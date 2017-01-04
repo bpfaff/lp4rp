@@ -6,7 +6,10 @@
 \usepackage[round]{natbib}
 \usepackage{noweb}
 \noweboptions{english,longxref}
+\usepackage{fancyvrb}
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{frame=lines, fontsize=\footnotesize}
 \newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
+
 
 \begin{document}
 
@@ -1173,6 +1176,7 @@ NULL
 
 \subsection{Makefile}
 
+\VerbatimInput{Makefile}
 
 \newpage
 \section{Chunk Index}
