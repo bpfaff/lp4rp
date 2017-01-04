@@ -93,3 +93,23 @@ setMethod("busts",
         ans <- zoo(lpts, order.by = index(object@ys))
         new("PTBB", pt = ans, type = "bust", h = h)
 })
+# generic for computing ridges
+setGeneric("ridges", function(object, ...) standardGeneric("ridges"))
+#' @rdname HikeR-class
+#' @aliases ridges
+#' @export
+setMethod("ridges",
+    signature(object = "HikeR"),
+    function (object, h = 0, b = object@k) {
+        N <- nrow(object@ys)
+        k <- object@k
+        bustp <- busts(object, h = h, b = b)@pt
+        burstp <- bursts(object, h = h, b = b)@pt
+        bbp <- cbind(bustp, burstp)
+        ans <- zoo(FALSE, order.by = index(bustp))
+        ridx <- which ( (rowSums(bbp) > 1) | (rowSums(bbp) < 1) )
+        ans[ridx] <- TRUE
+        ans[1:object@k] <- NA
+        ans[(N - k + 1):N] <- NA
+        new("PTBB", pt = ans, type = "ridge", h = h)
+})
