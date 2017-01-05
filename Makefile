@@ -20,6 +20,7 @@ $(PKGNAME).tex: $(PKGNAME).Rnw
 
 $(PKGNAME).pdf: $(PKGNAME).tex
 	$(TEXCMD) $<
+	$(TEXCMD) $<
 	bibtex $(PKGNAME).aux
 	$(TEXCMD) $<
 	$(TEXCMD) $<

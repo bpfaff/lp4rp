@@ -32,7 +32,7 @@ of the \pkg{hiker} package: within the file you are currently reading,
 \emph{i.e.}, \texttt{hiker.Rnw}, the whole R source code of the
 package as well as an explanation of it, is provided.\footnote{This
   file and the requirements for generating the R package \pkg{hiker}
-  are made available on GitHub as
+  are made available on github as
   project \href{https://github.com/bpfaff/lp4rp}{lp4rp}.}
 This file can then be processed by the facilities offered in the R package
 \pkg{Rnoweb} \citep[see][]{IHA2013}. \pkg{Rnoweb} is a
@@ -75,14 +75,16 @@ methods and functions provided by the package.
 \label{S2}
 
 \subsection{Notation}
+\label{S2SS1}
+
 A uniformly sampled time series $\mathbf{y} = \{y_1, \ldots, y_i,
 \ldots, y_T\}$ with $T$ data points is considered. The detection of
 peak/trough points is achieved by a function $S(i, y_i, T)$ that
 returns for data point $y_i$ a score value.\footnote{It suffices to
   provide a score function for peaks only. Trough points can be
   detected by using the negative values of the series $\mathbf{y}$.}.
-If this score value surpasses a user-provided threshhold value
-$\theta$, /i.e/, $S(i, y_i, T) \ge \theta$ then the point is
+If this score value surpasses a user-provided threshold value
+$\theta$, \emph{i.e}, $S(i, y_i, T) \ge \theta$ then the point is
 considered as a local peak/trough.\par
 
 Furthermore, in case local peak/trough points appear closely together
@@ -90,29 +92,32 @@ with respect to time (clustered), then these points can be classified
 as a burst or bust, respectively.
 
 \subsection{Algorithms}
+\label{S2SS2}
+
 In \citet{PAL2009} five different score functions $S$ have been
-suggested. All have in commom, that a centred window of size $2*k +
+suggested. All have in common, that a centered window of size $2*k +
 1 $ around $y_i$ is considered. That is, for a positive integer $k$
-the $k$ right neigbours $N^+(i,k, T) = \{y_{i+1}, \ldots, y_{i + k}\}$
-and the $k$ left neighbours $N^-(i, k, T) = \{\{y_{i-k}, \ldots,
+the $k$ right neighbors $N^+(i,k, T) = \{y_{i+1}, \ldots, y_{i + k}\}$
+and the $k$ left neighbors $N^-(i, k, T) = \{\{y_{i-k}, \ldots,
 y_{i-1}\}$ are employed for assessing $y\_i$ as a local
 peak/trough. The union of $N^-(i, k, T)$ and $N^+(i, k, T)$ is defined
 as $N(i, k, T) = N^-(i, k, T) \mathord{\cdot} N^+(i, k, T)$ and if the
-centre point is included as $N'(i, k, T) = N^-(i, k, T) \mathord{\cdot}
+center point is included as $N'(i, k, T) = N^-(i, k, T) \mathord{\cdot}
 y_i \mathord{\cdot} N^+(i, k, T)$.\par
 
 The first function, $S_1$, computes the score value as the average of
 the maximum differences between $y_i$ with its left and right
-neighbours. The function is defined as:
+neighbors. The function is defined as:
 
 \begin{equation}
-\label{S1}
+\label{EQ1}
 S_1 =
   \frac{\max{(y_i - y_{i-1}, \ldots, y_i - y_{i-k})} + \max{(y_i -
   y_{i+1}, \ldots, y_i - y_{i+k})}}{2}
 \end{equation}
 
-The equation~\eqref{S1} can be casted in R as:
+For a span of a time series $\mathbf{y}$ of length $2k + 1$, denoted
+by \texttt{x}, the equation~\eqref{EQ1} can be casted in R as:
 
 \nwfilename{hiker.Rnw}\nwbegincode{1}\sublabel{RNWhik1-sco1-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco1-1}}}\moddef{score-maxdiff~{\nwtagstyle{}\subpageref{RNWhik1-sco1-1}}}\endmoddef
 scmaxdiff <- function(x, k)\{
@@ -125,11 +130,11 @@ scmaxdiff <- function(x, k)\{
 \nwidentdefs{\\{{scmaxdiff}{scmaxdiff}}}\nwendcode{}\nwbegindocs{2}%def scmaxdiff
 
 Instead of using the maximum differences of $y_i$ with its $k$ left
-and right neighbours as in~\eqref{S1}, an alternative is to compute
+and right neighbors as in~\eqref{EQ1}, an alternative is to compute
 the mean differences and evaluate the average thereof:
 
 \begin{equation}
-\label{S2}
+\label{EQ2}
 S_2 = \frac{\frac{(y_i - y_{i-1}, \ldots, y_i - y_{i-k})}{k} +
 \frac{(y_i - y_{i+1}, \ldots, y_i - y_{i+k})}{k}}{2}
 \end{equation}
@@ -148,16 +153,16 @@ scdiffmean <- function(x, k)\{
 
 Another variation of score computation that has been proposed by
 \citet{PAL2009} is to consider the differences to the mean of the $k$
-left and right neighbours, that is:
+left and right neighbors, that is:
 
 \begin{equation}
-\label{S3}
+\label{EQ3}
 S_3 = \frac{
 (y_i - \frac{(y_{i-1}, \ldots, y_{i-k})}{k}) +
 (y_i - \frac{(y_{i+1}, \ldots, y_{i+k})}{k})}{2}
 \end{equation}
 
-The equation~\eqref{S3} can be casted as R function \verb?scavgdiff?
+The equation~\eqref{EQ3} can be casted as R function \verb?scavgdiff()?
 for instance as follows:
 
 \nwenddocs{}\nwbegincode{5}\sublabel{RNWhik1-sco4-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco4-1}}}\moddef{score-avgdiff~{\nwtagstyle{}\subpageref{RNWhik1-sco4-1}}}\endmoddef
@@ -171,8 +176,8 @@ scavgdiff <- function(x, k)\{
 \nwidentdefs{\\{{scavgdiff}{scavgdiff}}}\nwendcode{}\nwbegindocs{6}%def scavgdiff
 
 The fourth proposed score function differs from the previous three in
-the sense that it does take explicitly the differences between $y_i$
-and its neighbours explicitly into account, but tries to capture its
+the sense that it does take the differences between $y_i$
+and its neighbors explicitly into account, but tries to capture its
 information content by means of relative entropy. The entropy of a
 vector $A$ with elements $A = \{a_1, \ldots, a_m\}$ is given as:
 
@@ -187,7 +192,7 @@ means of a kernel density estimator. The score function is then
 defined as the difference of the entropies:
 
 \begin{equation}
-\label{S4}
+\label{EQ4}
 S_4 = H(N((k, i, T)) - H(N'((k, i, T))
 \end{equation}
 
@@ -212,11 +217,11 @@ scentropy <- function(x, k, ...)\{
 Finally, a moment-based score function has been put forward in the
 article by Palshikar. Hereby, the first and second moment of $N((k, i,
 T))$ are computed and a t-type statistic can be computed as $(y_i - m)
-/ s$. If this statistic surpasses a provided threshhold $h$, then the
+/ s$. If this statistic surpasses a provided threshold $h$, then the
 data point is considered as a local peak/trough.
 
 \begin{equation}
-\label{S5}
+\label{EQ5}
 S_5 =
 \begin{cases}
 1 & (y_i - m) / s \ge h \\
@@ -242,12 +247,11 @@ scttype <- function(x, k, tval)\{
 \nwidentdefs{\\{{scttype}{scttype}}}\nwendcode{}\nwbegindocs{10}%def scttype
 
 Incidentally, an ensemble forecast of these five algorithms can be
-utilized for local peak/trough classification can be employed. Hereby,
-one could either use a hybrid approach, whereby only those
-data points are considered as peak/trough points, if all five methods
-coincide. This concept is casted in the function
-\verb?schybrid()?. Hereby, the signs of all five scoring algorithm are
-tested for equality.
+utilized for local peak/trough classification. Hereby, one could
+either use a hybrid approach, whereby only those data points are
+considered as peak/trough points, if all five methods coincide. This
+concept is casted in the function \verb?schybrid()?. Hereby, the signs of
+all five scoring algorithm are tested for equality.
 
 \nwenddocs{}\nwbegincode{11}\sublabel{RNWhik1-sco7-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco7-1}}}\moddef{score-hybrid~{\nwtagstyle{}\subpageref{RNWhik1-sco7-1}}}\endmoddef
 schybrid <- function(x, k, tval, ...)\{
@@ -270,8 +274,8 @@ It is also conceivable to base the classification on a majority
 vote. For instance, if three out of the five algorithm classify a data
 point as a local peak/trough, then this is taken as sufficient
 evidence. This approach is defined in the function \verb?scvote()? below.
-The count of same 'votes' is set by the argument \texttt{confby}. Its
-default value is $3$, \emph{i.e.} a simple majority. For
+The count of same `votes' is set by the argument \texttt{confby}. Its
+default value is $3$, \emph{i.e.}, a simple majority. For
 \texttt{confby = 5} the function would return the same classification
 as \verb?schybrid()? does.
 
@@ -301,6 +305,14 @@ scvote <- function(x, k, tval, confby = 3, ...)\{
 \nwidentdefs{\\{{scvote}{scvote}}}\nwidentuses{\\{{scavgdiff}{scavgdiff}}\\{{scdiffmean}{scdiffmean}}\\{{scentropy}{scentropy}}\\{{scmaxdiff}{scmaxdiff}}\\{{scttype}{scttype}}}\nwindexuse{scavgdiff}{scavgdiff}{RNWhik1-sco8-1}\nwindexuse{scdiffmean}{scdiffmean}{RNWhik1-sco8-1}\nwindexuse{scentropy}{scentropy}{RNWhik1-sco8-1}\nwindexuse{scmaxdiff}{scmaxdiff}{RNWhik1-sco8-1}\nwindexuse{scttype}{scttype}{RNWhik1-sco8-1}\nwendcode{}\nwbegindocs{14}%def scvote
 
 \subsection{Combining score methods}
+\label{S2SS3}
+
+What has been accomplished so far, are the function definitions of the
+five proposed heuristics and combinations thereof with respect to a
+sub-sample a time series of length $2k + 1$. These functions are
+now combined into a single \verb?score()? function as shown in the
+subsequent R code chunk. The selection of the kind of score
+computation is conducted by calling the \verb?switch()? function.
 
 \nwenddocs{}\nwbegincode{15}\sublabel{RNWhik1-sco9-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco9-1}}}\moddef{score-wrapper~{\nwtagstyle{}\subpageref{RNWhik1-sco9-1}}}\endmoddef
 score <- function(x, k,
@@ -322,7 +334,12 @@ score <- function(x, k,
 \nwindexdefn{score}{score}{RNWhik1-sco9-1}\eatline
 \nwidentdefs{\\{{score}{score}}}\nwidentuses{\\{{scavgdiff}{scavgdiff}}\\{{scdiffmean}{scdiffmean}}\\{{scentropy}{scentropy}}\\{{schybrid}{schybrid}}\\{{scmaxdiff}{scmaxdiff}}\\{{scttype}{scttype}}\\{{scvote}{scvote}}}\nwindexuse{scavgdiff}{scavgdiff}{RNWhik1-sco9-1}\nwindexuse{scdiffmean}{scdiffmean}{RNWhik1-sco9-1}\nwindexuse{scentropy}{scentropy}{RNWhik1-sco9-1}\nwindexuse{schybrid}{schybrid}{RNWhik1-sco9-1}\nwindexuse{scmaxdiff}{scmaxdiff}{RNWhik1-sco9-1}\nwindexuse{scttype}{scttype}{RNWhik1-sco9-1}\nwindexuse{scvote}{scvote}{RNWhik1-sco9-1}\nwendcode{}\nwbegindocs{16}%def score
 
-The content/structure of the file \texttt{score.R} is given as:
+The functions for computing scores are grouped together in the R file
+\verb?score.R? as shown in the next chunk. The function definitions are
+interspersed with the roxygen tags, which will be parsed to the
+\verb?Rd?-file \verb?score.Rd?. Incidentally, only code chunk with names
+ending in \verb?.R? are treated as files that should be tangled and saved
+under the given code chunk's name.
 
 \nwenddocs{}\nwbegincode{17}\sublabel{RNWhik1-sco10-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco10-1}}}\moddef{score.R~{\nwtagstyle{}\subpageref{RNWhik1-sco10-1}}}\endmoddef\let\nwnotused=\nwoutput{}
 \LA{}man-func-score~{\nwtagstyle{}\subpageref{RNWhik1-man31-1}}\RA{}
@@ -343,15 +360,10 @@ The content/structure of the file \texttt{score.R} is given as:
 \LA{}score-vote~{\nwtagstyle{}\subpageref{RNWhik1-sco8-1}}\RA{}
 \nwnotused{score.R}\nwendcode{}\nwbegindocs{18}@
 
-Within this file, all score-related methods and the wrapper-function
-\texttt{score()} is included. The function definitions are
-interspersed with the roxygen tags, which will be parsed to the
-\texttt{Rd}-file \texttt{score.Rd}.\par
-
-So far the function \verb?score()? has been created, by which a single
+So far the wrapper function \verb?score()? has been created, by which a single
 point is assessed for being a local maximum or minimum. For analyzing
-a whole time series for its local extrema, this routine can be applied
-to each data point and its left/right neighbours. This task is
+a whole time series for its local extrema, this routine can then be applied
+to each data point and its left/right neighbors. This task is
 accomplished with the function \verb?hiker()? as defined next.
 
 \nwenddocs{}\nwbegincode{19}\sublabel{RNWhik1-hik11-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-hik11-1}}}\moddef{hiker-func~{\nwtagstyle{}\subpageref{RNWhik1-hik11-1}}}\endmoddef
@@ -368,17 +380,17 @@ hiker <- function(y, k,
 \nwidentuses{\\{{score}{score}}}\nwindexuse{score}{score}{RNWhik1-hik11-1}\nwendcode{}\nwbegindocs{20}@
 
 The arguments of the function are \verb?y? for the time series object,
-\verb?k? for the count of left/right neighbours, and \verb?scoreby? for the
+\verb?k? for the count of left/right neighbors, and \verb?scoreby? for the
 selection of the scoring method. The arguments \verb?tval? and \verb?confby?
-belong the scoring concepts 'ttype' and 'hybrid', respectively, and
+belong the scoring concepts `ttype' and `hybrid', respectively, and
 the ellipsis argument is passed down to the call of \verb?scentropy()?
 for \verb?scoreby = 'ent'?.\par
 
 The function body consists of three parts. First, the provided
 arguments are checked for their validity (as shown in the following
 code chunk). The computation of the scores is accomplished with the
-\verb?rollapply()? function of the package \pkg{zoo}. Finally, the
-returned object is created.\par
+\verb?rollapply()? function of the package \pkg{zoo}
+\citep[see][]{ZEI2005}. Finally, the returned object is created.\par
 
 \nwenddocs{}\nwbegincode{21}\sublabel{RNWhik1-hik12-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-hik12-1}}}\moddef{hiker-check~{\nwtagstyle{}\subpageref{RNWhik1-hik12-1}}}\endmoddef
     y <- as.zoo(y)
@@ -410,13 +422,16 @@ returned object is created.\par
 \nwendcode{}\nwbegindocs{22}@
 
 Within the check section of the function body, the object \verb?y? is
-first coerced to a \verb?zoo? object and the count of neighbours is
+first coerced to a \verb?zoo? object and the count of neighbors is
 coerced to a positive integer. Next, the size of the sub-sample for
 computing the scores is assigned to the object \verb?ms?. The remaining
-part consists of ckecks whether the series is univariate and its
+part consists of checks whether the series is univariate and its
 length is at least $2 \times k + 1$. Finally, the scoring method is
-determined from the argument \verb?scoreby? by means of the \verb?match.arg?
+determined from the argument \verb?scoreby? by means of the \verb?match.arg()?
 function.\par
+
+In the final part of the function body of \verb?hiker()?, the returned
+object is created as depicted in the subsequent R code chunk.
 
 \nwenddocs{}\nwbegincode{23}\sublabel{RNWhik1-hik13-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-hik13-1}}}\moddef{hiker-output~{\nwtagstyle{}\subpageref{RNWhik1-hik13-1}}}\endmoddef
     ## merging time series and scores
@@ -433,6 +448,14 @@ function.\par
     new("HikeR", ys = ans, k = k, scoreby = des, yname = yname)
 \nwendcode{}\nwbegindocs{24}@
 
+First, the time series object \verb?y? is merged with the series of the
+computed scores and assigned to \verb?ans?. Next the type of scoring
+method is stored as character string to \verb?des?. Finally, an object of
+S4-class \verb?HikeR? is created and returned. The definition of this
+formal class is provided in section~\ref{S3SS2}.\par
+
+Given that \verb?hiker()? is the core function of the package, it will be
+stored in its own \verb?hiker.R? file, as commanded by the next chunk.
 
 \nwenddocs{}\nwbegincode{25}\sublabel{RNWhik1-hik14-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-hik14-1}}}\moddef{hiker.R~{\nwtagstyle{}\subpageref{RNWhik1-hik14-1}}}\endmoddef\let\nwnotused=\nwoutput{}
 \LA{}man-func-hiker~{\nwtagstyle{}\subpageref{RNWhik1-man32-1}}\RA{}
@@ -443,6 +466,7 @@ function.\par
 \label{S3}
 
 \subsection{Preliminaries}
+\label{S3SS1}
 
 First, a skeleton of the package
 
@@ -460,6 +484,7 @@ LazyData: true
 \nwnotused{DESCRIPTION.R}\nwendcode{}\nwbegindocs{28}@
 
 \subsection{Import directives, S4-classes and generics}
+\label{S3SS2}
 
 \nwenddocs{}\nwbegincode{29}\sublabel{RNWhik1-All16-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-All16-1}}}\moddef{Allclasses.R~{\nwtagstyle{}\subpageref{RNWhik1-All16-1}}}\endmoddef\let\nwnotused=\nwoutput{}
 #' @import methods
