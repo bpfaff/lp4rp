@@ -21,6 +21,7 @@
 \maketitle
 
 \section{Introduction}
+\label{S1}
 
 The topic of this article is to elucidate the creation of the R
 package \pkg{hiker} by means of literate programming (henceforth:
@@ -41,15 +42,37 @@ mere processing (tangling of the R code) of this file, is however not
 entirely true. Given that R packages must meet certain requirements
 with respect to the directory structure and the documentation of the
 provided functions, methods and classes, some additional tools become
-neccessary. With respect to setting up the package structure and
+necessary. With respect to setting up the package structure and
 saving the produced R source files into the package's sub-directory
 \texttt{/R}, a \texttt{Makefile} is employed (the content of this file
 is provided in the appendix of this article, see section
 \ref{smake}). The generation of the \texttt{man}-pages is accomplished
 by utilizing the facilities provided in the \pkg{roxygen2} and
-\pkg{devtools} packages \citep[see][respectively]{WIC2015,WIC2016}.
+\pkg{devtools} packages \citep[see][respectively]{WIC2015,WIC2016}.\par
+
+What is the package \pkg{hiker}(pronounce as `hike---R') about? Within
+\pkg{hiker} the routines for detecting local peaks/troughs of a time
+series as proposed by \citet{PAL2009} have been implemented. The
+knowledge of these points and the time spans in between these local
+maxima/minima can be utilized for analyzing the behavior of predictor
+variables in up-/down markets of a financial time series, \emph{e.g.},
+a stock price, for instance. Surely, these phases could in principal
+be detected by mere eyeball-econometrics, but this approach becomes
+burdensome if local peaks/troughs of many time series must be
+determined. The package itself is purely written in R and S4-classes
+and methods are employed.\par
+
+In the remainder of this article, the proposed algorithms are
+presented in the subsequent section. The package structure, the
+defined S4-classes with the available methods are discussed in Section
+\ref{S3}. In the Appendix of this paper the documentation of the
+package in the \texttt{roxygen}-format is provided. This organization
+has the advantage that the focus is shifted on the R code snippets
+only and is not interspersed with the documentation of the classes and
+methods and functions provided by the package.
 
 \section{Detecting Peaks/Troughs}
+\label{S2}
 
 \subsection{Notation}
 A uniformly sampled time series $\mathbf{y} = \{y_1, \ldots, y_i,
@@ -417,7 +440,7 @@ function.\par
 \nwnotused{hiker.R}\nwendcode{}\nwbegindocs{26}@
 
 \section{Package structure}
-
+\label{S3}
 
 \subsection{Preliminaries}
 
@@ -435,8 +458,6 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 \nwnotused{DESCRIPTION.R}\nwendcode{}\nwbegindocs{28}@
-
-
 
 \subsection{Import directives, S4-classes and generics}
 
@@ -489,8 +510,6 @@ setGeneric("totroughs", function(object, ...) standardGeneric("totroughs"))
 setGeneric("runs", function(x) standardGeneric("runs"))
 \nwnotused{Allgenerics.R}\nwendcode{}\nwbegindocs{32}@
 
-
-
 \subsection{Methods for S4-class 'HikeR'}
 
 In this section the S4-methods for objects of class \verb?HikeR? are
@@ -520,7 +539,6 @@ skeleton of this file is provided next.
 \LA{}HikeR-totroughs~{\nwtagstyle{}\subpageref{RNWhik1-Hik28-1}}\RA{}
 \LA{}HikeR-plot~{\nwtagstyle{}\subpageref{RNWhik1-Hik29-1}}\RA{}
 \nwnotused{HikerMethods.R}\nwendcode{}\nwbegindocs{34}@
-
 
 \subsubsection{\texttt{show}-method}
 
@@ -938,6 +956,7 @@ setMethod("runs",
 
 
 \section{Appendix}
+\label{S4}
 
 \subsection{Documentation of functions}
 
@@ -1116,7 +1135,6 @@ NULL
 #' @param x An object of S4 class \\code\{PTBB\}.
 #' @export
 \nwendcode{}\nwbegindocs{90}@
-
 
 \subsection{Documentation of data set}
 
