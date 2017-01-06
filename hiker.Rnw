@@ -518,11 +518,18 @@ NULL
 setOldClass("zoo")
 @
 
-
 \subsection{S4-classes and generics}
 \label{S3SS2}
 
-
+Two S4-classes are defined. The first, [[HikeR]], has been
+mentioned briefly in the discussion of the core function
+[[hiker()]]. The class consists of four slots, as shown in the
+subsequent code chunk. Objects of the slot [[ys]] are of class [[zoo]]
+and contain the time series and the score value. The slot [[k]] is of
+type [[integer]] and holds the count of left/right neighbors. The
+character slot [[scoreby]] provides a literal description of the
+employed scoring algorithm and the slot [[yname]] is a character
+string of the time series name.
 
 <<HikerClass>>=
 <<man-class-HikeR>>
@@ -531,6 +538,8 @@ setClass("HikeR", slots = list(ys = "zoo",
                                scoreby = "character",
                                yname = "character"))
 @
+
+
 
 <<PtbbClass>>=
 <<man-class-PTBB>>
