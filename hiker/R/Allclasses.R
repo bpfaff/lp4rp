@@ -11,8 +11,6 @@ NULL
 
 # Setting old (aka S3) classes
 setOldClass("zoo")
-
-
 #' S4 class \code{HikeR}
 #'
 #' Formal class for classifying local minima and maxima
@@ -27,7 +25,6 @@ setClass("HikeR", slots = list(ys = "zoo",
                                k = "integer",
                                scoreby = "character",
                                yname = "character"))
-
 #' S4 class \code{PTBB}
 #'
 #' Formal class for peaks, troughs, burst, busts and

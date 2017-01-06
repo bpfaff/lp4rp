@@ -460,7 +460,14 @@ stored in its own [[hiker.R]] file, as commanded by the next chunk.
 \subsection{Preliminaries}
 \label{S3SS1}
 
-First, a skeleton of the package
+R packages must contain a [[DESCRIPTION]] and a [[NAMESPACE]]
+file. Both reside in the package's root directory. As mentioned
+earlier, only chunks with names ending in `[[.R]]' are saved to disk
+by the tangling function of \pkg{Rnoweb}. Therefore, the content
+of the description file is first, casted in the [[DESCRIPTION.R]]
+file as shown below and is then moved by a directive in the
+[[Makefile]] to the root directory of the package \pkg{hiker} without
+the file's suffix.
 
 <<DESCRIPTION.R>>=
 Package: hiker
@@ -475,10 +482,27 @@ Encoding: UTF-8
 LazyData: true
 @
 
-\subsection{Import directives, S4-classes and generics}
-\label{S3SS2}
+With respect to the creation of the [[NAMESPACE]] file, matters are a
+bit different. The import/export directives contained in this file can
+be written as [[roxygen]] tags and the assembly of the tags and the
+saving of the file under the package's root directory is conducted by
+the [[document()]] function of \pkg{devtools}. Hence, it suffices to
+include the tags in a named chunk with suffix `[[.R]]'. In the case
+\pkg{hiker} the import directives are included in the R-file
+[[Allclasses.R]]. As is indicated by the file name, the definitions of
+the S4-classes will also reside in this file. The skeleton of this
+this file is provided in the subsequent chunk.
 
 <<Allclasses.R>>=
+<<NAMESPACE>>
+<<HikerClass>>
+<<PtbbClass>>
+@
+
+The import directives for the required packages and functions are then
+given as:
+
+<<NAMESPACE>>=
 #' @import methods
 NULL
 #' @import zoo
@@ -492,14 +516,23 @@ NULL
 
 # Setting old (aka S3) classes
 setOldClass("zoo")
+@
 
 
+\subsection{S4-classes and generics}
+\label{S3SS2}
+
+
+
+<<HikerClass>>=
 <<man-class-HikeR>>
 setClass("HikeR", slots = list(ys = "zoo",
                                k = "integer",
                                scoreby = "character",
                                yname = "character"))
+@
 
+<<PtbbClass>>=
 <<man-class-PTBB>>
 setClass("PTBB", slots = list(pt = "zoo",
                               type = "character",
