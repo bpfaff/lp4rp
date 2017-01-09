@@ -526,11 +526,18 @@ NULL
 setOldClass("zoo")
 \nwendcode{}\nwbegindocs{32}@
 
-
 \subsection{S4-classes and generics}
 \label{S3SS2}
 
-
+Two S4-classes are defined. The first, \verb?HikeR?, has been
+mentioned briefly in the discussion of the core function
+\verb?hiker()?. The class consists of four slots, as shown in the
+subsequent code chunk. Objects of the slot \verb?ys? are of class \verb?zoo?
+and contain the time series and the score value. The slot \verb?k? is of
+type \verb?integer? and holds the count of left/right neighbors. The
+character slot \verb?scoreby? provides a literal description of the
+employed scoring algorithm and the slot \verb?yname? is a character
+string of the time series name.
 
 \nwenddocs{}\nwbegincode{33}\sublabel{RNWhik1-Hik18-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik18-1}}}\moddef{HikerClass~{\nwtagstyle{}\subpageref{RNWhik1-Hik18-1}}}\endmoddef
 \LA{}man-class-HikeR~{\nwtagstyle{}\subpageref{RNWhik1-man36-1}}\RA{}
@@ -539,6 +546,19 @@ setClass("HikeR", slots = list(ys = "zoo",
                                scoreby = "character",
                                yname = "character"))
 \nwendcode{}\nwbegindocs{34}@
+
+The \verb?HikeR?-class does not contain explicitly the information
+whether a certain data point is classified as a peak or trough, or
+does belong to a certain phase of the time series progression. This
+lack of explicit information is filled by the S4-class \verb?PTBB?; it is
+a short-hand for
+`\underline{P}eaks\underline{T}roughs\underline{B}urst\underline{B}ust'. Its
+slot \verb?pt? is of informal class \verb?zoo? and is a logical whether a
+data point does belong to one the above mentioned points/phases. The
+slot \verb?type? is a literal description thereof and the employed
+threshold value for making this classification is available in the
+slot \verb?h?. The class definition is provided in the subsequent code
+chunk.
 
 \nwenddocs{}\nwbegincode{35}\sublabel{RNWhik1-Ptb19-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Ptb19-1}}}\moddef{PtbbClass~{\nwtagstyle{}\subpageref{RNWhik1-Ptb19-1}}}\endmoddef
 \LA{}man-class-PTBB~{\nwtagstyle{}\subpageref{RNWhik1-man37-1}}\RA{}

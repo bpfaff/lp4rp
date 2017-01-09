@@ -539,7 +539,18 @@ setClass("HikeR", slots = list(ys = "zoo",
                                yname = "character"))
 @
 
-
+The [[HikeR]]-class does not contain explicitly the information
+whether a certain data point is classified as a peak or trough, or
+does belong to a certain phase of the time series progression. This
+lack of explicit information is filled by the S4-class [[PTBB]]; it is
+a short-hand for
+`\underline{P}eaks\underline{T}roughs\underline{B}urst\underline{B}ust'. Its
+slot [[pt]] is of informal class [[zoo]] and is a logical whether a
+data point does belong to one the above mentioned points/phases. The
+slot [[type]] is a literal description thereof and the employed
+threshold value for making this classification is available in the
+slot [[h]]. The class definition is provided in the subsequent code
+chunk.
 
 <<PtbbClass>>=
 <<man-class-PTBB>>
