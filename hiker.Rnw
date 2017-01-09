@@ -616,6 +616,8 @@ skeleton of this file is provided next.
 @
 
 \subsubsection{\texttt{show}-method}
+The [[show]]-method provides a brief overview of
+[[HikeR]]-objects. Its definition is given in the following chunk.
 
 <<HikeR-show>>=
 <<man-HikeR-show>>
@@ -630,6 +632,12 @@ setMethod("show",
           }
 )
 @
+
+First, the employed scoring-method and the count of left/right
+neighbors is printed \emph{via} the [[cat()]] and [[paste()]]
+functions. Second, the [[summary]]-method is called, which provides
+descriptive statistics of the scores and is formally defined in the
+next section.
 
 \subsubsection{\texttt{summary}-method}
 
