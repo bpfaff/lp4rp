@@ -682,13 +682,20 @@ As before, the [[roxygen]] documention of this method is listed in the
 appendix \ref{S4SS3}.
 
 \subsubsection{\texttt{troughs}-method}
+The mirror of peak detection is the trough classification. The
+method's body is hence defined as the flip-side of the former method,
+whereby the logical statement is casted now with respect to score
+values that are less than the threshold value. The default for the
+threshold is again set to [[h = 0]]. The computed logical array is now
+of type `[[trough]]' and the object of class [[PTBB]] is returned in
+the last line by invoking [[new()]].
 
 <<HikeR-troughs>>=
 <<man-HikeR-troughs>>
 setMethod("troughs",
     signature(object = "HikeR"),
     function (object, h = 0) {
-        ans <- object@ys[, 2] < -h
+        ans <- object@ys[, 2] < h
         new("PTBB", pt = ans, type = "trough", h = h)
     }
 )
