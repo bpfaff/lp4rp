@@ -617,7 +617,9 @@ skeleton of this file is provided next.
 
 \subsubsection{\texttt{show}-method}
 The [[show]]-method provides a brief overview of
-[[HikeR]]-objects. Its definition is given in the following chunk.
+[[HikeR]]-objects. Its definition is given in the following chunk. The
+[[roxygen]] documentation is deferred to the chunk labeled
+[[man-HikeR-show]] and provided in the appendix \ref{S4SS3}.
 
 <<HikeR-show>>=
 <<man-HikeR-show>>
@@ -640,6 +642,11 @@ descriptive statistics of the scores and is formally defined in the
 next section.
 
 \subsubsection{\texttt{summary}-method}
+The [[summary]]-method for numerics is applied to the second column of the
+slot [[ys]], \emph{i.e.}, the computed score values. These numbers are
+extracted from the [[zoo]] object by utilizing the [[coredata()]]
+function. Akin, to the [[show]]-method, the within-package documentation
+is deferred to the appendix.
 
 <<HikeR-summary>>=
 <<man-HikeR-summary>>
@@ -1042,6 +1049,7 @@ setMethod("runs",
 \label{S4}
 
 \subsection{Documentation of functions}
+\label{S4SS1}
 
 <<man-func-score>>=
 #' Basic scoring methods for local minima and maxima
@@ -1099,6 +1107,7 @@ NULL
 
 
 \subsection{Documentation of S4-classes}
+\label{S4SS2}
 
 <<man-class-HikeR>>=
 #' S4 class \code{HikeR}
@@ -1126,6 +1135,7 @@ NULL
 @
 
 \subsection{Documentation of S4-methods}
+\label{S4SS3}
 
 <<man-HikeR-show>>=
 #' @rdname HikeR-class
