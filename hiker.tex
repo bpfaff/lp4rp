@@ -567,6 +567,10 @@ setClass("PTBB", slots = list(pt = "zoo",
                               h = "numeric"))
 \nwendcode{}\nwbegindocs{36}@
 
+Next, the following generic functions are defined in the file
+\verb?Allgenerics.R?. The methods of these generics are discussed in the
+section \ref{S3SS3}.
+
 \nwenddocs{}\nwbegincode{37}\sublabel{RNWhik1-All20-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-All20-1}}}\moddef{Allgenerics.R~{\nwtagstyle{}\subpageref{RNWhik1-All20-1}}}\endmoddef\let\nwnotused=\nwoutput{}
 # generic for extracting peaks
 setGeneric("peaks", function(object, ...) standardGeneric("peaks"))
@@ -589,6 +593,7 @@ setGeneric("runs", function(x) standardGeneric("runs"))
 \nwnotused{Allgenerics.R}\nwendcode{}\nwbegindocs{38}@
 
 \subsection{Methods for S4-class 'HikeR'}
+\label{S3SS3}
 
 In this section the S4-methods for objects of class \verb?HikeR? are
 discussed. The provided methods are for showing \verb?show()?,
@@ -619,6 +624,10 @@ skeleton of this file is provided next.
 \nwnotused{HikerMethods.R}\nwendcode{}\nwbegindocs{40}@
 
 \subsubsection{\texttt{show}-method}
+The \verb?show?-method provides a brief overview of
+\verb?HikeR?-objects. Its definition is given in the following chunk. The
+\verb?roxygen? documentation is deferred to the chunk labeled
+\verb?man-HikeR-show? and provided in the appendix \ref{S4SS3}.
 
 \nwenddocs{}\nwbegincode{41}\sublabel{RNWhik1-Hik22-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik22-1}}}\moddef{HikeR-show~{\nwtagstyle{}\subpageref{RNWhik1-Hik22-1}}}\endmoddef
 \LA{}man-HikeR-show~{\nwtagstyle{}\subpageref{RNWhik1-man38-1}}\RA{}
@@ -634,7 +643,18 @@ setMethod("show",
 )
 \nwendcode{}\nwbegindocs{42}@
 
+First, the employed scoring-method and the count of left/right
+neighbors is printed \emph{via} the \verb?cat()? and \verb?paste()?
+functions. Second, the \verb?summary?-method is called, which provides
+descriptive statistics of the scores and is formally defined in the
+next section.
+
 \subsubsection{\texttt{summary}-method}
+The \verb?summary?-method for numerics is applied to the second column of the
+slot \verb?ys?, \emph{i.e.}, the computed score values. These numbers are
+extracted from the \verb?zoo? object by utilizing the \verb?coredata()?
+function. Akin, to the \verb?show?-method, the within-package documentation
+is deferred to the appendix.
 
 \nwenddocs{}\nwbegincode{43}\sublabel{RNWhik1-Hik23-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik23-1}}}\moddef{HikeR-summary~{\nwtagstyle{}\subpageref{RNWhik1-Hik23-1}}}\endmoddef
 \LA{}man-HikeR-summary~{\nwtagstyle{}\subpageref{RNWhik1-man39-1}}\RA{}
@@ -1037,6 +1057,7 @@ setMethod("runs",
 \label{S4}
 
 \subsection{Documentation of functions}
+\label{S4SS1}
 
 \nwenddocs{}\nwbegincode{65}\sublabel{RNWhik1-man34-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man34-1}}}\moddef{man-func-score~{\nwtagstyle{}\subpageref{RNWhik1-man34-1}}}\endmoddef
 #' Basic scoring methods for local minima and maxima
@@ -1094,6 +1115,7 @@ NULL
 
 
 \subsection{Documentation of S4-classes}
+\label{S4SS2}
 
 \nwenddocs{}\nwbegincode{69}\sublabel{RNWhik1-man36-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man36-1}}}\moddef{man-class-HikeR~{\nwtagstyle{}\subpageref{RNWhik1-man36-1}}}\endmoddef
 #' S4 class \\code\{HikeR\}
@@ -1121,6 +1143,7 @@ NULL
 \nwendcode{}\nwbegindocs{72}@
 
 \subsection{Documentation of S4-methods}
+\label{S4SS3}
 
 \nwenddocs{}\nwbegincode{73}\sublabel{RNWhik1-man38-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man38-1}}}\moddef{man-HikeR-show~{\nwtagstyle{}\subpageref{RNWhik1-man38-1}}}\endmoddef
 #' @rdname HikeR-class
