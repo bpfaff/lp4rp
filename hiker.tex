@@ -667,6 +667,13 @@ setMethod("summary",
 \nwendcode{}\nwbegindocs{44}@
 
 \subsubsection{\texttt{peaks}-method}
+The \verb?peaks?-method is the first in a series of methods for
+classifying the data points in a time series. This and the following
+methods returns an object of formal class \verb?PTBB?. Given that a peak
+is defined as a score value greater than a threshold (the default is
+\verb?h = 0?), the core of the method is the logical statement in the
+first line of the function's body, whether this is true. The remaining
+slot entries of \verb?PTBB? are set directly in the to \verb?new()?.
 
 \nwenddocs{}\nwbegincode{45}\sublabel{RNWhik1-Hik24-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik24-1}}}\moddef{HikeR-peaks~{\nwtagstyle{}\subpageref{RNWhik1-Hik24-1}}}\endmoddef
 \LA{}man-HikeR-peaks~{\nwtagstyle{}\subpageref{RNWhik1-man40-1}}\RA{}
@@ -679,14 +686,24 @@ setMethod("peaks",
 )
 \nwendcode{}\nwbegindocs{46}@
 
+As before, the \verb?roxygen? documention of this method is listed in the
+appendix \ref{S4SS3}.
+
 \subsubsection{\texttt{troughs}-method}
+The mirror of peak detection is the trough classification. The
+method's body is hence defined as the flip-side of the former method,
+whereby the logical statement is casted now with respect to score
+values that are less than the threshold value. The default for the
+threshold is again set to \verb?h = 0?. The computed logical array is now
+of type `\verb?trough?' and the object of class \verb?PTBB? is returned in
+the last line by invoking \verb?new()?.
 
 \nwenddocs{}\nwbegincode{47}\sublabel{RNWhik1-Hik25-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik25-1}}}\moddef{HikeR-troughs~{\nwtagstyle{}\subpageref{RNWhik1-Hik25-1}}}\endmoddef
 \LA{}man-HikeR-troughs~{\nwtagstyle{}\subpageref{RNWhik1-man41-1}}\RA{}
 setMethod("troughs",
     signature(object = "HikeR"),
     function (object, h = 0) \{
-        ans <- object@ys[, 2] < -h
+        ans <- object@ys[, 2] < h
         new("PTBB", pt = ans, type = "trough", h = h)
     \}
 )

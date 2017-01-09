@@ -40,7 +40,7 @@ setMethod("peaks",
 setMethod("troughs",
     signature(object = "HikeR"),
     function (object, h = 0) {
-        ans <- object@ys[, 2] < -h
+        ans <- object@ys[, 2] < h
         new("PTBB", pt = ans, type = "trough", h = h)
     }
 )
