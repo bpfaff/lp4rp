@@ -559,6 +559,10 @@ setClass("PTBB", slots = list(pt = "zoo",
                               h = "numeric"))
 @
 
+Next, the following generic functions are defined in the file
+[[Allgenerics.R]]. The methods of these generics are discussed in the
+section \ref{S3SS3}.
+
 <<Allgenerics.R>>=
 # generic for extracting peaks
 setGeneric("peaks", function(object, ...) standardGeneric("peaks"))
@@ -581,6 +585,7 @@ setGeneric("runs", function(x) standardGeneric("runs"))
 @
 
 \subsection{Methods for S4-class 'HikeR'}
+\label{S3SS3}
 
 In this section the S4-methods for objects of class [[HikeR]] are
 discussed. The provided methods are for showing [[show()]],
