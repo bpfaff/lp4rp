@@ -659,6 +659,13 @@ setMethod("summary",
 @
 
 \subsubsection{\texttt{peaks}-method}
+The [[peaks]]-method is the first in a series of methods for
+classifying the data points in a time series. This and the following
+methods returns an object of formal class [[PTBB]]. Given that a peak
+is defined as a score value greater than a threshold (the default is
+[[h = 0]]), the core of the method is the logical statement in the
+first line of the function's body, whether this is true. The remaining
+slot entries of [[PTBB]] are set directly in the to [[new()]].
 
 <<HikeR-peaks>>=
 <<man-HikeR-peaks>>
@@ -670,6 +677,9 @@ setMethod("peaks",
     }
 )
 @
+
+As before, the [[roxygen]] documention of this method is listed in the
+appendix \ref{S4SS3}.
 
 \subsubsection{\texttt{troughs}-method}
 
