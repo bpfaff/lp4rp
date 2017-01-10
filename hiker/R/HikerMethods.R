@@ -114,7 +114,6 @@ setMethod("phases",
         bustp <- busts(object, h = h, b = b)@pt
         ans[which(bustp == TRUE)] <- "bust"
         burstp <- bursts(object, h = h, b = b)@pt
-        burstp
         ans[which(burstp == TRUE)] <- "burst"
         ridgep <- ridges(object, h = h, b = b)@pt
         ans[which(ridgep == TRUE)] <- "ridge"
