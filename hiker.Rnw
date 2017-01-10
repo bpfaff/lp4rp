@@ -702,6 +702,12 @@ setMethod("troughs",
 @
 
 \subsubsection{\texttt{bursts}-method}
+Bursts are characterized by clusters of local peaks. Whether the
+sequential occurrence of peaks do constitute a burst-phase, does depend
+on the maximum allowed distance between two consecutive peak
+points. This distance is depicted in the [[burst]]-method by the
+argument [[b]] with a default value of [[k]], \emph{i.e.} the count of
+considered left/right neighbors.
 
 <<HikeR-bursts>>=
 <<man-HikeR-bursts>>
@@ -723,6 +729,19 @@ setMethod("bursts",
         new("PTBB", pt = ans, type = "burst", h = h)
 })
 @
+
+Within the definition of the method's body, first the peak points with
+respect to a threshold [[h]] are determined and assigned to the
+object [[lpts]]. Next, the index [[lidx]] of these occurrences is
+created and its length is saved in the object [[nidx]]. This
+information is then used in the following [[if]]-clause, to check
+whether any local peak points are existent in the first place, a
+necessary condition for the existence of burst phases. Within the
+[[for]]-loop the distance between two consecutive index entries is
+computed and compared to the bandwidth [[b]]. If the difference is
+less or equal to [[b]], then the intermittent index entries are set to
+[[TRUE]]. Finally, an object of S4-class [[PTBB]] is created that
+holds as a logical the detected burst-phases.
 
 \subsubsection{\texttt{busts}-method}
 
