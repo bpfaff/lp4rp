@@ -744,6 +744,12 @@ less or equal to [[b]], then the intermittent index entries are set to
 holds as a logical the detected burst-phases.
 
 \subsubsection{\texttt{busts}-method}
+A bust episode is characterized by a concentration of trough points
+with respect to time. As such, it is the flip-side of burst
+phases. Hence, the skeleton and definition of the [[bust]]-method
+differs only from the [[burst]]-method with respect to the detection
+of local minimum values. Its definition is provided in the subsequent
+code chunk.
 
 <<HikeR-busts>>=
 <<man-HikeR-busts>>
