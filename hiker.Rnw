@@ -773,6 +773,20 @@ setMethod("busts",
 @
 
 \subsubsection{\texttt{ridges}-method}
+Data points of a time series can be classified as members of a
+ridge-like progression, if they exclusively neither belong to a burst
+or bust phase. This is given in a broader side-way movement. However,
+it can be possible burst- and bust phases are interlaced with each
+other (oscillating progression) and this case is also subsumed as a
+ridge. The [[ridge]]-method defined below, employs the previously
+discussed [[burst]] and [[bust]]-methods. The two logical arrays of
+the burst (object [[burstp]]) and bust (object [[bustp]]) points are
+then combined in the matrix [[bbp]]. The above stated rule is
+implemented by computing the row sums thereof and checking whether this
+is different from unity, in which case a data point is classified as
+being a member of a ridge-phase (object [[ans]]). The method does
+return an object of S4-class [[PTBB]] and the slot [[type]] is set to
+`ridge'.
 
 <<HikeR-ridges>>=
 <<man-HikeR-ridges>>
@@ -805,7 +819,6 @@ setMethod("phases",
         bustp <- busts(object, h = h, b = b)@pt
         ans[which(bustp == TRUE)] <- "bust"
         burstp <- bursts(object, h = h, b = b)@pt
-        burstp
         ans[which(burstp == TRUE)] <- "burst"
         ridgep <- ridges(object, h = h, b = b)@pt
         ans[which(ridgep == TRUE)] <- "ridge"
