@@ -808,6 +808,16 @@ setMethod("ridges",
 @
 
 \subsubsection{\texttt{phases}-method}
+The [[phases]]-method encompasses the previous three methods and
+classifies the phases of a time series into the categories `burst',
+`bust' and `ridge'. The definition of this method is provided in the
+subsequent code chunk. First, a numeric [[ans]] is defined with a
+length equal to the size of the time series. Next, each of the three
+methods are called and the detected busts, bursts and ridges are
+assigned as character strings to the corresponding positions in
+[[ans]]. Finally, the [[ans]] numeric is casted as an object of
+informal class [[zoo]] and utilized in the creation of the [[PTBB]]
+S4-class obejct.
 
 <<HikeR-phases>>=
 <<man-HikeR-phases>>

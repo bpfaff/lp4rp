@@ -816,6 +816,16 @@ setMethod("ridges",
 \nwendcode{}\nwbegindocs{54}@
 
 \subsubsection{\texttt{phases}-method}
+The \verb?phases?-method encompasses the previous three methods and
+classifies the phases of a time series into the categories `burst',
+`bust' and `ridge'. The definition of this method is provided in the
+subsequent code chunk. First, a numeric \verb?ans? is defined with a
+length equal to the size of the time series. Next, each of the three
+methods are called and the detected busts, bursts and ridges are
+assigned as character strings to the corresponding positions in
+\verb?ans?. Finally, the \verb?ans? numeric is casted as an object of
+informal class \verb?zoo? and utilized in the creation of the \verb?PTBB?
+S4-class obejct.
 
 \nwenddocs{}\nwbegincode{55}\sublabel{RNWhik1-Hik29-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik29-1}}}\moddef{HikeR-phases~{\nwtagstyle{}\subpageref{RNWhik1-Hik29-1}}}\endmoddef
 \LA{}man-HikeR-phases~{\nwtagstyle{}\subpageref{RNWhik1-man45-1}}\RA{}
