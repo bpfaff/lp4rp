@@ -842,13 +842,13 @@ setMethod("phases",
 The [[topeaks]]-method can be utilized for detecting broader phases of
 up-movements in a time series. These singled out episodes could then
 be exploited for analysis the behavior of predictors in those
-periods. The flip side of this method is the detection ot `to-trough'
+periods. The flip side of this method is the detection of `to-trough'
 periods and can be utilized in a similar fashion (this method is
 discussed in the next section).\par
 The definition of the [[topeaks]]-method is shown below. First, a
 [[zoo]]-object is assigned to [[ans]] and all entries are set to
 [[TRUE]]. In the next two lines, the first and last $k$ entries of the
-series are set to [[NA]], motiviated by the fact that the first and
+series are set to [[NA]], motivated by the fact that the first and
 last left/right neighbors of a time series cannot be classified as a
 peak. This fact is due to the symmetric filtering of the time series
 for peaks. In the following lines the peak and trough points are
@@ -935,6 +935,18 @@ setMethod("totroughs",
 @
 
 \subsubsection{\texttt{plot}-method}
+Finally, a [[plot]]-method is defined for objects of S4-class
+[[HikeR]]. The skeleton is provided in the subsequent code
+chunk. Given that quite a few methods for the detection of local
+minima and maxima and the detection of certain phases have been
+defined for this kind of objects, a visualization thereof becomes
+necessary. The function's closure is endowed with arguments, such that
+basically all information can be graphically represented. In
+particular, the arguments [[type]] and [[phase]] are the two
+work-horses for the creation of the relevant plots. The remaining
+arguments can be utilized for custom adjustments with respect to the
+labeling and coloring of the plots. Each of the plot-types are
+discussed in the subsequent paragraphs.
 
 <<HikeR-plot>>=
 <<man-HikeR-plot>>
@@ -958,6 +970,12 @@ setMethod("plot",
 )
 @
 
+In the first part of the method's body, the arguments are matched,
+where applicable and the size of the time series is determined, as
+well as the creation of an index (object [[xidx]]). Finally, a default
+sub-title is defined by which the employed scoring method and the
+count of left/right neighbors is set.
+
 <<plotinit>>=
 type <- match.arg(type)
 phase <- match.arg(phase)
@@ -968,6 +986,19 @@ if ( is.null(sub) ){
                  ", k = ", x@k, sep = "")
 }
 @
+
+A bar chart of the scores is produced if [[type = 'score']] has been
+chosen. The commands for creating this type of plot are shown in the
+code chunk below. First, the range of the scores is determined,
+followed by the creation of a default main title. Next, an empty plot
+is created with limit margins according to the range of the score
+values. Rectangular areas are superimposed on this device for the
+first and last [[k]] data points, \emph{i.e.}, the count of neighbors.
+Next, the score values are plotted as a bars ([[type = 'h']]). The
+ellipsis argument is passed down to the [[graphics::lines()]]
+function. A horizontal line for the threshold value is superimposed in
+red. The drawing of a box and the labeling of the axis complete the
+plot of the score values.
 
 <<plotscore>>=
 if ( type == "score" ){
@@ -990,8 +1021,7 @@ if ( type == "score" ){
                                    ytop = srange[2]),
                               area.se))
     graphics::lines(coredata(x@ys[, 2]), type = "h", ...)
-    graphics::abline(h = 0)
-    graphics::abline(h = c(h, -h), col = "red")
+    graphics::abline(h = h, col = "red")
     graphics::box()
     graphics::axis(1, at = xidx, labels = index(x@ys), tick = FALSE)
     idx <- pretty(srange)
@@ -999,6 +1029,18 @@ if ( type == "score" ){
 }
 @
 
+The default plot-type is a series plot ([[type = 'series']]). The code
+thereof is shown in the subsequent code chunk. First, the range of the
+time series is determined and depending on the [[phase]] argument a
+default title is created unless one is provided by the user. Akin to
+the score plot, an empty plot device is created next with rectangular
+areas at the start and end of the sample period. The appearance of
+these is controlled by the list-type argument [[area.se]]. In the
+following code section, the time series is plotted with the
+[[lines()]] function from the graphics package and the peak/trough
+points are then determined and superimposed on the time series chart
+as points. The shape and color of these points can be adjusted by the
+arguments [[pt.peak]] and [[pt.trough]], respectively.
 
 <<plotseries>>=
 if ( type == "series" ){
@@ -1035,80 +1077,8 @@ if ( type == "series" ){
     ynum <- coredata(x@ys[index(x@ys)[troughidx], 1])
     do.call(graphics::points, c(list(y = ynum, x = troughidx),
                                 pt.trough))
-    if ( phase  == "bb" ){
-        p <- phases(x, h = h, b = b)
-        pchar <- as.character(coredata(p@pt))
-        burstz <- new("PTBB",
-                      pt = zoo(pchar == "burst",
-                               order.by = index(p@pt)),
-                      type = "burst",
-                      h = p@h)
-        burstr <- runs(burstz)
-        if ( !is.null(burstr) ) {
-            xleft <- which(as.character(index(burstz@pt)) %in%
-                           as.character(burstr[, "From"]))
-            xright <- which(as.character(index(burstz@pt)) %in%
-                            as.character(burstr[, "To"]))
-            for (i in 1:length(xleft)) {
-                do.call(graphics::rect, c(list(xleft = xleft[i],
-                                               ybottom = yrange[1],
-                                               xright = xright[i],
-                                               ytop = yrange[2]),
-                                          area.pb))
-            }
-        }
-        bustz <- new("PTBB",
-                     pt = zoo(pchar == "bust",
-                              order.by = index(p@pt)),
-                     type = "bust",
-                     h = p@h)
-        bustr <- runs(bustz)
-        if ( !is.null(bustr) ) {
-            xleft <- which(as.character(index(bustz@pt)) %in%
-                           as.character(bustr[, "From"]))
-            xright <- which(as.character(index(bustz@pt)) %in%
-                            as.character(bustr[, "To"]))
-            for (i in 1:length(xleft)) {
-                do.call(graphics::rect, c(list(xleft = xleft[i],
-                                               ybottom = yrange[1],
-                                               xright = xright[i],
-                                               ytop = yrange[2]),
-                                          area.tb))
-            }
-        }
-    }
-    if ( phase == "pt" ){
-        top <- topeaks(x, h)
-        topr <- runs(top)
-        tot <- totroughs(x, h)
-        totr <- runs(tot)
-        if ( !is.null(topr) ) {
-            xleft <- which(as.character(index(top@pt)) %in%
-                           as.character(topr[, "From"]))
-            xright <- which(as.character(index(top@pt)) %in%
-                            as.character(topr[, "To"]))
-            for (i in 1:length(xleft)) {
-                do.call(graphics::rect, c(list(xleft = xleft[i],
-                                               ybottom = yrange[1],
-                                               xright = xright[i],
-                                               ytop = yrange[2]),
-                                          area.pb))
-            }
-        }
-        if ( !is.null(totr) ) {
-            xleft <- which(as.character(index(tot@pt)) %in%
-                           as.character(totr[, "From"]))
-            xright <- which(as.character(index(tot@pt)) %in%
-                            as.character(totr[, "To"]))
-            for (i in 1:length(xleft)) {
-                do.call(graphics::rect, c(list(xleft = xleft[i],
-                                               ybottom = yrange[1],
-                                               xright = xright[i],
-                                               ytop = yrange[2]),
-                                          area.tb))
-            }
-        }
-    }
+    <<plotbb>>
+    <<plotpt>>
     graphics::box()
     graphics::axis(1, at = xidx, labels = index(x@ys),
                    tick = FALSE)
@@ -1117,6 +1087,115 @@ if ( type == "series" ){
 }
 @
 
+Depending on the value of the [[phase]] argument, either burst/bust or
+to-peak/to-trough periods are overlaid on the figure. The code
+thereof is presented in the next to two listings. Finally, a box is
+drawn around the figure region and axis labeling is applied to the
+graphic.
+
+The burst and bust phases, if any, are first established by calling
+the [[phases]] method. The slot [[pt]] of the assigned object [[p]] is
+then investigated for entries equal to the character string
+`burst' and a new object of S4-class [[PTBB]] is created. The start
+and end points of these burst phases are determined by calling the
+[[runs]]-method on this object. A description of the [[runs]]-method
+is provided in the following section. If burst phases are existent,
+then these are drawn as rectangles. Hereby, the user can alter the
+appearance by the [[plot]] argument [[area.pb]]. In a similar manner,
+the bust phases are localized and displayed on the figure.
+
+<<plotbb>>=
+if ( phase  == "bb" ){
+    p <- phases(x, h = h, b = b)
+    pchar <- as.character(coredata(p@pt))
+    burstz <- new("PTBB",
+                  pt = zoo(pchar == "burst",
+                           order.by = index(p@pt)),
+                  type = "burst",
+                  h = p@h)
+    burstr <- runs(burstz)
+    if ( !is.null(burstr) ) {
+        xleft <- which(as.character(index(burstz@pt)) %in%
+                       as.character(burstr[, "From"]))
+        xright <- which(as.character(index(burstz@pt)) %in%
+                        as.character(burstr[, "To"]))
+        for (i in 1:length(xleft)) {
+            do.call(graphics::rect, c(list(xleft = xleft[i],
+                                           ybottom = yrange[1],
+                                           xright = xright[i],
+                                           ytop = yrange[2]),
+                                      area.pb))
+        }
+    }
+    bustz <- new("PTBB",
+                 pt = zoo(pchar == "bust",
+                          order.by = index(p@pt)),
+                 type = "bust",
+                 h = p@h)
+    bustr <- runs(bustz)
+    if ( !is.null(bustr) ) {
+        xleft <- which(as.character(index(bustz@pt)) %in%
+                       as.character(bustr[, "From"]))
+        xright <- which(as.character(index(bustz@pt)) %in%
+                        as.character(bustr[, "To"]))
+        for (i in 1:length(xleft)) {
+            do.call(graphics::rect, c(list(xleft = xleft[i],
+                                           ybottom = yrange[1],
+                                           xright = xright[i],
+                                           ytop = yrange[2]),
+                                      area.tb))
+        }
+    }
+}
+@
+
+Superimposing the `to-peaks' and `to-trough' phases is similar to the
+shading of the burst/bust phases. The code chunk is shown
+below. First, the method [[topeaks]] is invoked and the runs thereof
+are assigned to the object [[topr]]. Similarly, the ranges of the
+`to-trough' periods are established and assigned to the object
+[[totr]]. Within the if-clauses the start and end point for each of the
+to-peaks and to-trough periods are stored to the objects [[xleft]] and
+[[xright]] and the regions are then plotted on top of the figure.
+
+<<plotpt>>=
+if ( phase == "pt" ){
+    top <- topeaks(x, h)
+    topr <- runs(top)
+    tot <- totroughs(x, h)
+    totr <- runs(tot)
+    if ( !is.null(topr) ) {
+        xleft <- which(as.character(index(top@pt)) %in%
+                       as.character(topr[, "From"]))
+        xright <- which(as.character(index(top@pt)) %in%
+                        as.character(topr[, "To"]))
+        for (i in 1:length(xleft)) {
+            do.call(graphics::rect, c(list(xleft = xleft[i],
+                                           ybottom = yrange[1],
+                                           xright = xright[i],
+                                           ytop = yrange[2]),
+                                      area.pb))
+        }
+    }
+    if ( !is.null(totr) ) {
+        xleft <- which(as.character(index(tot@pt)) %in%
+                       as.character(totr[, "From"]))
+        xright <- which(as.character(index(tot@pt)) %in%
+                        as.character(totr[, "To"]))
+        for (i in 1:length(xleft)) {
+            do.call(graphics::rect, c(list(xleft = xleft[i],
+                                           ybottom = yrange[1],
+                                           xright = xright[i],
+                                           ytop = yrange[2]),
+                                      area.tb))
+        }
+    }
+}
+@
+
+The third plot-type is stacked version of the series and the score
+plot. This type is returned when [[type = 'both']] has been set. The
+code snippet is shown below.
 
 <<plotboth>>=
 if ( type == "both" ){
@@ -1127,6 +1206,10 @@ if ( type == "both" ){
     graphics::par(op)
 }
 @
+
+Finally, the series itself can be plotted by setting
+[[type = 'zoo']]. Hereby, the [[plot]]-method of [[zoo]] objects is
+employed.
 
 <<plotzoo>>=
 if ( type == "zoo" ){

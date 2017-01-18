@@ -228,8 +228,7 @@ setMethod("plot",
                                            ytop = srange[2]),
                                       area.se))
             graphics::lines(coredata(x@ys[, 2]), type = "h", ...)
-            graphics::abline(h = 0)
-            graphics::abline(h = c(h, -h), col = "red")
+            graphics::abline(h = h, col = "red")
             graphics::box()
             graphics::axis(1, at = xidx, labels = index(x@ys), tick = FALSE)
             idx <- pretty(srange)
