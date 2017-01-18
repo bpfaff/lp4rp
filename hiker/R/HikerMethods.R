@@ -294,7 +294,7 @@ setMethod("plot",
                 bustz <- new("PTBB",
                              pt = zoo(pchar == "bust",
                                       order.by = index(p@pt)),
-                              type = "bust",
+                             type = "bust",
                              h = p@h)
                 bustr <- runs(bustz)
                 if ( !is.null(bustr) ) {
