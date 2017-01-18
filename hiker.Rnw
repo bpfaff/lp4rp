@@ -839,6 +839,25 @@ setMethod("phases",
 @
 
 \subsubsection{\texttt{topeaks}-method}
+The [[topeaks]]-method can be utilized for detecting broader phases of
+up-movements in a time series. These singled out episodes could then
+be exploited for analysis the behavior of predictors in those
+periods. The flip side of this method is the detection ot `to-trough'
+periods and can be utilized in a similar fashion (this method is
+discussed in the next section).\par
+The definition of the [[topeaks]]-method is shown below. First, a
+[[zoo]]-object is assigned to [[ans]] and all entries are set to
+[[TRUE]]. In the next two lines, the first and last $k$ entries of the
+series are set to [[NA]], motiviated by the fact that the first and
+last left/right neighbors of a time series cannot be classified as a
+peak. This fact is due to the symmetric filtering of the time series
+for peaks. In the following lines the peak and trough points are
+determined and the positions thereof are assigned to the objects
+[[pidx]] and [[tidx]], respectively. The length of each object,
+\emph{i.e.}, the count, is assigned to [[npidx]] for the peaks and
+[[ntidx]] for the local trough points. Next sanity checks are
+conducted. If neither peak nor trough points are existent, then the
+method returns [[NULL]] with a corresponding warning.
 
 <<HikeR-topeaks>>=
 <<man-HikeR-topeaks>>
@@ -880,6 +899,21 @@ setMethod("topeaks",
         new("PTBB", pt = ans, type = "topeak", h = h)
 })
 @
+
+
+In the remaining part of the method's body, the `to-peaks' periods are
+set. First, it is checked whether the first trough point occurs
+earlier in time than a peak point. In this case, the entries of
+[[ans]] until this trough point are set to [[FALSE]]. In the following
+for-loop, the indices of the peaks that appeared earlier in a time
+than a trough point are assigned to [[previouspeaks]]. If this vector
+has length greater than zero, then the maximum index entry of the
+peaks (the last one prior to the i-th trough point) is assigned to
+[[maxpos]]. The entries in [[ans]] starting from the next period of
+this last peak point until the i-th trough are then set to
+[[FALSE]]. For house-keeping purposes the assessed peak-points in
+[[pidx]] are then removed from this index and a new loop-iterations
+commences. Finally, the method returns an [[PTBB]] S4-class object.
 
 \subsubsection{\texttt{totroughs}-method}
 
