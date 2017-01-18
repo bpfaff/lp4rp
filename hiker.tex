@@ -908,7 +908,6 @@ setMethod("topeaks",
 \})
 \nwendcode{}\nwbegindocs{58}@
 
-
 In the remaining part of the method's body, the `to-peaks' periods are
 set. First, it is checked whether the first trough point occurs
 earlier in time than a peak point. In this case, the entries of
@@ -924,6 +923,12 @@ this last peak point until the i-th trough are then set to
 commences. Finally, the method returns an \verb?PTBB? S4-class object.
 
 \subsubsection{\texttt{totroughs}-method}
+For the detection of `to-trough' phases the method \verb?tottrough? is
+provided as shown below. Its definition is pretty straightforward,
+given that the `to-trough' phases of a series are the complement of
+the `to-peaks' periods. Having said this, the chest of this method is
+first to utilize the previously discussed \verb?topeaks? method and then
+inverts the slot \verb?pt? of the returned \verb?PTBB? object.
 
 \nwenddocs{}\nwbegincode{59}\sublabel{RNWhik1-Hik31-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik31-1}}}\moddef{HikeR-totroughs~{\nwtagstyle{}\subpageref{RNWhik1-Hik31-1}}}\endmoddef
 \LA{}man-HikeR-totroughs~{\nwtagstyle{}\subpageref{RNWhik1-man47-1}}\RA{}
