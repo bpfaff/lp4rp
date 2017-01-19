@@ -7,13 +7,13 @@ setMethod("runs",
               if ( any(na.omit(x@pt)) ){
                   p <- as.numeric(coredata(x@pt))
                   run <- rle(p)
-                  peakruns <- which(run$values == 1)
+                  runs <- which(run$values == 1)
                   cumidx <- cumsum(run$lengths)
                   n <- length(cumidx)
                   xidxright <- cumidx
                   xidxleft <- c(1, cumidx + 1)[-c(n + 1)]
                   xidx <- cbind(xidxleft, xidxright)
-                  peakidx <- xidx[peakruns, ]
+                  idx <- xidx[runs, ]
                   runscount <- nrow(xidx)
                   runsidx <- 1:runscount
                   ans <- sapply(runsidx, function(i)
