@@ -50,6 +50,9 @@ pkg: $(PKGNAME).Rnw
 check: pkg
 	R CMD check $(PKGTAR)
 
+install: pkg
+	R CMD INSTALL $(PKGTAR)
+
 clean:
 	$(RM) -r $(PKGNAME).Rcheck/
 	$(RM) $(PKGNAME).aux $(PKGNAME).log $(PKGNAME).out $(PKGNAME).bbl $(PKGNAME).blg
