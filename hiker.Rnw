@@ -1221,6 +1221,17 @@ if ( type == "zoo" ){
 
 
 \subsection{\texttt{runs}-method for S4-class 'PTBB'}
+As briefly mentioned in the previous section the [[runs]]-method
+determines the ranges of consecutive [[TRUE]] values in the slot
+[[pt]] of [[PTBB]] objects. Herby, the function [[rle()]] is
+utilized. The returned array of this function contains the information
+about runs as [['1']] values. These runs are assigned to the object
+[[runs]]. In the following lines of the method's body, the left and
+right points for each run are determined and a three-column data frame
+is created that holds in the first two columns the start and end
+periods of each run and the type of the [[PTBB]] object in its third.
+Should no runs exist, then the method returns [[NULL]] with a
+descriptive warning.
 
 <<PtbbMethods.R>>=
 <<man-PTBB-runs>>
@@ -1250,6 +1261,7 @@ setMethod("runs",
                   colnames(ans) <- c("From", "To", "Type")
                   return(ans)
               } else {
+                  warning("No runs in PTBB-object detected.\n")
                   return(NULL)
               }
           }

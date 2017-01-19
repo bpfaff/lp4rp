@@ -1229,6 +1229,17 @@ if ( type == "zoo" )\{
 
 
 \subsection{\texttt{runs}-method for S4-class 'PTBB'}
+As briefly mentioned in the previous section the \verb?runs?-method
+determines the ranges of consecutive \verb?TRUE? values in the slot
+\verb?pt? of \verb?PTBB? objects. Herby, the function \verb?rle()? is
+utilized. The returned array of this function contains the information
+about runs as \verb?'1'? values. These runs are assigned to the object
+\verb?runs?. In the following lines of the method's body, the left and
+right points for each run are determined and a three-column data frame
+is created that holds in the first two columns the start and end
+periods of each run and the type of the \verb?PTBB? object in its third.
+Should no runs exist, then the method returns \verb?NULL? with a
+descriptive warning.
 
 \nwenddocs{}\nwbegincode{77}\sublabel{RNWhik1-Ptb40-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Ptb40-1}}}\moddef{PtbbMethods.R~{\nwtagstyle{}\subpageref{RNWhik1-Ptb40-1}}}\endmoddef\let\nwnotused=\nwoutput{}
 \LA{}man-PTBB-runs~{\nwtagstyle{}\subpageref{RNWhik1-man56-1}}\RA{}
@@ -1258,6 +1269,7 @@ setMethod("runs",
                   colnames(ans) <- c("From", "To", "Type")
                   return(ans)
               \} else \{
+                  warning("No runs in PTBB-object detected.\\n")
                   return(NULL)
               \}
           \}

@@ -28,6 +28,7 @@ setMethod("runs",
                   colnames(ans) <- c("From", "To", "Type")
                   return(ans)
               } else {
+                  warning("No runs in PTBB-object detected.\n")
                   return(NULL)
               }
           }
