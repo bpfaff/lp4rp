@@ -619,7 +619,7 @@ skeleton of this file is provided next.
 The [[show]]-method provides a brief overview of
 [[HikeR]]-objects. Its definition is given in the following chunk. The
 [[roxygen]] documentation is deferred to the chunk labeled
-[[man-HikeR-show]] and provided in the appendix \ref{S4SS3}.
+[[man-HikeR-show]] and provided in the appendix \ref{S5SS3}.
 
 <<HikeR-show>>=
 <<man-HikeR-show>>
@@ -679,7 +679,7 @@ setMethod("peaks",
 @
 
 As before, the [[roxygen]] documention of this method is listed in the
-appendix \ref{S4SS3}.
+appendix \ref{S5SS3}.
 
 \subsubsection{\texttt{troughs}-method}
 The mirror of peak detection is the trough classification. The
@@ -1268,12 +1268,14 @@ setMethod("runs",
 )
 @
 
-
-\section{Appendix}
+\section{Summary}
 \label{S4}
 
+\section{Appendix}
+\label{S5}
+
 \subsection{Documentation of functions}
-\label{S4SS1}
+\label{S5SS1}
 
 <<man-func-score>>=
 #' Basic scoring methods for local minima and maxima
@@ -1331,7 +1333,7 @@ NULL
 
 
 \subsection{Documentation of S4-classes}
-\label{S4SS2}
+\label{S5SS2}
 
 <<man-class-HikeR>>=
 #' S4 class \code{HikeR}
@@ -1359,7 +1361,7 @@ NULL
 @
 
 \subsection{Documentation of S4-methods}
-\label{S4SS3}
+\label{S5SS3}
 
 <<man-HikeR-show>>=
 #' @rdname HikeR-class
