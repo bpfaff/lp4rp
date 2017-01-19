@@ -472,7 +472,7 @@ the file's suffix.
 <<DESCRIPTION.R>>=
 Package: hiker
 Title: Local Peak and Trough of a Time Series
-Version: 0.0.0.9000
+Version: 0.1-0
 Authors@R: person("Bernhard", "Pfaff", email = "bernhard@pfaffikus.de",
                   role = c("aut", "cre"))
 Description: Methods for detecting local peaks and troughs of a time series.
@@ -1485,6 +1485,24 @@ NULL
 \subsection{Makefile}
 \label{smake}
 \VerbatimInput{Makefile}
+
+\subsection{Literate programming file}
+This pdf-file is itself installed within the package's sub-directory
+[[./doc]]. For the user's ease of retrieving this document, the
+function [[lpdoc()]] is defined as below:
+
+<<lpdoc.R>>=
+#' Displaying the literate programming document.
+#'
+#' This function can be used for opening the literate programming pdf-file with
+#' the default pdf-viewer.
+lpdoc <- function(){
+    p <- file.path(find.package("hiker"), "doc/hiker.pdf")
+    system(paste("open ", p, sep = ""))
+}
+@
+
+
 
 \newpage
 \section{Chunk Index}

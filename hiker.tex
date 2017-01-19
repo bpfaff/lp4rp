@@ -1488,7 +1488,27 @@ NULL
 #' @source \\url\{http://w3.uniroma1.it/Tardella/datasets.html\},\\cr
 #' \\url\{ http://finance.yahoo.com/\}
 "SP500"
-\nwnotused{data.R}\nwendcode{}
+\nwnotused{data.R}\nwendcode{}\nwbegindocs{112}@
+
+\subsection{Makefile}
+\label{smake}
+\VerbatimInput{Makefile}
+
+\subsection{Literate programming file}
+This pdf-file is itself installed within the package's sub-directory
+\verb?./doc?. For the user's ease of retrieving this document, the
+function \verb?lpdoc()? is defined as below:
+
+\nwenddocs{}\nwbegincode{113}\sublabel{RNWhik1-lpd58-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-lpd58-1}}}\moddef{lpdoc.R~{\nwtagstyle{}\subpageref{RNWhik1-lpd58-1}}}\endmoddef\let\nwnotused=\nwoutput{}
+#' Displaying the literate programming document.
+#'
+#' This function can be used for opening the literate programming pdf-file with
+#' the default pdf-viewer.
+lpdoc <- function()\{
+    p <- file.path(find.package("hiker"), "doc/hiker.pdf")
+    system(paste("open ", p, sep = ""))
+\}
+\nwnotused{lpdoc.R}\nwendcode{}
 \nwixlogsorted{c}{{Allclasses.R}{RNWhik1-All16-1}{\nwixd{RNWhik1-All16-1}}}%
 \nwixlogsorted{c}{{Allgenerics.R}{RNWhik1-All20-1}{\nwixd{RNWhik1-All20-1}}}%
 \nwixlogsorted{c}{{data.R}{RNWhik1-dat57-1}{\nwixd{RNWhik1-dat57-1}}}%
@@ -1510,6 +1530,7 @@ NULL
 \nwixlogsorted{c}{{hiker.R}{RNWhik1-hik14-1}{\nwixd{RNWhik1-hik14-1}}}%
 \nwixlogsorted{c}{{HikerClass}{RNWhik1-Hik18-1}{\nwixd{RNWhik1-Hik18-1}\nwixu{RNWhik1-All16-1}}}%
 \nwixlogsorted{c}{{HikerMethods.R}{RNWhik1-Hik21-1}{\nwixd{RNWhik1-Hik21-1}}}%
+\nwixlogsorted{c}{{lpdoc.R}{RNWhik1-lpd58-1}{\nwixd{RNWhik1-lpd58-1}}}%
 \nwixlogsorted{c}{{man-class-HikeR}{RNWhik1-man43-1}{\nwixd{RNWhik1-man43-1}\nwixu{RNWhik1-Hik18-1}}}%
 \nwixlogsorted{c}{{man-class-PTBB}{RNWhik1-man44-1}{\nwixd{RNWhik1-man44-1}\nwixu{RNWhik1-Ptb19-1}}}%
 \nwixlogsorted{c}{{man-func-hiker}{RNWhik1-man42-1}{\nwixd{RNWhik1-man42-1}\nwixu{RNWhik1-hik14-1}}}%
@@ -1553,11 +1574,9 @@ NULL
 \nwixlogsorted{i}{{score}{score}}%
 \nwixlogsorted{i}{{scttype}{scttype}}%
 \nwixlogsorted{i}{{scvote}{scvote}}%
-\nwbegindocs{112}@
+\nwbegindocs{114}@
 
-\subsection{Makefile}
-\label{smake}
-\VerbatimInput{Makefile}
+
 
 \newpage
 \section{Chunk Index}

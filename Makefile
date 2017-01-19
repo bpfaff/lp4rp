@@ -4,7 +4,8 @@ PKGNAME := hiker
 PKGVERS = $(shell sed -n "s/Version: *\([^ ]*\)/\1/p" ./$(PKGNAME)/DESCRIPTION)
 PKGTAR = $(PKGNAME)_$(PKGVERS).tar.gz
 TEXCMD := pdflatex
-RFILES := Allclasses.R Allgenerics.R score.R hiker.R data.R HikerMethods.R PtbbMethods.R
+RFILES := Allclasses.R Allgenerics.R score.R hiker.R data.R HikerMethods.R PtbbMethods.R \
+          lpdoc.R
 DFILES := SP500.rda
 
 all: deps tex pdf pkg check
