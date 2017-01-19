@@ -1209,7 +1209,9 @@ if ( type == "both" ){
 
 Finally, the series itself can be plotted by setting
 [[type = 'zoo']]. Hereby, the [[plot]]-method of [[zoo]] objects is
-employed.
+employed. The ellipsis argument is passed down to the call of this
+method, such that the user can make adjustments to the figure's
+appearance.
 
 <<plotzoo>>=
 if ( type == "zoo" ){
