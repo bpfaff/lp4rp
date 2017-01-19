@@ -1494,8 +1494,10 @@ function [[lpdoc()]] is defined as below:
 <<lpdoc.R>>=
 #' Displaying the literate programming document.
 #'
-#' This function can be used for opening the literate programming pdf-file with
+#' This function can be used for opening the literate programming file with
 #' the default pdf-viewer.
+#' @export
+
 lpdoc <- function(){
     p <- file.path(find.package("hiker"), "doc/hiker.pdf")
     system(paste("open ", p, sep = ""))

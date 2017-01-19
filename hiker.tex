@@ -480,7 +480,7 @@ the file's suffix.
 \nwenddocs{}\nwbegincode{27}\sublabel{RNWhik1-DES15-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-DES15-1}}}\moddef{DESCRIPTION.R~{\nwtagstyle{}\subpageref{RNWhik1-DES15-1}}}\endmoddef\let\nwnotused=\nwoutput{}
 Package: hiker
 Title: Local Peak and Trough of a Time Series
-Version: 0.0.0.9000
+Version: 0.1-0
 Authors@R: person("Bernhard", "Pfaff", email = "bernhard@pfaffikus.de",
                   role = c("aut", "cre"))
 Description: Methods for detecting local peaks and troughs of a time series.
@@ -1502,8 +1502,10 @@ function \verb?lpdoc()? is defined as below:
 \nwenddocs{}\nwbegincode{113}\sublabel{RNWhik1-lpd58-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-lpd58-1}}}\moddef{lpdoc.R~{\nwtagstyle{}\subpageref{RNWhik1-lpd58-1}}}\endmoddef\let\nwnotused=\nwoutput{}
 #' Displaying the literate programming document.
 #'
-#' This function can be used for opening the literate programming pdf-file with
+#' This function can be used for opening the literate programming file with
 #' the default pdf-viewer.
+#' @export
+
 lpdoc <- function()\{
     p <- file.path(find.package("hiker"), "doc/hiker.pdf")
     system(paste("open ", p, sep = ""))

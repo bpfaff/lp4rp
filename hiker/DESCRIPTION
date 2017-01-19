@@ -1,6 +1,6 @@
 Package: hiker
 Title: Local Peak and Trough of a Time Series
-Version: 0.0.0.9000
+Version: 0.1-0
 Authors@R: person("Bernhard", "Pfaff", email = "bernhard@pfaffikus.de",
                   role = c("aut", "cre"))
 Description: Methods for detecting local peaks and troughs of a time series.

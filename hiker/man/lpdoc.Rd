@@ -7,7 +7,7 @@
 lpdoc()
 }
 \description{
-This function can be used for opening the literate programming pdf-file with
+This function can be used for opening the literate programming file with
 the default pdf-viewer.
 }
 
