@@ -31,6 +31,8 @@ pkg: $(PKGNAME).Rnw
 	if [ ! -d "$(PKGNAME)" ]; then mkdir $(PKGNAME);  fi
 	if [ ! -d "$(PKGNAME)/R" ]; then mkdir $(PKGNAME)/R;  fi
 	if [ ! -d "$(PKGNAME)/data" ]; then mkdir $(PKGNAME)/data;  fi
+	if [ ! -d "$(PKGNAME)/inst" ]; then mkdir $(PKGNAME)/inst;  fi
+	if [ ! -d "$(PKGNAME)/inst/doc" ]; then mkdir $(PKGNAME)/inst/doc;  fi
 # handling R files
 	find ./$(PKGNAME)/R/ -type f -delete
 	mv DESCRIPTION.R $(PKGNAME)/DESCRIPTION
@@ -40,6 +42,8 @@ pkg: $(PKGNAME).Rnw
 	if [ ! -d "$(PKGNAME)/man" ]; then mkdir $(PKGNAME)/man;  fi
 	find ./$(PKGNAME)/man/ -type f -delete
 	Rscript -e 'library(devtools); devtools::document(pkg = "./$(PKGNAME)")'
+# handling pdf file (literate programming)
+	cp $(PKGNAME).pdf $(PKGNAME)/inst/doc/$(PKGNAME).pdf
 # building the source tarball
 	R CMD build $(PKGNAME)
 
