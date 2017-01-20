@@ -53,9 +53,15 @@ check: pkg
 
 install: pkg
 	R CMD INSTALL $(PKGTAR)
-
+	Rscript -e 'source("hikerEx.R")'
+	$(TEXCMD) $(PKGNAME).tex
+	$(TEXCMD) $(PKGNAME).tex
+	cp $(PKGNAME).pdf $(PKGNAME)/inst/doc/$(PKGNAME).pdf
+	R CMD build $(PKGNAME)
+	R CMD INSTALL $(PKGTAR)
 clean:
 	$(RM) -r $(PKGNAME).Rcheck/
 	$(RM) $(PKGNAME).aux $(PKGNAME).log $(PKGNAME).out $(PKGNAME).bbl $(PKGNAME).blg
+	$(RM) hikerEx.R hikerEx.Rout .RData TEX-PekasTroughs.pdf
 
 

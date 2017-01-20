@@ -4,6 +4,7 @@
 \usepackage[colorlinks=true,linkcolor=darkblue]{hyperref}
 \usepackage{amsmath}
 \usepackage[round]{natbib}
+\usepackage{graphicx}
 \usepackage{noweb}
 \noweboptions{english,longxref}
 \usepackage{fancyvrb}
@@ -342,7 +343,7 @@ ending in \verb?.R? are treated as files that should be tangled and saved
 under the given code chunk's name.
 
 \nwenddocs{}\nwbegincode{17}\sublabel{RNWhik1-sco10-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-sco10-1}}}\moddef{score.R~{\nwtagstyle{}\subpageref{RNWhik1-sco10-1}}}\endmoddef\let\nwnotused=\nwoutput{}
-\LA{}man-func-score~{\nwtagstyle{}\subpageref{RNWhik1-man41-1}}\RA{}
+\LA{}man-func-score~{\nwtagstyle{}\subpageref{RNWhik1-man42-1}}\RA{}
 \LA{}score-wrapper~{\nwtagstyle{}\subpageref{RNWhik1-sco9-1}}\RA{}
 #' @rdname score
 \LA{}score-maxdiff~{\nwtagstyle{}\subpageref{RNWhik1-sco1-1}}\RA{}
@@ -458,7 +459,7 @@ Given that \verb?hiker()? is the core function of the package, it will be
 stored in its own \verb?hiker.R? file, as commanded by the next chunk.
 
 \nwenddocs{}\nwbegincode{25}\sublabel{RNWhik1-hik14-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-hik14-1}}}\moddef{hiker.R~{\nwtagstyle{}\subpageref{RNWhik1-hik14-1}}}\endmoddef\let\nwnotused=\nwoutput{}
-\LA{}man-func-hiker~{\nwtagstyle{}\subpageref{RNWhik1-man42-1}}\RA{}
+\LA{}man-func-hiker~{\nwtagstyle{}\subpageref{RNWhik1-man43-1}}\RA{}
 \LA{}hiker-func~{\nwtagstyle{}\subpageref{RNWhik1-hik11-1}}\RA{}
 \nwnotused{hiker.R}\nwendcode{}\nwbegindocs{26}@
 
@@ -540,7 +541,7 @@ employed scoring algorithm and the slot \verb?yname? is a character
 string of the time series name.
 
 \nwenddocs{}\nwbegincode{33}\sublabel{RNWhik1-Hik18-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik18-1}}}\moddef{HikerClass~{\nwtagstyle{}\subpageref{RNWhik1-Hik18-1}}}\endmoddef
-\LA{}man-class-HikeR~{\nwtagstyle{}\subpageref{RNWhik1-man43-1}}\RA{}
+\LA{}man-class-HikeR~{\nwtagstyle{}\subpageref{RNWhik1-man44-1}}\RA{}
 setClass("HikeR", slots = list(ys = "zoo",
                                k = "integer",
                                scoreby = "character",
@@ -561,7 +562,7 @@ slot \verb?h?. The class definition is provided in the subsequent code
 chunk.
 
 \nwenddocs{}\nwbegincode{35}\sublabel{RNWhik1-Ptb19-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Ptb19-1}}}\moddef{PtbbClass~{\nwtagstyle{}\subpageref{RNWhik1-Ptb19-1}}}\endmoddef
-\LA{}man-class-PTBB~{\nwtagstyle{}\subpageref{RNWhik1-man44-1}}\RA{}
+\LA{}man-class-PTBB~{\nwtagstyle{}\subpageref{RNWhik1-man45-1}}\RA{}
 setClass("PTBB", slots = list(pt = "zoo",
                               type = "character",
                               h = "numeric"))
@@ -630,7 +631,7 @@ The \verb?show?-method provides a brief overview of
 \verb?man-HikeR-show? and provided in the appendix \ref{S5SS3}.
 
 \nwenddocs{}\nwbegincode{41}\sublabel{RNWhik1-Hik22-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik22-1}}}\moddef{HikeR-show~{\nwtagstyle{}\subpageref{RNWhik1-Hik22-1}}}\endmoddef
-\LA{}man-HikeR-show~{\nwtagstyle{}\subpageref{RNWhik1-man45-1}}\RA{}
+\LA{}man-HikeR-show~{\nwtagstyle{}\subpageref{RNWhik1-man46-1}}\RA{}
 setMethod("show",
           signature(object = "HikeR"), function(object)\{
               cat(paste("Peak/trough score computed as: ",
@@ -657,7 +658,7 @@ function. Akin, to the \verb?show?-method, the within-package documentation
 is deferred to the appendix.
 
 \nwenddocs{}\nwbegincode{43}\sublabel{RNWhik1-Hik23-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik23-1}}}\moddef{HikeR-summary~{\nwtagstyle{}\subpageref{RNWhik1-Hik23-1}}}\endmoddef
-\LA{}man-HikeR-summary~{\nwtagstyle{}\subpageref{RNWhik1-man46-1}}\RA{}
+\LA{}man-HikeR-summary~{\nwtagstyle{}\subpageref{RNWhik1-man47-1}}\RA{}
 setMethod("summary",
           signature(object = "HikeR"),
           function (object, ...)\{
@@ -676,7 +677,7 @@ first line of the function's body, whether this is true. The remaining
 slot entries of \verb?PTBB? are set directly in the to \verb?new()?.
 
 \nwenddocs{}\nwbegincode{45}\sublabel{RNWhik1-Hik24-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik24-1}}}\moddef{HikeR-peaks~{\nwtagstyle{}\subpageref{RNWhik1-Hik24-1}}}\endmoddef
-\LA{}man-HikeR-peaks~{\nwtagstyle{}\subpageref{RNWhik1-man47-1}}\RA{}
+\LA{}man-HikeR-peaks~{\nwtagstyle{}\subpageref{RNWhik1-man48-1}}\RA{}
 setMethod("peaks",
     signature(object = "HikeR"),
     function (object, h = 0) \{
@@ -699,7 +700,7 @@ of type `\verb?trough?' and the object of class \verb?PTBB? is returned in
 the last line by invoking \verb?new()?.
 
 \nwenddocs{}\nwbegincode{47}\sublabel{RNWhik1-Hik25-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik25-1}}}\moddef{HikeR-troughs~{\nwtagstyle{}\subpageref{RNWhik1-Hik25-1}}}\endmoddef
-\LA{}man-HikeR-troughs~{\nwtagstyle{}\subpageref{RNWhik1-man48-1}}\RA{}
+\LA{}man-HikeR-troughs~{\nwtagstyle{}\subpageref{RNWhik1-man49-1}}\RA{}
 setMethod("troughs",
     signature(object = "HikeR"),
     function (object, h = 0) \{
@@ -718,7 +719,7 @@ argument \verb?b? with a default value of \verb?k?, \emph{i.e.} the count of
 considered left/right neighbors.
 
 \nwenddocs{}\nwbegincode{49}\sublabel{RNWhik1-Hik26-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik26-1}}}\moddef{HikeR-bursts~{\nwtagstyle{}\subpageref{RNWhik1-Hik26-1}}}\endmoddef
-\LA{}man-HikeR-bursts~{\nwtagstyle{}\subpageref{RNWhik1-man49-1}}\RA{}
+\LA{}man-HikeR-bursts~{\nwtagstyle{}\subpageref{RNWhik1-man50-1}}\RA{}
 setMethod("bursts",
     signature(object = "HikeR"),
     function (object, h = 0, b = object@k) \{
@@ -760,7 +761,7 @@ of local minimum values. Its definition is provided in the subsequent
 code chunk.
 
 \nwenddocs{}\nwbegincode{51}\sublabel{RNWhik1-Hik27-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik27-1}}}\moddef{HikeR-busts~{\nwtagstyle{}\subpageref{RNWhik1-Hik27-1}}}\endmoddef
-\LA{}man-HikeR-busts~{\nwtagstyle{}\subpageref{RNWhik1-man50-1}}\RA{}
+\LA{}man-HikeR-busts~{\nwtagstyle{}\subpageref{RNWhik1-man51-1}}\RA{}
 setMethod("busts",
     signature(object = "HikeR"),
     function (object, h = 0, b = object@k) \{
@@ -797,7 +798,7 @@ return an object of S4-class \verb?PTBB? and the slot \verb?type? is set to
 `ridge'.
 
 \nwenddocs{}\nwbegincode{53}\sublabel{RNWhik1-Hik28-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik28-1}}}\moddef{HikeR-ridges~{\nwtagstyle{}\subpageref{RNWhik1-Hik28-1}}}\endmoddef
-\LA{}man-HikeR-ridges~{\nwtagstyle{}\subpageref{RNWhik1-man51-1}}\RA{}
+\LA{}man-HikeR-ridges~{\nwtagstyle{}\subpageref{RNWhik1-man52-1}}\RA{}
 setMethod("ridges",
     signature(object = "HikeR"),
     function (object, h = 0, b = object@k) \{
@@ -828,7 +829,7 @@ informal class \verb?zoo? and utilized in the creation of the \verb?PTBB?
 S4-class obejct.
 
 \nwenddocs{}\nwbegincode{55}\sublabel{RNWhik1-Hik29-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik29-1}}}\moddef{HikeR-phases~{\nwtagstyle{}\subpageref{RNWhik1-Hik29-1}}}\endmoddef
-\LA{}man-HikeR-phases~{\nwtagstyle{}\subpageref{RNWhik1-man52-1}}\RA{}
+\LA{}man-HikeR-phases~{\nwtagstyle{}\subpageref{RNWhik1-man53-1}}\RA{}
 setMethod("phases",
     signature(object = "HikeR"),
     function (object, h = 0, b = object@k) \{
@@ -868,7 +869,7 @@ conducted. If neither peak nor trough points are existent, then the
 method returns \verb?NULL? with a corresponding warning.
 
 \nwenddocs{}\nwbegincode{57}\sublabel{RNWhik1-Hik30-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik30-1}}}\moddef{HikeR-topeaks~{\nwtagstyle{}\subpageref{RNWhik1-Hik30-1}}}\endmoddef
-\LA{}man-HikeR-topeaks~{\nwtagstyle{}\subpageref{RNWhik1-man53-1}}\RA{}
+\LA{}man-HikeR-topeaks~{\nwtagstyle{}\subpageref{RNWhik1-man54-1}}\RA{}
 setMethod("topeaks",
     signature(object = "HikeR"),
     function (object, h = 0) \{
@@ -931,7 +932,7 @@ first to utilize the previously discussed \verb?topeaks? method and then
 inverts the slot \verb?pt? of the returned \verb?PTBB? object.
 
 \nwenddocs{}\nwbegincode{59}\sublabel{RNWhik1-Hik31-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik31-1}}}\moddef{HikeR-totroughs~{\nwtagstyle{}\subpageref{RNWhik1-Hik31-1}}}\endmoddef
-\LA{}man-HikeR-totroughs~{\nwtagstyle{}\subpageref{RNWhik1-man54-1}}\RA{}
+\LA{}man-HikeR-totroughs~{\nwtagstyle{}\subpageref{RNWhik1-man55-1}}\RA{}
 setMethod("totroughs",
     signature(object = "HikeR"),
     function (object, h = 0) \{
@@ -957,7 +958,7 @@ labeling and coloring of the plots. Each of the plot-types are
 discussed in the subsequent paragraphs.
 
 \nwenddocs{}\nwbegincode{61}\sublabel{RNWhik1-Hik32-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Hik32-1}}}\moddef{HikeR-plot~{\nwtagstyle{}\subpageref{RNWhik1-Hik32-1}}}\endmoddef
-\LA{}man-HikeR-plot~{\nwtagstyle{}\subpageref{RNWhik1-man55-1}}\RA{}
+\LA{}man-HikeR-plot~{\nwtagstyle{}\subpageref{RNWhik1-man56-1}}\RA{}
 setMethod("plot",
     signature(x = "HikeR", y = "missing"),
     function (x, type = c("series", "score", "both", "zoo"),
@@ -1242,7 +1243,7 @@ Should no runs exist, then the method returns \verb?NULL? with a
 descriptive warning.
 
 \nwenddocs{}\nwbegincode{77}\sublabel{RNWhik1-Ptb40-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-Ptb40-1}}}\moddef{PtbbMethods.R~{\nwtagstyle{}\subpageref{RNWhik1-Ptb40-1}}}\endmoddef\let\nwnotused=\nwoutput{}
-\LA{}man-PTBB-runs~{\nwtagstyle{}\subpageref{RNWhik1-man56-1}}\RA{}
+\LA{}man-PTBB-runs~{\nwtagstyle{}\subpageref{RNWhik1-man57-1}}\RA{}
 setMethod("runs",
           signature(x = "PTBB"), function(x)\{
               if ( any(na.omit(x@pt)) )\{
@@ -1276,8 +1277,27 @@ setMethod("runs",
 )
 \nwnotused{PtbbMethods.R}\nwendcode{}\nwbegindocs{78}@
 
-\section{Summary}
+\section{Example}
 \label{S4}
+
+\nwenddocs{}\nwbegincode{79}\sublabel{RNWhik1-hik41-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-hik41-1}}}\moddef{hikerEx.R~{\nwtagstyle{}\subpageref{RNWhik1-hik41-1}}}\endmoddef\let\nwnotused=\nwoutput{}
+library(hiker)
+TEX <- SP500[, "TEX"]
+ans <- hiker(TEX, k = 8, scoreby = "hybrid", tval = 0.1)
+ans
+pdf("TEX-PekasTroughs.pdf", width = 6)
+plot(ans)
+dev.off()
+\nwnotused{hikerEx.R}\nwendcode{}\nwbegindocs{80}@
+
+\IfFileExists{./TEX-PekasTroughs.pdf}{
+\begin{center}
+\begin{figure}
+\includegraphics{TEX-PekasTroughs.pdf}
+\end{figure}
+\end{center}
+}{}
+
 
 \section{Appendix}
 \label{S5}
@@ -1285,7 +1305,7 @@ setMethod("runs",
 \subsection{Documentation of functions}
 \label{S5SS1}
 
-\nwenddocs{}\nwbegincode{79}\sublabel{RNWhik1-man41-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man41-1}}}\moddef{man-func-score~{\nwtagstyle{}\subpageref{RNWhik1-man41-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{81}\sublabel{RNWhik1-man42-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man42-1}}}\moddef{man-func-score~{\nwtagstyle{}\subpageref{RNWhik1-man42-1}}}\endmoddef
 #' Basic scoring methods for local minima and maxima
 #'
 #' These are basic functions for evaluating the centre
@@ -1311,9 +1331,9 @@ NULL
 
 #' @rdname score
 #' @export
-\nwendcode{}\nwbegindocs{80}@
+\nwendcode{}\nwbegindocs{82}@
 
-\nwenddocs{}\nwbegincode{81}\sublabel{RNWhik1-man42-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man42-1}}}\moddef{man-func-hiker~{\nwtagstyle{}\subpageref{RNWhik1-man42-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{83}\sublabel{RNWhik1-man43-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man43-1}}}\moddef{man-func-hiker~{\nwtagstyle{}\subpageref{RNWhik1-man43-1}}}\endmoddef
 #' Peak/trough scores of time series points
 #'
 #' This function computes the score value for each
@@ -1337,13 +1357,13 @@ NULL
 #' plot(ans)
 #'
 #' @export
-\nwendcode{}\nwbegindocs{82}@
+\nwendcode{}\nwbegindocs{84}@
 
 
 \subsection{Documentation of S4-classes}
 \label{S5SS2}
 
-\nwenddocs{}\nwbegincode{83}\sublabel{RNWhik1-man43-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man43-1}}}\moddef{man-class-HikeR~{\nwtagstyle{}\subpageref{RNWhik1-man43-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{85}\sublabel{RNWhik1-man44-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man44-1}}}\moddef{man-class-HikeR~{\nwtagstyle{}\subpageref{RNWhik1-man44-1}}}\endmoddef
 #' S4 class \\code\{HikeR\}
 #'
 #' Formal class for classifying local minima and maxima
@@ -1354,9 +1374,9 @@ NULL
 #' @slot scoreby \\code\{character\}, scoring method.
 #' @slot yname \\code\{character\}, name of the series.
 #' @exportClass HikeR
-\nwendcode{}\nwbegindocs{84}@
+\nwendcode{}\nwbegindocs{86}@
 
-\nwenddocs{}\nwbegincode{85}\sublabel{RNWhik1-man44-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man44-1}}}\moddef{man-class-PTBB~{\nwtagstyle{}\subpageref{RNWhik1-man44-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{87}\sublabel{RNWhik1-man45-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man45-1}}}\moddef{man-class-PTBB~{\nwtagstyle{}\subpageref{RNWhik1-man45-1}}}\endmoddef
 #' S4 class \\code\{PTBB\}
 #'
 #' Formal class for peaks, troughs, burst, busts and
@@ -1366,77 +1386,77 @@ NULL
 #' @slot type \\code\{character\}, type of point/phase.
 #' @slot h \\code\{numeric\}, the threshhold for score evaluation.
 #' @exportClass PTBB
-\nwendcode{}\nwbegindocs{86}@
+\nwendcode{}\nwbegindocs{88}@
 
 \subsection{Documentation of S4-methods}
 \label{S5SS3}
 
-\nwenddocs{}\nwbegincode{87}\sublabel{RNWhik1-man45-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man45-1}}}\moddef{man-HikeR-show~{\nwtagstyle{}\subpageref{RNWhik1-man45-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{89}\sublabel{RNWhik1-man46-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man46-1}}}\moddef{man-HikeR-show~{\nwtagstyle{}\subpageref{RNWhik1-man46-1}}}\endmoddef
 #' @rdname HikeR-class
 #' @param object An object of S4 class \\code\{HikeR\}.
 #' @export
-\nwendcode{}\nwbegindocs{88}@
+\nwendcode{}\nwbegindocs{90}@
 
-\nwenddocs{}\nwbegincode{89}\sublabel{RNWhik1-man46-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man46-1}}}\moddef{man-HikeR-summary~{\nwtagstyle{}\subpageref{RNWhik1-man46-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{91}\sublabel{RNWhik1-man47-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man47-1}}}\moddef{man-HikeR-summary~{\nwtagstyle{}\subpageref{RNWhik1-man47-1}}}\endmoddef
 #' @rdname HikeR-class
 #' @aliases summary
 #' @param ... Ellipsis argument.
 #' @export
-\nwendcode{}\nwbegindocs{90}@
+\nwendcode{}\nwbegindocs{92}@
 
-\nwenddocs{}\nwbegincode{91}\sublabel{RNWhik1-man47-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man47-1}}}\moddef{man-HikeR-peaks~{\nwtagstyle{}\subpageref{RNWhik1-man47-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{93}\sublabel{RNWhik1-man48-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man48-1}}}\moddef{man-HikeR-peaks~{\nwtagstyle{}\subpageref{RNWhik1-man48-1}}}\endmoddef
 #' @rdname HikeR-class
 #' @aliases peaks
 #' @param h \\code\{numeric\}, the threshold value for scores
 #' to be considered as peaks/troughs.
 #' @return Object of S4-class \\code\{PTBB\}.
 #' @export
-\nwendcode{}\nwbegindocs{92}@
+\nwendcode{}\nwbegindocs{94}@
 
-\nwenddocs{}\nwbegincode{93}\sublabel{RNWhik1-man48-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man48-1}}}\moddef{man-HikeR-troughs~{\nwtagstyle{}\subpageref{RNWhik1-man48-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{95}\sublabel{RNWhik1-man49-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man49-1}}}\moddef{man-HikeR-troughs~{\nwtagstyle{}\subpageref{RNWhik1-man49-1}}}\endmoddef
 #' @rdname HikeR-class
 #' @aliases troughs
 #' @export
-\nwendcode{}\nwbegindocs{94}@
+\nwendcode{}\nwbegindocs{96}@
 
-\nwenddocs{}\nwbegincode{95}\sublabel{RNWhik1-man49-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man49-1}}}\moddef{man-HikeR-bursts~{\nwtagstyle{}\subpageref{RNWhik1-man49-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{97}\sublabel{RNWhik1-man50-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man50-1}}}\moddef{man-HikeR-bursts~{\nwtagstyle{}\subpageref{RNWhik1-man50-1}}}\endmoddef
 #' @rdname HikeR-class
 #' @aliases bursts
 #' @param b \\code\{integer\}, intermittent count of points between peaks.
 #' @export
-\nwendcode{}\nwbegindocs{96}@
+\nwendcode{}\nwbegindocs{98}@
 
-\nwenddocs{}\nwbegincode{97}\sublabel{RNWhik1-man50-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man50-1}}}\moddef{man-HikeR-busts~{\nwtagstyle{}\subpageref{RNWhik1-man50-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{99}\sublabel{RNWhik1-man51-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man51-1}}}\moddef{man-HikeR-busts~{\nwtagstyle{}\subpageref{RNWhik1-man51-1}}}\endmoddef
 #' @rdname HikeR-class
 #' @aliases busts
 #' @export
-\nwendcode{}\nwbegindocs{98}@
+\nwendcode{}\nwbegindocs{100}@
 
-\nwenddocs{}\nwbegincode{99}\sublabel{RNWhik1-man51-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man51-1}}}\moddef{man-HikeR-ridges~{\nwtagstyle{}\subpageref{RNWhik1-man51-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{101}\sublabel{RNWhik1-man52-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man52-1}}}\moddef{man-HikeR-ridges~{\nwtagstyle{}\subpageref{RNWhik1-man52-1}}}\endmoddef
 #' @rdname HikeR-class
 #' @aliases ridges
 #' @export
-\nwendcode{}\nwbegindocs{100}@
+\nwendcode{}\nwbegindocs{102}@
 
-\nwenddocs{}\nwbegincode{101}\sublabel{RNWhik1-man52-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man52-1}}}\moddef{man-HikeR-phases~{\nwtagstyle{}\subpageref{RNWhik1-man52-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{103}\sublabel{RNWhik1-man53-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man53-1}}}\moddef{man-HikeR-phases~{\nwtagstyle{}\subpageref{RNWhik1-man53-1}}}\endmoddef
 #' @rdname HikeR-class
 #' @aliases phases
 #' @export
-\nwendcode{}\nwbegindocs{102}@
+\nwendcode{}\nwbegindocs{104}@
 
-\nwenddocs{}\nwbegincode{103}\sublabel{RNWhik1-man53-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man53-1}}}\moddef{man-HikeR-topeaks~{\nwtagstyle{}\subpageref{RNWhik1-man53-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{105}\sublabel{RNWhik1-man54-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man54-1}}}\moddef{man-HikeR-topeaks~{\nwtagstyle{}\subpageref{RNWhik1-man54-1}}}\endmoddef
 #' @rdname HikeR-class
 #' @aliases topeaks
 #' @export
-\nwendcode{}\nwbegindocs{104}@
+\nwendcode{}\nwbegindocs{106}@
 
-\nwenddocs{}\nwbegincode{105}\sublabel{RNWhik1-man54-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man54-1}}}\moddef{man-HikeR-totroughs~{\nwtagstyle{}\subpageref{RNWhik1-man54-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{107}\sublabel{RNWhik1-man55-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man55-1}}}\moddef{man-HikeR-totroughs~{\nwtagstyle{}\subpageref{RNWhik1-man55-1}}}\endmoddef
 #' @rdname HikeR-class
 #' @aliases totroughs
 #' @export
-\nwendcode{}\nwbegindocs{106}@
+\nwendcode{}\nwbegindocs{108}@
 
-\nwenddocs{}\nwbegincode{107}\sublabel{RNWhik1-man55-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man55-1}}}\moddef{man-HikeR-plot~{\nwtagstyle{}\subpageref{RNWhik1-man55-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{109}\sublabel{RNWhik1-man56-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man56-1}}}\moddef{man-HikeR-plot~{\nwtagstyle{}\subpageref{RNWhik1-man56-1}}}\endmoddef
 #' @rdname HikeR-class
 #' @aliases plot
 #' @param x An object of S4 class \\code\{HikeR\}.
@@ -1454,18 +1474,18 @@ NULL
 #' @param area.tb \\code\{list\}, named elements are passed to \\code\{graphics::rect()\}
 #' for 'to-trough' or 'bust' phases.
 #' @export
-\nwendcode{}\nwbegindocs{108}@
+\nwendcode{}\nwbegindocs{110}@
 
-\nwenddocs{}\nwbegincode{109}\sublabel{RNWhik1-man56-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man56-1}}}\moddef{man-PTBB-runs~{\nwtagstyle{}\subpageref{RNWhik1-man56-1}}}\endmoddef
+\nwenddocs{}\nwbegincode{111}\sublabel{RNWhik1-man57-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-man57-1}}}\moddef{man-PTBB-runs~{\nwtagstyle{}\subpageref{RNWhik1-man57-1}}}\endmoddef
 #' @rdname PTBB-class
 #' @aliases runs
 #' @param x An object of S4 class \\code\{PTBB\}.
 #' @export
-\nwendcode{}\nwbegindocs{110}@
+\nwendcode{}\nwbegindocs{112}@
 
 \subsection{Documentation of data set}
 
-\nwenddocs{}\nwbegincode{111}\sublabel{RNWhik1-dat57-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-dat57-1}}}\moddef{data.R~{\nwtagstyle{}\subpageref{RNWhik1-dat57-1}}}\endmoddef\let\nwnotused=\nwoutput{}
+\nwenddocs{}\nwbegincode{113}\sublabel{RNWhik1-dat58-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-dat58-1}}}\moddef{data.R~{\nwtagstyle{}\subpageref{RNWhik1-dat58-1}}}\endmoddef\let\nwnotused=\nwoutput{}
 #' Weekly price data of 476 S&P 500 constituents.
 #'
 #' The data set was used in the reference below. The authors adjusted
@@ -1488,7 +1508,7 @@ NULL
 #' @source \\url\{http://w3.uniroma1.it/Tardella/datasets.html\},\\cr
 #' \\url\{ http://finance.yahoo.com/\}
 "SP500"
-\nwnotused{data.R}\nwendcode{}\nwbegindocs{112}@
+\nwnotused{data.R}\nwendcode{}\nwbegindocs{114}@
 
 \subsection{Makefile}
 \label{smake}
@@ -1499,7 +1519,7 @@ This pdf-file is itself installed within the package's sub-directory
 \verb?./doc?. For the user's ease of retrieving this document, the
 function \verb?lpdoc()? is defined as below:
 
-\nwenddocs{}\nwbegincode{113}\sublabel{RNWhik1-lpd58-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-lpd58-1}}}\moddef{lpdoc.R~{\nwtagstyle{}\subpageref{RNWhik1-lpd58-1}}}\endmoddef\let\nwnotused=\nwoutput{}
+\nwenddocs{}\nwbegincode{115}\sublabel{RNWhik1-lpd59-1}\nwmargintag{{\nwtagstyle{}\subpageref{RNWhik1-lpd59-1}}}\moddef{lpdoc.R~{\nwtagstyle{}\subpageref{RNWhik1-lpd59-1}}}\endmoddef\let\nwnotused=\nwoutput{}
 #' Displaying the literate programming document.
 #'
 #' This function can be used for opening the literate programming file with
@@ -1513,7 +1533,7 @@ lpdoc <- function()\{
 \nwnotused{lpdoc.R}\nwendcode{}
 \nwixlogsorted{c}{{Allclasses.R}{RNWhik1-All16-1}{\nwixd{RNWhik1-All16-1}}}%
 \nwixlogsorted{c}{{Allgenerics.R}{RNWhik1-All20-1}{\nwixd{RNWhik1-All20-1}}}%
-\nwixlogsorted{c}{{data.R}{RNWhik1-dat57-1}{\nwixd{RNWhik1-dat57-1}}}%
+\nwixlogsorted{c}{{data.R}{RNWhik1-dat58-1}{\nwixd{RNWhik1-dat58-1}}}%
 \nwixlogsorted{c}{{DESCRIPTION.R}{RNWhik1-DES15-1}{\nwixd{RNWhik1-DES15-1}}}%
 \nwixlogsorted{c}{{HikeR-bursts}{RNWhik1-Hik26-1}{\nwixd{RNWhik1-Hik26-1}\nwixu{RNWhik1-Hik21-1}}}%
 \nwixlogsorted{c}{{HikeR-busts}{RNWhik1-Hik27-1}{\nwixd{RNWhik1-Hik27-1}\nwixu{RNWhik1-Hik21-1}}}%
@@ -1531,24 +1551,25 @@ lpdoc <- function()\{
 \nwixlogsorted{c}{{HikeR-troughs}{RNWhik1-Hik25-1}{\nwixd{RNWhik1-Hik25-1}\nwixu{RNWhik1-Hik21-1}}}%
 \nwixlogsorted{c}{{hiker.R}{RNWhik1-hik14-1}{\nwixd{RNWhik1-hik14-1}}}%
 \nwixlogsorted{c}{{HikerClass}{RNWhik1-Hik18-1}{\nwixd{RNWhik1-Hik18-1}\nwixu{RNWhik1-All16-1}}}%
+\nwixlogsorted{c}{{hikerEx.R}{RNWhik1-hik41-1}{\nwixd{RNWhik1-hik41-1}}}%
 \nwixlogsorted{c}{{HikerMethods.R}{RNWhik1-Hik21-1}{\nwixd{RNWhik1-Hik21-1}}}%
-\nwixlogsorted{c}{{lpdoc.R}{RNWhik1-lpd58-1}{\nwixd{RNWhik1-lpd58-1}}}%
-\nwixlogsorted{c}{{man-class-HikeR}{RNWhik1-man43-1}{\nwixd{RNWhik1-man43-1}\nwixu{RNWhik1-Hik18-1}}}%
-\nwixlogsorted{c}{{man-class-PTBB}{RNWhik1-man44-1}{\nwixd{RNWhik1-man44-1}\nwixu{RNWhik1-Ptb19-1}}}%
-\nwixlogsorted{c}{{man-func-hiker}{RNWhik1-man42-1}{\nwixd{RNWhik1-man42-1}\nwixu{RNWhik1-hik14-1}}}%
-\nwixlogsorted{c}{{man-func-score}{RNWhik1-man41-1}{\nwixd{RNWhik1-man41-1}\nwixu{RNWhik1-sco10-1}}}%
-\nwixlogsorted{c}{{man-HikeR-bursts}{RNWhik1-man49-1}{\nwixd{RNWhik1-man49-1}\nwixu{RNWhik1-Hik26-1}}}%
-\nwixlogsorted{c}{{man-HikeR-busts}{RNWhik1-man50-1}{\nwixd{RNWhik1-man50-1}\nwixu{RNWhik1-Hik27-1}}}%
-\nwixlogsorted{c}{{man-HikeR-peaks}{RNWhik1-man47-1}{\nwixd{RNWhik1-man47-1}\nwixu{RNWhik1-Hik24-1}}}%
-\nwixlogsorted{c}{{man-HikeR-phases}{RNWhik1-man52-1}{\nwixd{RNWhik1-man52-1}\nwixu{RNWhik1-Hik29-1}}}%
-\nwixlogsorted{c}{{man-HikeR-plot}{RNWhik1-man55-1}{\nwixd{RNWhik1-man55-1}\nwixu{RNWhik1-Hik32-1}}}%
-\nwixlogsorted{c}{{man-HikeR-ridges}{RNWhik1-man51-1}{\nwixd{RNWhik1-man51-1}\nwixu{RNWhik1-Hik28-1}}}%
-\nwixlogsorted{c}{{man-HikeR-show}{RNWhik1-man45-1}{\nwixd{RNWhik1-man45-1}\nwixu{RNWhik1-Hik22-1}}}%
-\nwixlogsorted{c}{{man-HikeR-summary}{RNWhik1-man46-1}{\nwixd{RNWhik1-man46-1}\nwixu{RNWhik1-Hik23-1}}}%
-\nwixlogsorted{c}{{man-HikeR-topeaks}{RNWhik1-man53-1}{\nwixd{RNWhik1-man53-1}\nwixu{RNWhik1-Hik30-1}}}%
-\nwixlogsorted{c}{{man-HikeR-totroughs}{RNWhik1-man54-1}{\nwixd{RNWhik1-man54-1}\nwixu{RNWhik1-Hik31-1}}}%
-\nwixlogsorted{c}{{man-HikeR-troughs}{RNWhik1-man48-1}{\nwixd{RNWhik1-man48-1}\nwixu{RNWhik1-Hik25-1}}}%
-\nwixlogsorted{c}{{man-PTBB-runs}{RNWhik1-man56-1}{\nwixd{RNWhik1-man56-1}\nwixu{RNWhik1-Ptb40-1}}}%
+\nwixlogsorted{c}{{lpdoc.R}{RNWhik1-lpd59-1}{\nwixd{RNWhik1-lpd59-1}}}%
+\nwixlogsorted{c}{{man-class-HikeR}{RNWhik1-man44-1}{\nwixd{RNWhik1-man44-1}\nwixu{RNWhik1-Hik18-1}}}%
+\nwixlogsorted{c}{{man-class-PTBB}{RNWhik1-man45-1}{\nwixd{RNWhik1-man45-1}\nwixu{RNWhik1-Ptb19-1}}}%
+\nwixlogsorted{c}{{man-func-hiker}{RNWhik1-man43-1}{\nwixd{RNWhik1-man43-1}\nwixu{RNWhik1-hik14-1}}}%
+\nwixlogsorted{c}{{man-func-score}{RNWhik1-man42-1}{\nwixd{RNWhik1-man42-1}\nwixu{RNWhik1-sco10-1}}}%
+\nwixlogsorted{c}{{man-HikeR-bursts}{RNWhik1-man50-1}{\nwixd{RNWhik1-man50-1}\nwixu{RNWhik1-Hik26-1}}}%
+\nwixlogsorted{c}{{man-HikeR-busts}{RNWhik1-man51-1}{\nwixd{RNWhik1-man51-1}\nwixu{RNWhik1-Hik27-1}}}%
+\nwixlogsorted{c}{{man-HikeR-peaks}{RNWhik1-man48-1}{\nwixd{RNWhik1-man48-1}\nwixu{RNWhik1-Hik24-1}}}%
+\nwixlogsorted{c}{{man-HikeR-phases}{RNWhik1-man53-1}{\nwixd{RNWhik1-man53-1}\nwixu{RNWhik1-Hik29-1}}}%
+\nwixlogsorted{c}{{man-HikeR-plot}{RNWhik1-man56-1}{\nwixd{RNWhik1-man56-1}\nwixu{RNWhik1-Hik32-1}}}%
+\nwixlogsorted{c}{{man-HikeR-ridges}{RNWhik1-man52-1}{\nwixd{RNWhik1-man52-1}\nwixu{RNWhik1-Hik28-1}}}%
+\nwixlogsorted{c}{{man-HikeR-show}{RNWhik1-man46-1}{\nwixd{RNWhik1-man46-1}\nwixu{RNWhik1-Hik22-1}}}%
+\nwixlogsorted{c}{{man-HikeR-summary}{RNWhik1-man47-1}{\nwixd{RNWhik1-man47-1}\nwixu{RNWhik1-Hik23-1}}}%
+\nwixlogsorted{c}{{man-HikeR-topeaks}{RNWhik1-man54-1}{\nwixd{RNWhik1-man54-1}\nwixu{RNWhik1-Hik30-1}}}%
+\nwixlogsorted{c}{{man-HikeR-totroughs}{RNWhik1-man55-1}{\nwixd{RNWhik1-man55-1}\nwixu{RNWhik1-Hik31-1}}}%
+\nwixlogsorted{c}{{man-HikeR-troughs}{RNWhik1-man49-1}{\nwixd{RNWhik1-man49-1}\nwixu{RNWhik1-Hik25-1}}}%
+\nwixlogsorted{c}{{man-PTBB-runs}{RNWhik1-man57-1}{\nwixd{RNWhik1-man57-1}\nwixu{RNWhik1-Ptb40-1}}}%
 \nwixlogsorted{c}{{NAMESPACE}{RNWhik1-NAM17-1}{\nwixd{RNWhik1-NAM17-1}\nwixu{RNWhik1-All16-1}}}%
 \nwixlogsorted{c}{{plotbb}{RNWhik1-plo36-1}{\nwixd{RNWhik1-plo36-1}\nwixu{RNWhik1-plo35-1}}}%
 \nwixlogsorted{c}{{plotboth}{RNWhik1-plo38-1}{\nwixd{RNWhik1-plo38-1}\nwixu{RNWhik1-Hik32-1}}}%
@@ -1576,7 +1597,7 @@ lpdoc <- function()\{
 \nwixlogsorted{i}{{score}{score}}%
 \nwixlogsorted{i}{{scttype}{scttype}}%
 \nwixlogsorted{i}{{scvote}{scvote}}%
-\nwbegindocs{114}@
+\nwbegindocs{116}@
 
 
 

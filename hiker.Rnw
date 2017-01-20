@@ -4,6 +4,7 @@
 \usepackage[colorlinks=true,linkcolor=darkblue]{hyperref}
 \usepackage{amsmath}
 \usepackage[round]{natbib}
+\usepackage{graphicx}
 \usepackage{noweb}
 \noweboptions{english,longxref}
 \usepackage{fancyvrb}
@@ -1268,8 +1269,27 @@ setMethod("runs",
 )
 @
 
-\section{Summary}
+\section{Example}
 \label{S4}
+
+<<hikerEx.R>>=
+library(hiker)
+TEX <- SP500[, "TEX"]
+ans <- hiker(TEX, k = 8, scoreby = "hybrid", tval = 0.1)
+ans
+pdf("TEX-PekasTroughs.pdf", width = 6)
+plot(ans)
+dev.off()
+@
+
+\IfFileExists{./TEX-PekasTroughs.pdf}{
+\begin{center}
+\begin{figure}
+\includegraphics{TEX-PekasTroughs.pdf}
+\end{figure}
+\end{center}
+}{}
+
 
 \section{Appendix}
 \label{S5}
