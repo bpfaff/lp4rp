@@ -1272,15 +1272,35 @@ setMethod("runs",
 \section{Example}
 \label{S4}
 
+In the following code chunk a brief example of detecting local peak
+and trough point in the [[TEX]] stock is shown. After installation of
+the package (running [[make install]]), one could load \pkg{hiker}
+into the workspace. The stock price of [[TEX]] is contained in the
+data set [[SP500]], which is part of \pkg{hiker}. This series can then
+be used in the call to [[hiker()]]. Hereby, the count of neighbors
+has been set to eight weeks and the hybrid algorithm is employed as
+indicated by the [[soreby]] argument. The assigned object [[ans]] is
+of S4-class [[HikeR]]. Next, a pdf-device is opened and in which the
+plot of [[ans]] is saved. Whence the [[plot]]-method is called with
+its default arguments, a time series chart with the detected local
+peak and trough points is created. This figure is shown next, only if
+[[make install]] has been conducted.
+
 <<hikerEx.R>>=
 library(hiker)
 TEX <- SP500[, "TEX"]
 ans <- hiker(TEX, k = 8, scoreby = "hybrid", tval = 0.1)
-ans
 pdf("TEX-PekasTroughs.pdf", width = 6)
 plot(ans)
 dev.off()
 @
+
+A caveat of the [[noweb]] compared to the [[Sweave]] framework is that
+one cannot directly execute R code in the chunks, but can only save
+code to R files which can then be executed at a later stage. The
+example [[hikerEx.R]] is no exception and this file is processed in
+the [[install]] rule of the [[makefile]] after \pkg{hiker} has been
+installed.
 
 \IfFileExists{./TEX-PekasTroughs.pdf}{
 \begin{center}
