@@ -1292,7 +1292,7 @@ peak and trough points is created. This figure is shown next, only if
 library(hiker)
 TEX <- SP500[, "TEX"]
 ans <- hiker(TEX, k = 8, scoreby = "hybrid", tval = 0.1)
-pdf("TEX-PekasTroughs.pdf", width = 6)
+pdf("TEX-PeaksTroughs.pdf", width = 6)
 plot(ans)
 dev.off()
 @

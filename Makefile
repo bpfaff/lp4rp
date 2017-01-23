@@ -62,6 +62,6 @@ install: pkg
 clean:
 	$(RM) -r $(PKGNAME).Rcheck/
 	$(RM) $(PKGNAME).aux $(PKGNAME).log $(PKGNAME).out $(PKGNAME).bbl $(PKGNAME).blg
-	$(RM) hikerEx.R hikerEx.Rout .RData TEX-PekasTroughs.pdf
+	$(RM) hikerEx.R hikerEx.Rout .RData TEX-PeaksTroughs.pdf
 
 
