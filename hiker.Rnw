@@ -26,7 +26,9 @@
 
 The topic of this article is to elucidate the creation of the R
 package \pkg{hiker} by means of literate programming (henceforth:
-LP). LP has been introduced by \citet{KNU1984}. Its constituent
+LP). LP has been introduced by \citet{KNU1984}.\footnote{This article
+  was inspired by Donald Knuth's keynote lecture given at the useR!
+  2016 conference at Stanford University.} Its constituent
 characteristic is that the source code of a program as well as the
 documentation thereof resides in the same file. To stay in the example
 of the \pkg{hiker} package: within the file you are currently reading,
